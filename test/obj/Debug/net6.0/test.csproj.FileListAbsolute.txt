@@ -1,0 +1,15 @@
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.csproj.AssemblyReference.cache
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.GeneratedMSBuildEditorConfig.editorconfig
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.AssemblyInfoInputs.cache
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.AssemblyInfo.cs
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.csproj.CoreCompileInputs.cache
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/test
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/test.deps.json
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/test.runtimeconfig.json
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/test.dll
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/ref/test.dll
+/home/fadhil_riyanto/BALI64/prtscbot/test/bin/Debug/net6.0/test.pdb
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.dll
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/ref/test.dll
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.pdb
+/home/fadhil_riyanto/BALI64/prtscbot/test/obj/Debug/net6.0/test.genruntimeconfig.cache
