@@ -8,6 +8,8 @@ namespace Prtscbot.Utils
                 private bool isvalid_command;
                 private string textraw, delete1char;
 
+                public string command, value;
+
                 public Parse(string text)
                 {
                         this.textraw = text;
@@ -24,7 +26,6 @@ namespace Prtscbot.Utils
                         }
                 }
 
-
                 public Dictionary<string, string> getResult()
                 {
                         Dictionary<string, string> result = new Dictionary<string, string>();
@@ -35,19 +36,45 @@ namespace Prtscbot.Utils
                                 this.delete1char = this.textraw.Remove(0, 1);
                                 string[] splitted = this.delete1char.Split(" ");
 
+                                string[] at_split = this.delete1char.Split("@");
+
+
                                 if (splitted.Length == 1)
                                 {
-                                        result.Add("command", this.delete1char);
-                                        result.Add("value", null);
+                                        if (at_split.Length == 2)
+                                        {
+                                                this.command = at_split[0];
+                                                this.value = null;
+                                        }
+                                        else
+                                        {
+                                                this.command = this.delete1char;
+                                                this.value = null;
+                                        }
+                                        // result.Add("command", this.delete1char);
+                                        // result.Add("value", null);
                                 }
                                 else
                                 {
                                         int i = this.delete1char.IndexOf(" ") + 1;
                                         string str = this.delete1char.Substring(i);
 
-                                        result.Add("command", splitted[0]);
-                                        result.Add("value", str);
+                                        if (at_split.Length == 2)
+                                        {
+                                                this.command = at_split[0];
+                                                this.value = str;
+                                        }
+                                        else
+                                        {
+                                                this.command = splitted[0];
+                                                this.value = str;
+                                        }
+
+                                        // result.Add("command", splitted[0]);
+                                        // result.Add("value", str);
                                 }
+                                result.Add("command", this.command);
+                                result.Add("value", this.value);
 
                                 //Console.WriteLine(this.delete1char);
 
