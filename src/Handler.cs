@@ -9,8 +9,14 @@ namespace Prtscbot.Program
         {
                 public static async Task Handle(ITelegramBotClient botClient, Message message)
                 {
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: message.Text!, replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
+                        Parse parser = new Parse(message.Text);
+                        string formatted = String.Format("command: {0}\nvalue: {1}", 
+                                parser.getResult()["command"], 
+                                parser.getResult()["value"]
+                        );
+                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: formatted!, replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
                         new ConsoleLog(message.Text!);
+        
                 }
         }
 }
