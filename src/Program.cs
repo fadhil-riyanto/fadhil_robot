@@ -19,6 +19,8 @@ namespace Prtscbot.Program
                         ReceiverOptions receiver_req = new() { 
                                 AllowedUpdates = { } 
                         };
+
+                        
                         Bot.StartReceiving(
                                 HandleUpdateAsync,
                                 HandleErrorAsync,
@@ -46,9 +48,10 @@ namespace Prtscbot.Program
 
                 public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
                 {
+                        HandleUpdate h = new HandleUpdate();
                         var handler = update.Type switch
                         {
-                                UpdateType.Message => HandleUpdate.Handle(botClient, update.Message!),
+                                UpdateType.Message => h.Handle(botClient, update.Message!),
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };
 

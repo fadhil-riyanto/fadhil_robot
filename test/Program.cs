@@ -2,14 +2,12 @@
 public class Program
 {
 	public static void Main(){
-                // Parse ps = new Parse("!note test ini value sir'");
+                Parse ps = new Parse("/note@prtscbot test ini value sir'");
                 
-                // Console.WriteLine("command: " + ps.getResult()["command"]);
-                // Console.WriteLine("value: " + ps.getResult()["value"]);
-                type typedoc = new type();
-                typedoc.data1 = "fadhil";
-
-                Console.WriteLine(typedoc.data1);
+                Console.WriteLine("command: " + ps.getResult()["command"]);
+                Console.WriteLine("value: " + ps.getResult()["value"]);
+                // string tr = GenLocaleStr.exec("en", "command.Start");
+                // Console.WriteLine(tr);
         }
 }
 
