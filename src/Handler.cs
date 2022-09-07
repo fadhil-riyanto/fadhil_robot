@@ -10,13 +10,21 @@ namespace Prtscbot.Program
                 public static async Task Handle(ITelegramBotClient botClient, Message message)
                 {
                         Parse parser = new Parse(message.Text);
-                        string formatted = String.Format("command: {0}\nvalue: {1}", 
-                                parser.getResult()["command"], 
-                                parser.getResult()["value"]
-                        );
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: formatted!, replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
-                        new ConsoleLog(message.Text!);
+                        InputTelegram inp = new InputTelegram();
+
+                        inp.command = parser.getResult()["command"];
+                        inp.command = parser.getResult()["value"];
+                        // string formatted = String.Format("command: {0}\nvalue: {1}", 
+                        //         parser.getResult()["command"], 
+                        //         parser.getResult()["value"]
+                        // );
+                        
+                        // await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: formatted!, replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
+                        // new ConsoleLog(message.Text!);
+
         
                 }
+
+                public async
         }
 }
