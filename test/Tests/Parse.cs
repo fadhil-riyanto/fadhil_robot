@@ -50,8 +50,6 @@ namespace Test.Tests
                                         result.Add("value", str);
                                 }
 
-                                //Console.WriteLine(this.delete1char);
-
                         }
                         return result;
                 }
