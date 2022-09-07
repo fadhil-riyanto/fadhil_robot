@@ -14,7 +14,7 @@ namespace Prtscbot.Program
                 {
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
                         User me = await Bot.GetMeAsync();
-                        Console.Title = "Fadhil Riyanto Bot";
+                        Console.Title = "Prtscbot";
                         using var stop_bot = new CancellationTokenSource();
                         ReceiverOptions receiver_req = new() { 
                                 AllowedUpdates = { } 
@@ -26,7 +26,7 @@ namespace Prtscbot.Program
                                 stop_bot.Token
                         );
 
-                        Console.WriteLine($"Bot Berjalan : @{me.Username}");
+                        Console.WriteLine($"bot running : @{me.Username}");
                         while (true) { 
                                 Thread.Sleep(1000); 
                         }
