@@ -33,11 +33,14 @@ namespace Test.Tests
                         this.CheckIsCommand();
                         if (this.isvalid_command)
                         {
+                                string[] at_split = this.delete1char.Split("@");
+                                Console.WriteLine(at_split.Length);
                                 this.delete1char = this.textraw.Remove(0, 1);
                                 string[] splitted = this.delete1char.Split(" ");
 
                                 if (splitted.Length == 1)
                                 {
+
                                         result.Add("command", this.delete1char);
                                         result.Add("value", null);
                                 }
@@ -45,7 +48,8 @@ namespace Test.Tests
                                 {
                                         int i = this.delete1char.IndexOf(" ") + 1;
                                         string str = this.delete1char.Substring(i);
-
+                                        string[] at_split = this.delete1char.Split("@");
+                                        Console.WriteLine(at_split.Length);
                                         result.Add("command", splitted[0]);
                                         result.Add("value", str);
                                 }
