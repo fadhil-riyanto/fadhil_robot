@@ -51,7 +51,8 @@ namespace Prtscbot.Program
                         HandleUpdate h = new HandleUpdate();
                         var handler = update.Type switch
                         {
-                                UpdateType.Message => h.Handle(botClient, update.Message!),
+                                UpdateType.Message => h.HandleMessange(botClient, update.Message!),
+                                
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };
 
