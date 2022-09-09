@@ -79,6 +79,14 @@ namespace Prtscbot.Utils
                                 //Console.WriteLine(this.delete1char);
 
                         }
+                        else
+                        {
+                                result.Add("command", null);
+                                result.Add("value", null);
+                        }
+                        // result.Add("command", null);
+                        // result.Add("value", null);
+
                         return result;
                 }
 
