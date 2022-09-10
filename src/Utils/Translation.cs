@@ -34,7 +34,10 @@ namespace Prtscbot.Utils
 
                                 // group
                                 "command.Group.Ping"  => "Ping in group ok!",
-                                "command.Group.Pin.NeedReply"  => "You must reply the messange",
+                                "command.Group.Pin.NeedReply"  => "You must reply to the message you want to pin!",
+                                "command.Group.Pin.Success"  => "Message was successfully pinned",
+                                "command.Group.Pin.NotEnoughPermission"  => "I don't have enough rights to manage pinned messages in the chat",
+
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -52,7 +55,10 @@ namespace Prtscbot.Utils
 
                                 // group
                                 "command.Group.Ping"  => "Ping di grup oke!",
-                                "command.Group.Pin.NeedReply"  => "kamu harus membalas pesan nya",
+                                "command.Group.Pin.NeedReply"  => "Anda harus membalas pesan yang ingin dipin!",
+                                "command.Group.Pin.Success"  => "Pesan telah berhasil dipin",
+                                "command.Group.Pin.NotEnoughPermission"  => "saya tidak mempunyai cukup hak untuk mengelola pesan yang disematkan dalam grup",
+
                                 _ => "err key \"" + data + "\""
                         };
                 }
