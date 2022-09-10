@@ -43,7 +43,12 @@ namespace Prtscbot.Utils
                                 {
                                         if (at_split.Length == 2)
                                         {
-                                                this.command = at_split[0];
+                                                if (at_split[1].ToLower() == Config.BotName.ToLower())
+                                                {
+                                                        this.command = at_split[0];
+                                                } else {
+                                                        this.command = null;
+                                                }
                                                 this.value = null;
                                         }
                                         else
