@@ -34,6 +34,7 @@ namespace Prtscbot.Utils
 
                                 // group
                                 "command.Group.Ping"  => "Ping in group ok!",
+                                "command.Group.Pin.NeedReply"  => "You must reply the messange",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -51,6 +52,7 @@ namespace Prtscbot.Utils
 
                                 // group
                                 "command.Group.Ping"  => "Ping di grup oke!",
+                                "command.Group.Pin.NeedReply"  => "kamu harus membalas pesan nya",
                                 _ => "err key \"" + data + "\""
                         };
                 }
