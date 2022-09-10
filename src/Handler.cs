@@ -72,6 +72,10 @@ namespace Prtscbot.Program
                                 {
                                         var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
+                                } else if (inputTelegram.command == "pin")
+                                {
+                                        var modPlugin = new Commands.Group.Executor.Pin(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
                                 }
                         }
                 }
