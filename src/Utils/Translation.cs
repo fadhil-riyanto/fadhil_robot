@@ -25,18 +25,31 @@ namespace Prtscbot.Utils
                 {
                         return data switch
                         {
+                                // system
                                 "UnknownCommand" => "Sorry, the {0} command is not recognized",
-                                "command.Start"  => "Hi, I'm prtscbot. nice to meet you",
-                                _ => "err key " + data
+
+                                // private
+                                "command.Private.Start"  => "Hi, I'm prtscbot, nice to meet you. I can manage your telegram group with many useful features!",
+                                "command.Private.Start.OwnerTextKeyboard"  => "My Programmer",
+
+                                "command.Private.Ping"  => "Ping ok!",
+
+                                _ => "err key \"" + data + "\""
                         };
                 }
                 public static string id_ID(string data)
                 {
                         return data switch
                         {
+                                // system
                                 "UnknownCommand" => "Maaf, command {0} tidak dikenali",
-                                "command.Start"  => "hai, saya prtscbot. senang bertemu denganmu",
-                                _ => "err key " + data
+
+                                // Private
+                                "command.Private.Start"  => "hai, saya prtscbot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
+                                "command.Private.Start.OwnerTextKeyboard"  => "Programmer saya",
+
+                                "command.Private.Ping"  => "Ping ok!",
+                                _ => "err key \"" + data + "\""
                         };
                 }
         }

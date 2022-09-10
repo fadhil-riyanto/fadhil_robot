@@ -4,12 +4,12 @@ using Telegram.Bot;
 using Prtscbot.Utils;
 
 namespace Prtscbot.Commands.Private.Executor {
-        class Test
+        class Ping
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
                 private Message message;
-                public Test(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
+                public Ping(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         this.inputTelegram = inputTelegram;
                         this.botClient = botClient;
@@ -17,7 +17,11 @@ namespace Prtscbot.Commands.Private.Executor {
                 }
                 public async Task Execute()
                 {
-                        string text = "ai ini test";
+                        string text = TranslateLocale.exec(
+                                        message, 
+                                        "command.Private.Ping", 
+                                        this.inputTelegram.command
+                        );
                         await this.botClient.SendTextMessageAsync(
                                 chatId: this.message.Chat.Id, 
                                 text: text, 
