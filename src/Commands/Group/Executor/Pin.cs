@@ -3,7 +3,8 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Prtscbot.Utils;
 
-namespace Prtscbot.Commands.Group.Executor {
+namespace Prtscbot.Commands.Group.Executor
+{
         class Pin
         {
                 private InputTelegram inputTelegram;
@@ -29,14 +30,25 @@ namespace Prtscbot.Commands.Group.Executor {
                                         parseMode: ParseMode.Html
                                 );
                         }
-                        
+                        else
+                        {
+                                string text = "pin ready";
+                                await botClient.SendTextMessageAsync(
+                                        chatId: message.Chat.Id,
+                                        text: text,
+                                        parseMode: ParseMode.Html
+                                );
+                        }
+
                 }
                 protected bool checkIsReply(Message message)
                 {
                         if (message.ReplyToMessage == null)
                         {
                                 return false;
-                        } else {
+                        }
+                        else
+                        {
                                 return true;
                         }
                 }
