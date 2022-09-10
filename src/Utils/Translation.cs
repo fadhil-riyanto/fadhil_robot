@@ -19,7 +19,6 @@ namespace Prtscbot.Utils
                                 string rarestr = en_US(indicator);
                                 return string.Format(rarestr, values);
                         }
-                        
                 }
                 public static string en_US(string data)
                 {
@@ -31,9 +30,10 @@ namespace Prtscbot.Utils
                                 // private
                                 "command.Private.Start"  => "Hi, I'm prtscbot, nice to meet you. I can manage your telegram group with many useful features!",
                                 "command.Private.Start.OwnerTextKeyboard"  => "My Programmer",
+                                "command.Private.Ping"  => "Ping in private chat ok!",
 
-                                "command.Private.Ping"  => "Ping ok!",
-
+                                // group
+                                "command.Group.Ping"  => "Ping in group ok!",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -47,8 +47,10 @@ namespace Prtscbot.Utils
                                 // Private
                                 "command.Private.Start"  => "hai, saya prtscbot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
                                 "command.Private.Start.OwnerTextKeyboard"  => "Programmer saya",
+                                "command.Private.Ping"  => "Ping di chat pribadi oke!",
 
-                                "command.Private.Ping"  => "Ping ok!",
+                                // group
+                                "command.Group.Ping"  => "Ping di grup oke!",
                                 _ => "err key \"" + data + "\""
                         };
                 }
