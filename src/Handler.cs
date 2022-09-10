@@ -19,6 +19,8 @@ namespace Prtscbot.Program
 
                                         inp.command = parser.getResult()["command"];
                                         inp.value = parser.getResult()["value"];
+                                        MongoDB.Driver.MongoClient mongoclient = new MongoDB.Driver.MongoClient(Config.MongoDBConString);
+                                        inp.MongoClient = mongoclient;
 
                                         await this.executor(inp, botClient, message);
                                 }
