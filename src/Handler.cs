@@ -34,39 +34,45 @@ namespace Prtscbot.Program
                 public async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         new ConsoleLog(message.Text);
-                        Console.WriteLine(inputTelegram.command);
+                        
                         if (message.Text[0] == '/' && inputTelegram.command != null)
                         {
-                                
                                 inputTelegram.command = inputTelegram.command.ToLower();
-                                if (message.Chat.Type == ChatType.Private)
-                                {
-                                        if (inputTelegram.command == "start")
-                                        {
-                                                var modPlugin = new Commands.Private.Executor.Start(inputTelegram, botClient, message);
-                                                await modPlugin.Execute();
-                                        }
-                                        else if (inputTelegram.command == "ping")
-                                        {
-                                                var modPlugin = new Commands.Private.Executor.Ping(inputTelegram, botClient, message);
-                                                await modPlugin.Execute();
-                                        }
-                                        else
-                                        {
-                                                var modPlugin = new UnknownCommand(inputTelegram, botClient, message);
-                                                await modPlugin.Execute();
-                                        }
-                                }
-                                else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
-                                {
-                                        if (inputTelegram.command == "ping")
-                                        {
-                                                var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
-                                                await modPlugin.Execute();
-                                        }
-                                }
-                        } else {
+                                await this.callerCommand(inputTelegram, botClient, message);
+                        }
+                        else
+                        {
                                 // all this is text messange
+                        }
+                }
+
+                protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
+                {
+                        if (message.Chat.Type == ChatType.Private)
+                        {
+                                if (inputTelegram.command == "start")
+                                {
+                                        var modPlugin = new Commands.Private.Executor.Start(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else if (inputTelegram.command == "ping")
+                                {
+                                        var modPlugin = new Commands.Private.Executor.Ping(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else
+                                {
+                                        var modPlugin = new UnknownCommand(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                        }
+                        else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
+                        {
+                                if (inputTelegram.command == "ping")
+                                {
+                                        var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
                         }
                 }
         }
