@@ -3,6 +3,7 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Prtscbot.Utils;
 using Prtscbot.Commands.Private.Executor;
+using Prtscbot.Commands.Group.Executor;
 
 namespace Prtscbot.Program
 {
@@ -42,14 +43,15 @@ namespace Prtscbot.Program
 
                         if (message.Chat.Type == ChatType.Private)
                         {
+                                Console.WriteLine(inputTelegram.command);
                                 if (inputTelegram.command == "start")
                                 {
-                                        var modPlugin = new Start(inputTelegram, botClient, message);
+                                        var modPlugin = new Commands.Private.Executor.Start(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
                                 }
                                 else if (inputTelegram.command == "ping")
                                 {
-                                        var modPlugin = new Ping(inputTelegram, botClient, message);
+                                        var modPlugin = new Commands.Private.Executor.Ping(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
                                 }
                                 else
@@ -57,9 +59,13 @@ namespace Prtscbot.Program
                                         var modPlugin = new UnknownCommand(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
                                 }
-                        } else if (message.Chat.Type == ChatType.Group)
+                        } else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
                         {
-                                
+                                if (inputTelegram.command == "ping")
+                                {
+                                        var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
                         }
 
                 }
