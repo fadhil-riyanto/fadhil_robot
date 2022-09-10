@@ -38,16 +38,28 @@ namespace Prtscbot.Program
                 public async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         new ConsoleLog(message.Text);
+                        inputTelegram.command = inputTelegram.command.ToLower();
 
-                        if (inputTelegram.command == "start") { 
-                                var modPlugin = new Start(inputTelegram, botClient, message); 
-                                await modPlugin.Execute(); 
-                        } else if (inputTelegram.command == "test") { 
-                                var modPlugin = new Test(inputTelegram, botClient, message); 
-                                await modPlugin.Execute(); 
-                        } else {
-                                var modPlugin = new UnknownCommand(inputTelegram, botClient, message); 
-                                await modPlugin.Execute(); 
+                        if (message.Chat.Type == ChatType.Private)
+                        {
+                                if (inputTelegram.command == "start")
+                                {
+                                        var modPlugin = new Start(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else if (inputTelegram.command == "ping")
+                                {
+                                        var modPlugin = new Ping(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else
+                                {
+                                        var modPlugin = new UnknownCommand(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                        } else if (message.Chat.Type == ChatType.Group)
+                        {
+                                
                         }
 
                 }
@@ -73,9 +85,9 @@ namespace Prtscbot.Program
                                         this.inputTelegram.command
                                 );
                                 await this.botClient.SendTextMessageAsync(
-                                        chatId: this.message.Chat.Id, 
-                                        text: text, 
-                                        replyToMessageId: this.message.MessageId, 
+                                        chatId: this.message.Chat.Id,
+                                        text: text,
+                                        replyToMessageId: this.message.MessageId,
                                         parseMode: ParseMode.Html
                                 );
                         }
