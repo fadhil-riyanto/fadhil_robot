@@ -2,8 +2,6 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Prtscbot.Utils;
-using Prtscbot.Commands.Private.Executor;
-using Prtscbot.Commands.Group.Executor;
 
 namespace Prtscbot.Program
 {
@@ -13,14 +11,18 @@ namespace Prtscbot.Program
                 {
                         try
                         {
+                                // avoid messange non text use parsers and caused void
+                                if (message.Text != null)
+                                {
+                                        Parse parser = new Parse(message.Text);
+                                        InputTelegram inp = new InputTelegram();
 
-                                Parse parser = new Parse(message.Text);
-                                InputTelegram inp = new InputTelegram();
+                                        inp.command = parser.getResult()["command"];
+                                        inp.value = parser.getResult()["value"];
 
-                                inp.command = parser.getResult()["command"];
-                                inp.value = parser.getResult()["value"];
+                                        await this.executor(inp, botClient, message);
+                                }
 
-                                await this.executor(inp, botClient, message);
 
 
                         }
@@ -34,7 +36,7 @@ namespace Prtscbot.Program
                 public async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         new ConsoleLog(message.Text);
-                        
+
                         if (message.Text[0] == '/' && inputTelegram.command != null)
                         {
                                 inputTelegram.command = inputTelegram.command.ToLower();
@@ -72,7 +74,8 @@ namespace Prtscbot.Program
                                 {
                                         var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
-                                } else if (inputTelegram.command == "pin")
+                                }
+                                else if (inputTelegram.command == "pin")
                                 {
                                         var modPlugin = new Commands.Group.Executor.Pin(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
@@ -111,7 +114,6 @@ namespace Prtscbot.Program
                         {
                                 // not send anything
                         }
-
                 }
         }
 
