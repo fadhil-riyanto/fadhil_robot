@@ -1,4 +1,5 @@
 using MongoDB.Driver;
+using MongoDB.Bson;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using fadhil_robot.Utils;
@@ -20,12 +21,7 @@ namespace fadhil_robot.Utils
                         this.inputTelegram = inputTelegram;
                 }
 
-                private MongoClient makeConn(string connstring, string dbName)
-                {
-                        MongoClient ctx = new MongoClient("mongodb://localhost:27017");
-                        ctx.GetDatabase(dbName);
-                        return ctx;
-                }
+
 
                 // public async Task isAdmin(long user_id)
                 // {
@@ -37,22 +33,49 @@ namespace fadhil_robot.Utils
                 //                 );
                 // }
 
-                private async Task makeCache()
+                public async Task makeCache()
                 {
                         Telegram.Bot.Types.ChatMember[] chatmember = await this.botClient.GetChatAdministratorsAsync(
                                 chatId: this.message.Chat.Id,
                                 cancellationToken: this.inputTelegram.cancellationToken
                         );
+                        long[] user_ids = new long[chatmember.Length];
+                        int i = 0;
 
                         foreach (Telegram.Bot.Types.ChatMember members in chatmember)
                         {
-                                Console.WriteLine(members.User.FirstName);
+                                user_ids[i] = members.User.Id;
+                                Console.WriteLine(members.User.Id);
+                                i++;
                         }
+
+                        var clientMongoDB = new MongoClient("mongodb://localhost:27017");
+                        var dbctx = clientMongoDB.GetDatabase(Config.MongoDB_DBNAME);
+
+                        var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
+
+                        var document = new BsonDocument
+                        {
+                                { "chat_id", this.message.Chat.Id },
+                                { "admin", new BsonArray(user_ids) }
+                        };
+
+                        await dbcol.InsertOneAsync(document);
+
+
+                        // await this.botClient.SendTextMessageAsync(
+                        //        chatId: this.message.Chat.Id,
+                        //        text: document.ToJson()
+                        // );
+
                 }
 
-                // public bool isAdmin()
+                // public async Task isAdmin()
                 // {
-
+                //         await this.botClient.SendTextMessageAsync(
+                //                chatId: this.message.Chat.Id,
+                //                text: data.ToString()
+                //        );
                 // }
 
         }

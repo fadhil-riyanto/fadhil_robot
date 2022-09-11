@@ -19,8 +19,8 @@ namespace fadhil_robot.Commands.Group.Executor
                 }
                 public async Task Execute()
                 {
-                        // AdminCheck admincheck = new AdminCheck(inputTelegram, botClient, message);
-                        // await admincheck.isAdmin(1393342467);
+                        AdminCheck admincheck = new AdminCheck(inputTelegram, botClient, message);
+                        await admincheck.makeCache();
                         
                         if (!this.checkIsReply(message))
                         {
