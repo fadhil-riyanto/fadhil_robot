@@ -19,7 +19,7 @@ namespace fadhil_robot.Commands.Private.Executor {
                 }
                 public async Task Execute()
                 {
-                        await Task.Delay(10000);
+                        
                         string text = TranslateLocale.exec(
                                         message, 
                                         "command.Private.Ping", 
