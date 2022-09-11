@@ -1,2 +1,11 @@
+# ignore main project
 src/obj/
 src/bin/
+
+#ignore TestParse
+test/TestParse/obj/
+test/TestParse/bin/
+
+#ignore TestSqlite
+test/TestSqlite/obj/
+test/TestSqlite/bin/
