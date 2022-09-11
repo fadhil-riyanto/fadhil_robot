@@ -1,11 +1,12 @@
 using MongoDB.Driver;
+using Telegram.Bot;
 
-namespace Prtscbot.Utils {
+namespace fadhil_robot.Utils {
         class InputTelegram
         {
                 public string command;
                 public string value;
-                public MongoClient MongoClient;
+                public CancellationToken cancellationToken;
 
         }
 }

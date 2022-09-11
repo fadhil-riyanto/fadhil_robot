@@ -9,3 +9,7 @@ test/TestParse/bin/
 #ignore TestSqlite
 test/TestSqlite/obj/
 test/TestSqlite/bin/
+
+#ignore TestMongoDB
+test/TestMongoDB/obj/
+test/TestMongoDB/bin/

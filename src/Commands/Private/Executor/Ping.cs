@@ -1,9 +1,11 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
-using Prtscbot.Utils;
+using fadhil_robot.Utils;
+using System.Threading;
 
-namespace Prtscbot.Commands.Private.Executor {
+
+namespace fadhil_robot.Commands.Private.Executor {
         class Ping
         {
                 private InputTelegram inputTelegram;
@@ -17,6 +19,7 @@ namespace Prtscbot.Commands.Private.Executor {
                 }
                 public async Task Execute()
                 {
+                        await Task.Delay(10000);
                         string text = TranslateLocale.exec(
                                         message, 
                                         "command.Private.Ping", 

@@ -2,9 +2,9 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using Telegram.Bot.Exceptions;
-using Prtscbot.Utils;
+using fadhil_robot.Utils;
 
-namespace Prtscbot.Commands.Group.Executor
+namespace fadhil_robot.Commands.Group.Executor
 {
         class Pin
         {
@@ -19,7 +19,8 @@ namespace Prtscbot.Commands.Group.Executor
                 }
                 public async Task Execute()
                 {
-                        AdminCheck admincheck = new AdminCheck(message.From.Id);
+                        // AdminCheck admincheck = new AdminCheck(inputTelegram, botClient, message);
+                        // await admincheck.isAdmin(1393342467);
                         
                         if (!this.checkIsReply(message))
                         {

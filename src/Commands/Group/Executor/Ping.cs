@@ -1,9 +1,9 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
-using Prtscbot.Utils;
+using fadhil_robot.Utils;
 
-namespace Prtscbot.Commands.Group.Executor {
+namespace fadhil_robot.Commands.Group.Executor {
         class Ping
         {
                 private InputTelegram inputTelegram;

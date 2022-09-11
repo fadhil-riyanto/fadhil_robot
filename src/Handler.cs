@@ -1,13 +1,13 @@
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
-using Prtscbot.Utils;
+using fadhil_robot.Utils;
 
-namespace Prtscbot.Program
+namespace fadhil_robot.Program
 {
         class HandleUpdate
         {
-                public async Task HandleMessange(ITelegramBotClient botClient, Message message)
+                public async Task HandleMessange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
                 {
                         try
                         {
@@ -19,8 +19,7 @@ namespace Prtscbot.Program
 
                                         inp.command = parser.getResult()["command"];
                                         inp.value = parser.getResult()["value"];
-                                        MongoDB.Driver.MongoClient mongoclient = new MongoDB.Driver.MongoClient(Config.MongoDBConString);
-                                        inp.MongoClient = mongoclient;
+                                        inp.cancellationToken = cancellationToken;
 
                                         await this.executor(inp, botClient, message);
                                 }

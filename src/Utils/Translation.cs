@@ -1,6 +1,6 @@
 using Telegram.Bot.Types;
 
-namespace Prtscbot.Utils
+namespace fadhil_robot.Utils
 {
 
         class TranslateLocale
@@ -28,7 +28,7 @@ namespace Prtscbot.Utils
                                 "UnknownCommand" => "Sorry, the {0} command is not recognized",
 
                                 // private
-                                "command.Private.Start"  => "Hi, I'm prtscbot, nice to meet you. I can manage your telegram group with many useful features!",
+                                "command.Private.Start"  => "Hi, I'm fadhil robot, nice to meet you. I can manage your telegram group with many useful features!",
                                 "command.Private.Start.OwnerTextKeyboard"  => "My Programmer",
                                 "command.Private.Ping"  => "Ping in private chat ok!",
 
@@ -49,7 +49,7 @@ namespace Prtscbot.Utils
                                 "UnknownCommand" => "Maaf, command {0} tidak dikenali",
 
                                 // Private
-                                "command.Private.Start"  => "hai, saya prtscbot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
+                                "command.Private.Start"  => "hai, saya fadhil_robot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
                                 "command.Private.Start.OwnerTextKeyboard"  => "Programmer saya",
                                 "command.Private.Ping"  => "Ping di chat pribadi oke!",
 

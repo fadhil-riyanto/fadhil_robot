@@ -1,6 +1,6 @@
 using System;
 
-namespace Prtscbot.Utils
+namespace fadhil_robot.Utils
 {
         class ConsoleLog
         {

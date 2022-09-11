@@ -6,15 +6,15 @@ using Telegram.Bot.Types.Enums;
 using System.Threading;
 
 
-namespace Prtscbot.Program
+namespace fadhil_robot.Program
 {
-        class Prtscbot
+        class fadhil_robot
         {
                 public static async Task Main()
                 {
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
                         User me = await Bot.GetMeAsync();
-                        Console.Title = "Prtscbot";
+                        Console.Title = "fadhil_robot";
                         using var stop_bot = new CancellationTokenSource();
                         ReceiverOptions receiver_req = new() { 
                                 AllowedUpdates = { } 
@@ -51,7 +51,7 @@ namespace Prtscbot.Program
                         HandleUpdate h = new HandleUpdate();
                         var handler = update.Type switch
                         {
-                                UpdateType.Message => h.HandleMessange(botClient, update.Message!),
+                                UpdateType.Message => h.HandleMessange(botClient, update.Message!, cancellationToken),
                                 
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };

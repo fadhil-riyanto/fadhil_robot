@@ -1,4 +1,4 @@
-namespace Prtscbot.Utils
+namespace fadhil_robot.Utils
 {
         public class Parse
         {
