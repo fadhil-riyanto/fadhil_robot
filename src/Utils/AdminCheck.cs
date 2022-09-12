@@ -52,7 +52,7 @@ namespace fadhil_robot.Utils
                         foreach (Telegram.Bot.Types.ChatMember members in chatmember)
                         {
                                 user_ids[i] = members.User.Id;
-                                Console.WriteLine(members.User.Id);
+                                //Console.WriteLine(members.User.Id);
                                 i++;
                         }
 
@@ -61,20 +61,46 @@ namespace fadhil_robot.Utils
 
                         var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
 
-                        var document = new BsonDocument
+                        try
                         {
-                                { "chat_id", this.message.Chat.Id },
-                                { "timestamp", this.TimeNow()},
-                                { "admin", new BsonArray(user_ids) }
-                        };
+                                var filter = Builders<BsonDocument>.Filter.Eq("chat_id", this.message.Chat.Id);
+                                var filtered = await dbcol.Find(filter).FirstAsync();
+                        }
+                        catch (InvalidOperationException)
+                        {
+                                var document = new BsonDocument
+                                {
+                                        { "chat_id", this.message.Chat.Id },
+                                        { "timestamp", this.TimeNow()},
+                                        { "admin", new BsonArray(user_ids) }
+                                };
+                                await dbcol.InsertOneAsync(document);
+                        }
 
-                        await dbcol.InsertOneAsync(document);
-
-
+                        var newdata = await dbcol.Find(Builders<BsonDocument>.Filter.Eq("chat_id", this.message.Chat.Id)).FirstAsync();
                         // await this.botClient.SendTextMessageAsync(
-                        //        chatId: this.message.Chat.Id,
-                        //        text: document.ToJson()
+                        //         chatId: this.message.Chat.Id,
+                        //         text: newdata.ToJson()
                         // );
+
+                        Console.WriteLine(newdata["timestamp"]);
+                        
+
+
+
+
+
+
+                        //Console.WriteLine("data" + filtered);
+
+
+
+
+//  await this.botClient.SendTextMessageAsync(
+//                                chatId: this.message.Chat.Id,
+//                                text: filtered.ToJson()
+//                         );
+
 
                 }
 
