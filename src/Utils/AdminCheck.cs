@@ -21,6 +21,13 @@ namespace fadhil_robot.Utils
                         this.inputTelegram = inputTelegram;
                 }
 
+                private long TimeNow()
+                {
+                        var now = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
+                        return (long)now.TotalSeconds;
+                }
+
+
 
 
                 // public async Task isAdmin(long user_id)
@@ -57,6 +64,7 @@ namespace fadhil_robot.Utils
                         var document = new BsonDocument
                         {
                                 { "chat_id", this.message.Chat.Id },
+                                { "timestamp", this.TimeNow()},
                                 { "admin", new BsonArray(user_ids) }
                         };
 
