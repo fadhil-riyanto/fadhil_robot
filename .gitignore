@@ -1,6 +1,7 @@
 # ignore main project
 src/obj/
 src/bin/
+src/Config.cs
 
 #ignore TestParse
 test/TestParse/obj/

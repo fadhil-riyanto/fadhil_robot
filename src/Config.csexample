@@ -1,0 +1,8 @@
+class Config
+{
+        public static string Token = "1234567890:token";
+        public static string BotName = "yourusernamebot";
+        public static string OwnerLink = "https://t.me/fadhil_riyanto";
+        public static string MongoDBConString = "mongodb://127.0.0.1";
+        public static string MongoDB_DBNAME = "fadhil_robot_cs";
+}
