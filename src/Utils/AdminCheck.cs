@@ -83,7 +83,12 @@ namespace fadhil_robot.Utils
                         //         text: newdata.ToJson()
                         // );
 
-                        Console.WriteLine(newdata["timestamp"]);
+                        // Console.WriteLine(newdata["timestamp"]);
+                        // checking timestamp
+                        if (newdata["timestamp"] < this.TimeNow() - 1 * Config.ADMIN_CACHE_TIME)
+                        {
+                                
+                        }
                         
 
 
