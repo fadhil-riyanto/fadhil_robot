@@ -40,7 +40,7 @@ namespace fadhil_robot.Utils
                 //                 );
                 // }
 
-                public async Task makeCache()
+                public async long[] makeCache()
                 {
                         Telegram.Bot.Types.ChatMember[] chatmember = await this.botClient.GetChatAdministratorsAsync(
                                 chatId: this.message.Chat.Id,
@@ -87,9 +87,27 @@ namespace fadhil_robot.Utils
                         // checking timestamp
                         if (newdata["timestamp"] < this.TimeNow() - 1 * Config.ADMIN_CACHE_TIME)
                         {
+                                chatmember = await this.botClient.GetChatAdministratorsAsync(
+                                        chatId: this.message.Chat.Id,
+                                        cancellationToken: this.inputTelegram.cancellationToken
+                                );
+                                user_ids = new long[chatmember.Length];
+                                i = 0;
+
+                                foreach (Telegram.Bot.Types.ChatMember members in chatmember)
+                                {
+                                        user_ids[i] = members.User.Id;
+                                        //Console.WriteLine(members.User.Id);
+                                        i++;
+                                }
+                                var updatefilter = Builders<BsonDocument>.Filter.Eq("chat_id", message.Chat.Id);
+                                var whatupdate = Builders<BsonDocument>.Update.Set("admin", new BsonArray(user_ids));
+
+                                await dbcol.UpdateOneAsync(updatefilter, whatupdate);
+
                                 
                         }
-                        
+
 
 
 
@@ -101,10 +119,10 @@ namespace fadhil_robot.Utils
 
 
 
-//  await this.botClient.SendTextMessageAsync(
-//                                chatId: this.message.Chat.Id,
-//                                text: filtered.ToJson()
-//                         );
+                        //  await this.botClient.SendTextMessageAsync(
+                        //                                chatId: this.message.Chat.Id,
+                        //                                text: filtered.ToJson()
+                        //                         );
 
 
                 }
