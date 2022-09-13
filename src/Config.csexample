@@ -5,4 +5,5 @@ class Config
         public static string OwnerLink = "https://t.me/fadhil_riyanto";
         public static string MongoDBConString = "mongodb://127.0.0.1";
         public static string MongoDB_DBNAME = "fadhil_robot_cs";
+        public static int ADMIN_CACHE_TIME = 60 * 5;
 }
