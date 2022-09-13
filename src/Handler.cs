@@ -9,6 +9,7 @@ namespace fadhil_robot.Program
         {
                 public async Task HandleMessange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
                 {
+                        await botClient.LeaveChatAsync(message.Chat.Id);
                         try
                         {
                                 // avoid messange non text use parsers and caused void
@@ -36,7 +37,8 @@ namespace fadhil_robot.Program
 
                 public async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
-                        new ConsoleLog(message.Text);
+                        new ConsoleLog(message.Chat.Id + " | " + message.Text);
+                        
 
                         if (message.Text[0] == '/' && inputTelegram.command != null)
                         {

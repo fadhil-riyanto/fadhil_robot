@@ -40,7 +40,7 @@ namespace fadhil_robot.Utils
                 //                 );
                 // }
 
-                public async long[] makeCache()
+                public async Task<long[]> makeCache()
                 {
                         Telegram.Bot.Types.ChatMember[] chatmember = await this.botClient.GetChatAdministratorsAsync(
                                 chatId: this.message.Chat.Id,
@@ -105,35 +105,24 @@ namespace fadhil_robot.Utils
 
                                 await dbcol.UpdateOneAsync(updatefilter, whatupdate);
 
-                                
+                                return user_ids;
                         }
-
-
-
-
-
-
-
-                        //Console.WriteLine("data" + filtered);
-
-
-
-
-                        //  await this.botClient.SendTextMessageAsync(
-                        //                                chatId: this.message.Chat.Id,
-                        //                                text: filtered.ToJson()
-                        //                         );
-
-
+                        return user_ids;
                 }
 
-                // public async Task isAdmin()
-                // {
-                //         await this.botClient.SendTextMessageAsync(
-                //                chatId: this.message.Chat.Id,
-                //                text: data.ToString()
-                //        );
-                // }
+                public async Task<bool> isAdmin(long id)
+                {
+                        long[] rawids = this.makeCache().Result;
+                        foreach(long ids in rawids)
+                        {
+                                if(ids == id)
+                                {
+                                        return true;
+                                }
+                        }
+                        return false;
+
+                }
 
         }
 }

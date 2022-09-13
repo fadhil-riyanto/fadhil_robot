@@ -42,12 +42,13 @@ namespace fadhil_robot.Program
                         };
 
                         Console.WriteLine(ErrorMessage);
-                        Thread.Sleep(2);
+                        // Thread.Sleep(2);
                         return Task.CompletedTask;
                 }
 
                 public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
                 {
+                        
                         HandleUpdate h = new HandleUpdate();
                         var handler = update.Type switch
                         {

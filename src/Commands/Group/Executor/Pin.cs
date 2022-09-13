@@ -20,7 +20,12 @@ namespace fadhil_robot.Commands.Group.Executor
                 public async Task Execute()
                 {
                         AdminCheck admincheck = new AdminCheck(inputTelegram, botClient, message);
-                        await admincheck.makeCache();
+                        
+                        await botClient.SendTextMessageAsync(
+                                chatId: message.Chat.Id,
+                                text: admincheck.isAdmin(message.From.Id).Result ? "true" : "false",
+                                parseMode: ParseMode.Html
+                        );
                         
                         if (!this.checkIsReply(message))
                         {
