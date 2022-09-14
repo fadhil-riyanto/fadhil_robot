@@ -7,10 +7,6 @@ src/Config.cs
 test/TestParse/obj/
 test/TestParse/bin/
 
-#ignore TestSqlite
-test/TestSqlite/obj/
-test/TestSqlite/bin/
-
-#ignore TestMongoDB
-test/TestMongoDB/obj/
-test/TestMongoDB/bin/
+#ignore negative
+test/negative/obj/
+test/negative/bin/
