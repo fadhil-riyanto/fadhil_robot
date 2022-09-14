@@ -1,3 +1,15 @@
+class makeNegative{
+        private long data;
+        public makeNegative(long data)
+        {
+                this.data = data;
+        }
+
+        public long get()
+        {
+                return this.data;
+        }
+}
 class Config
 {
         public static string Token = "1234567890:token";
@@ -6,4 +18,15 @@ class Config
         public static string MongoDBConString = "mongodb://127.0.0.1";
         public static string MongoDB_DBNAME = "fadhil_robot_cs";
         public static int ADMIN_CACHE_TIME = 60 * 5;
+
+        public static List<makeNegative> getWhiteList()
+        {
+                List<makeNegative> grant_ids = new List<makeNegative>();
+                grant_ids.Add(new makeNegative(-1001410961692));
+
+
+
+                return grant_ids;
+        }
+        
 }
