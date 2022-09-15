@@ -36,7 +36,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                 if (!this.checkIsReply(message))
                                 {
                                         string text = TranslateLocale.exec(
-                                                message, "command.Group.Pin.NeedReply"
+                                                message, "command.Group.Unpin.NeedReply"
                                         );
                                         await botClient.SendTextMessageAsync(
                                                 chatId: message.Chat.Id,
@@ -53,7 +53,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                                         messageId: message.ReplyToMessage.MessageId
                                                 );
                                                 string text = TranslateLocale.exec(
-                                                        message, "command.Group.Pin.Success"
+                                                        message, "command.Group.Unpin.Success"
                                                 );
                                                 await botClient.SendTextMessageAsync(
                                                         chatId: message.Chat.Id,
@@ -63,7 +63,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                                 );
                                         } catch (ApiRequestException) {
                                                 string text = TranslateLocale.exec(
-                                                        message, "command.Group.Pin.NotEnoughPermission"
+                                                        message, "command.Group.Unpin.NotEnoughPermission"
                                                 );
                                                 await botClient.SendTextMessageAsync(
                                                         chatId: message.Chat.Id,
