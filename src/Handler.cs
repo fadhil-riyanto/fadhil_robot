@@ -18,14 +18,19 @@ namespace fadhil_robot.Program
         {
                 public async Task HandleMessange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
                 {
+                        
                         bool granted = false;
                         foreach(makeNegative listall in Config.getWhiteList())
                         {
                                 if (message.Chat.Id == listall.get())
                                 {
                                         granted = true;
+                                } else if (message.Chat.Type == ChatType.Private)
+                                {
+                                        granted = true;
                                 }
                         }
+                        Console.WriteLine("checkpoint");
                         if (granted)
                         {
                                 try
@@ -84,6 +89,11 @@ namespace fadhil_robot.Program
                                 else if (inputTelegram.command == "ping")
                                 {
                                         var modPlugin = new Commands.Private.Executor.Ping(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else if (inputTelegram.command == "help")
+                                {
+                                        var modPlugin = new Commands.Private.Executor.Help(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
                                 }
                                 else
