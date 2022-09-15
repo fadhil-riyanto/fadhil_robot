@@ -1,4 +1,12 @@
-﻿class makeNegative{
+﻿// SPDX-License-Identifier: GPL-2.0
+
+/*
+ *  main.c
+ *  Copyright (C) Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/ctg.git
+ */
+class makeNegative{
         private long data;
         public makeNegative(long data)
         {

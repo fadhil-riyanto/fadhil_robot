@@ -26,6 +26,7 @@ namespace fadhil_robot.Utils
                         {
                                 // system
                                 "UnknownCommand" => "Sorry, the {0} command is not recognized",
+                                "GroupNotAdmin" => "Sorry, you're not admin on this group",
 
                                 // private
                                 "command.Private.Start"  => "Hi, I'm fadhil robot, nice to meet you. I can manage your telegram group with many useful features!",
@@ -37,6 +38,9 @@ namespace fadhil_robot.Utils
                                 "command.Group.Pin.NeedReply"  => "You must reply to the message you want to pin!",
                                 "command.Group.Pin.Success"  => "Message was successfully pinned",
                                 "command.Group.Pin.NotEnoughPermission"  => "I don't have enough rights to manage pinned messages in the chat",
+                                "command.Group.Unpin.NeedReply"  => "You must reply to the message you want to unpin!",
+                                "command.Group.Unpin.Success"  => "Message was successfully unpinned",
+                                "command.Group.Unpin.NotEnoughPermission"  => "I don't have enough rights to manage pinned messages in the chat",
 
                                 _ => "err key \"" + data + "\""
                         };
@@ -47,6 +51,7 @@ namespace fadhil_robot.Utils
                         {
                                 // system
                                 "UnknownCommand" => "Maaf, command {0} tidak dikenali",
+                                "GroupNotAdmin" => "Maaf, kamu bukan admin di grup ini",
 
                                 // Private
                                 "command.Private.Start"  => "hai, saya fadhil_robot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
@@ -58,6 +63,9 @@ namespace fadhil_robot.Utils
                                 "command.Group.Pin.NeedReply"  => "Anda harus membalas pesan yang ingin dipin!",
                                 "command.Group.Pin.Success"  => "Pesan telah berhasil dipin",
                                 "command.Group.Pin.NotEnoughPermission"  => "saya tidak mempunyai cukup hak untuk mengelola pesan yang disematkan dalam grup",
+                                "command.Group.Unpin.NeedReply"  => "Anda harus membalas pesan yang ingin diunpin!",
+                                "command.Group.Unpin.Success"  => "Pesan telah berhasil diunpin",
+                                "command.Group.Unpin.NotEnoughPermission"  => "saya tidak mempunyai cukup hak untuk mengelola pesan yang disematkan dalam grup",
 
                                 _ => "err key \"" + data + "\""
                         };

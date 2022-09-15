@@ -1,4 +1,4 @@
-how to install
+how to run
 
 1. install dotnet
 2. clone

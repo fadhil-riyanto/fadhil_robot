@@ -1,3 +1,12 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/*
+ *  main.c
+ *  Copyright (C) Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/ctg.git
+ */
+
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
@@ -93,6 +102,11 @@ namespace fadhil_robot.Program
                                 else if (inputTelegram.command == "pin")
                                 {
                                         var modPlugin = new Commands.Group.Executor.Pin(inputTelegram, botClient, message);
+                                        await modPlugin.Execute();
+                                }
+                                else if (inputTelegram.command == "unpin")
+                                {
+                                        var modPlugin = new Commands.Group.Executor.Unpin(inputTelegram, botClient, message);
                                         await modPlugin.Execute();
                                 }
                         }

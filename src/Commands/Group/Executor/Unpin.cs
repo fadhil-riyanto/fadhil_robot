@@ -7,6 +7,7 @@
  *  https://github.com/fadhil-riyanto/ctg.git
  */
 
+
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
@@ -15,12 +16,12 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Group.Executor
 {
-        class Pin
+        class Unpin
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
                 private Message message;
-                public Pin(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
+                public Unpin(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         this.inputTelegram = inputTelegram;
                         this.botClient = botClient;
@@ -47,7 +48,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                 else
                                 {
                                         try {
-                                                await botClient.PinChatMessageAsync(
+                                                await botClient.UnpinChatMessageAsync(
                                                         chatId: message.Chat.Id,
                                                         messageId: message.ReplyToMessage.MessageId
                                                 );
