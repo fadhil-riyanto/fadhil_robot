@@ -66,7 +66,7 @@ namespace fadhil_robot.Program
                         new ConsoleLog(message.Chat.Id + " | " + message.Text);
                         
 
-                        if (message.Text[0] == '/' && inputTelegram.command != null)
+                        if (message.Text[0] == '/' || message.Text[0] == '!' && inputTelegram.command != null)
                         {
                                 inputTelegram.command = inputTelegram.command.ToLower();
                                 await this.callerCommand(inputTelegram, botClient, message);
