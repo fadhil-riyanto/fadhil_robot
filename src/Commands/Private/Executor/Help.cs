@@ -34,22 +34,28 @@ namespace fadhil_robot.Commands.Private.Executor
                                         new []
                                         {
                                                 InlineKeyboardButton.WithCallbackData(text: "Admins", callbackData: "11"),
-                                                InlineKeyboardButton.WithCallbackData(text: "tes1", callbackData: "2332"),
-                                        },
-                                        new []
-                                        {
-                                                InlineKeyboardButton.WithCallbackData(text: "test2", callbackData: "1"),
-                                                InlineKeyboardButton.WithCallbackData(text: "test3", callbackData: "22"),
-                                        },
+                                        }
                                 }
+                        );
+                        string text = TranslateLocale.exec(
+                                        message, 
+                                        "command.Private.Help", 
+                                        this.inputTelegram.command
                         );
                         await this.botClient.SendTextMessageAsync(
                                 chatId: this.message.Chat.Id, 
-                                text: "help menu", 
+                                text: text, 
                                 replyMarkup: inlineKeyboard,
                                 replyToMessageId: this.message.MessageId, 
                                 parseMode: ParseMode.Html
                         );
+                        // await this.botClient.SendTextMessageAsync(
+                        //         chatId: this.message.Chat.Id, 
+                        //         text: "help menu", 
+                        //         replyMarkup: inlineKeyboard,
+                        //         replyToMessageId: this.message.MessageId, 
+                        //         parseMode: ParseMode.Html
+                        // );
 
                 }
         }
