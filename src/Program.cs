@@ -55,6 +55,7 @@ namespace fadhil_robot.Program
                         // Thread.Sleep(2);
                         return Task.CompletedTask;
                 }
+                
 
                 public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
                 {
@@ -63,7 +64,7 @@ namespace fadhil_robot.Program
                         var handler = update.Type switch
                         {
                                 UpdateType.Message => h.HandleMessange(botClient, update.Message!, cancellationToken),
-                                
+                                UpdateType.CallbackQuery => h.HandleCallbackQuery(botClient, update.CallbackQuery, cancellationToken),
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };
 
