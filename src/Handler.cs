@@ -30,7 +30,6 @@ namespace fadhil_robot.Program
                                         granted = true;
                                 }
                         }
-                        Console.WriteLine("checkpoint");
                         if (granted)
                         {
                                 try
