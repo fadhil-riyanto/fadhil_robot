@@ -41,7 +41,7 @@ namespace fadhil_robot.Commands.Private.Executor
                                                 text: TranslateLocale.exec(
                                                         message,"command.Private.Start.OwnerTextKeyboard", this.inputTelegram.command
                                                 ),
-                                                url: Config.OwnerLink
+                                                url: "https://t.me/fadhil_riyanto"
                                         )
                                 }
                         );
