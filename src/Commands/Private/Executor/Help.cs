@@ -28,12 +28,20 @@ namespace fadhil_robot.Commands.Private.Executor
                 }
 
                 public async Task Execute()
-                {
+                {       
+                        Dictionary<string, object> map = new Dictionary<string, object> {
+                        { "product_id", 12 },
+                        { "process_id", 23 },
+                        { "note", "This is Note" }
+                        };
+
+                        string ppp = CallbackHelper.pack(message, map);
+                        CallbackHelper.unpack(ppp);
                         InlineKeyboardMarkup inlineKeyboard = new(new[]
                                 {
                                         new []
                                         {
-                                                InlineKeyboardButton.WithCallbackData(text: "Admins", callbackData: "11"),
+                                                InlineKeyboardButton.WithCallbackData(text: "Admins", callbackData: "/tests data"),
                                         }
                                 }
                         );
