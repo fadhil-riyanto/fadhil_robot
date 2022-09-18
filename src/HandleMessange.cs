@@ -14,7 +14,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Program
 {
-        class HandleUpdate
+        class HandleUpdate : HandleCallback
         {
                 public async Task HandleMessange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
                 {
