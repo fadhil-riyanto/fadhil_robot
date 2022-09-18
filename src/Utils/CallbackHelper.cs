@@ -35,8 +35,6 @@ namespace fadhil_robot.Utils
                 public static unpacktype unpack(string rarestring)
                 {
                         unpacktype up = JsonConvert.DeserializeObject<unpacktype>(rarestring);
-
-                        Console.WriteLine(up.data["note"]);
                         return up;
                 }
 
