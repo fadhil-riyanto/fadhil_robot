@@ -8,11 +8,10 @@ namespace fadhil_robot.Utils
 {
         class AdminCheck
         {
-                private long user_Id;
-                private MongoClient client;
                 private Message message;
                 private ITelegramBotClient botClient;
                 private InputTelegram inputTelegram;
+                private long[] user_ids;
 
                 public AdminCheck(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
@@ -40,7 +39,7 @@ namespace fadhil_robot.Utils
                 //                 );
                 // }
 
-                public async Task<long[]> makeCache()
+                public async Task makeCache()
                 {
                         Telegram.Bot.Types.ChatMember[] chatmember = await this.botClient.GetChatAdministratorsAsync(
                                 chatId: this.message.Chat.Id,
@@ -105,14 +104,15 @@ namespace fadhil_robot.Utils
 
                                 await dbcol.UpdateOneAsync(updatefilter, whatupdate);
 
-                                return user_ids;
+                                this.user_ids = user_ids;
                         }
-                        return user_ids;
+                        this.user_ids = user_ids;
                 }
 
                 public async Task<bool> isAdmin(long id)
                 {
-                        long[] rawids = this.makeCache().Result;
+                        await this.makeCache();
+                        long[] rawids = this.user_ids;
                         foreach(long ids in rawids)
                         {
                                 if(ids == id)
