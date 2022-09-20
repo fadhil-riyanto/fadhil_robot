@@ -4,8 +4,9 @@
  *  main.c
  *  Copyright (C) Fadhil Riyanto
  *
- *  https://github.com/fadhil-riyanto/ctg.git
+ *  https://github.com/fadhil-riyanto/fadhil_robot.git
  */
+
 
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
