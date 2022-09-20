@@ -29,12 +29,19 @@ namespace fadhil_robot.Commands.Private.Executor
 
                 public async Task Execute()
                 {       
+                        string a = CallbackHelper.pack(message, new Dictionary<string, string> {
+                                { "type", "admins"}
+                        });
+
+                        Console.WriteLine(a);
                         InlineKeyboardMarkup inlineKeyboard = new(new[]
                                 {
                                         new []
                                         {
+                                                
                                                 InlineKeyboardButton.WithCallbackData(
-                                                        text: "Admins", callbackData: CallbackHelper.pack(message, null)
+                                                        
+                                                        text: "Admins", callbackData: a
                                                 ),
                                         }
                                 }
