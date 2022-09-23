@@ -8,7 +8,6 @@
 
 
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using fadhil_robot.Utils;
 
@@ -30,8 +29,22 @@ namespace fadhil_robot.Program
                 }
                 private async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
                 {
-                        Console.WriteLine(inputTelegram.command);
-                        Console.WriteLine(inputTelegram.value);
+                        unpacktype rdata = CallbackHelper.unpack(callback.Data);
+                        InputTelegramCb input_telegram = new InputTelegramCb();
+                        input_telegram.c = rdata.c;
+                        input_telegram.m = rdata.m;
+                        input_telegram.d = rdata.d;
+
+                        string raw = "chat id: " + input_telegram.c + "\n messange id: " + input_telegram.m + "\n data: " +
+                                rdata.d.ToString();
+                        await botClient.SendTextMessageAsync(
+                                chatId: rdata.c, 
+                                text: raw
+                        );
+
+
+                        // check 
+                        Console.WriteLine(input_telegram.d["type"]);
                 }
         }
 }
