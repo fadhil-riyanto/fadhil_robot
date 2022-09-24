@@ -18,7 +18,7 @@ namespace fadhil_robot.Program
                 public async Task HandleCallbackQuery(ITelegramBotClient botClient, 
                         CallbackQuery callback, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
-                        new ConsoleLog("[callback] " + callback.From.Id + " | " + callback.Data);
+                        new ConsoleLogCb(callback.From.Id + " | " + callback.Data);
                         Parse parser = new Parse(callback.Data);
                         InputTelegram inp = new InputTelegram();
 
