@@ -13,23 +13,31 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
 using System.Threading;
+using StackExchange.Redis;
+using fadhil_robot.Utils;
+
 
 
 namespace fadhil_robot.Program
 {
+        
         class fadhil_robot
         {
+                public static ConnectionMultiplexer redisconn = ConnectionMultiplexer.Connect("localhost");
                 public static async Task Main()
                 {
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
                         User me = await Bot.GetMeAsync();
                         Console.Title = "fadhil_robot";
                         using var stop_bot = new CancellationTokenSource();
-                        ReceiverOptions receiver_req = new() { 
-                                AllowedUpdates = { } 
+                        ReceiverOptions receiver_req = new()
+                        {
+                                AllowedUpdates = { }
                         };
 
-                        
+
+
+
                         Bot.StartReceiving(
                                 HandleUpdateAsync,
                                 HandleErrorAsync,
@@ -38,8 +46,9 @@ namespace fadhil_robot.Program
                         );
 
                         Console.WriteLine($"bot running : @{me.Username}");
-                        while (true) { 
-                                Thread.Sleep(1000); 
+                        while (true)
+                        {
+                                Thread.Sleep(1000);
                         }
                 }
                 public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
@@ -54,16 +63,20 @@ namespace fadhil_robot.Program
                         // Thread.Sleep(2);
                         return Task.CompletedTask;
                 }
-                
+
 
                 public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
                 {
-                        
+
                         HandleUpdate h = new HandleUpdate();
+                        main_thread_ctx main_ctx = new main_thread_ctx();
+
+                        main_ctx.redis = redisconn;
+
                         var handler = update.Type switch
                         {
-                                UpdateType.Message => h.HandleMessange(botClient, update.Message!, cancellationToken),
-                                UpdateType.CallbackQuery => h.HandleCallbackQuery(botClient, update.CallbackQuery, cancellationToken),
+                                UpdateType.Message => h.HandleMessange(botClient, update.Message!, cancellationToken, main_ctx),
+                                UpdateType.CallbackQuery => h.HandleCallbackQuery(botClient, update.CallbackQuery, cancellationToken, main_ctx),
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };
 
@@ -75,7 +88,7 @@ namespace fadhil_robot.Program
                         {
                                 await HandleErrorAsync(botClient, exception, cancellationToken);
                         }
-                        
+
                 }
 
 
