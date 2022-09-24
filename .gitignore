@@ -14,3 +14,7 @@ test/negative/bin/
 #ignore redisconn
 test/redisconn/obj/
 test/redisconn/bin/
+
+#ignore test_csprng
+test/test_csprng/obj/
+test/test_csprng/bin/
