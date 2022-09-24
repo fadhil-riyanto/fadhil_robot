@@ -34,5 +34,6 @@ namespace fadhil_robot.Utils {
         class main_thread_ctx
         {
                 public StackExchange.Redis.IDatabase redis { get; set; }
+                public MongoClient mongodbCtx { get; set; }
         }
 }

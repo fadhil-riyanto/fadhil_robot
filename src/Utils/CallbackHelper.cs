@@ -47,7 +47,7 @@ namespace fadhil_robot.Utils
                         generate_rand_str rn = new generate_rand_str();
                         string key = rn.gethash();
 
-                        inputTelegram.main_thread_ctx.redis.StringSet(key, cokkedstring);
+                        inputTelegram.main_thread_ctx.redis.StringSet(key, cokkedstring, TimeSpan.FromSeconds( Config.REDIS_CALLBACK_CACHE_TIME ));
                         return key;
                 }
 

@@ -64,8 +64,8 @@ namespace fadhil_robot.Utils
                                 i++;
                         }
 
-                        var clientMongoDB = new MongoClient("mongodb://localhost:27017");
-                        var dbctx = clientMongoDB.GetDatabase(Config.MongoDB_DBNAME);
+
+                        var dbctx = inputTelegram.main_thread_ctx.mongodbCtx.GetDatabase(Config.MongoDB_DBNAME);
 
                         var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
 
