@@ -11,6 +11,7 @@ using Telegram.Bot.Types;
 using Newtonsoft.Json;
 using System.IO.Compression;
 using System;
+using fadhil_robot.Utils;
 
 namespace fadhil_robot.Utils
 {
@@ -32,7 +33,7 @@ namespace fadhil_robot.Utils
         class CallbackHelper
         {
                 
-                public static string pack(Message message, Dictionary<string, string> val)
+                public static string pack(Message message, InputTelegram inputTelegram, Dictionary<string, string> val)
                 {
                         var rareclass = new packtype
                         {
@@ -42,12 +43,20 @@ namespace fadhil_robot.Utils
                         };
 
                         string cokkedstring = System.Text.Json.JsonSerializer.Serialize(rareclass);
-                        return cokkedstring;
+
+                        generate_rand_str rn = new generate_rand_str();
+                        string key = rn.gethash();
+
+                        inputTelegram.main_thread_ctx.redis.StringSet(key, cokkedstring);
+                        return key;
                 }
 
-                public static unpacktype unpack(string rarestring)
+                public static unpacktype unpack(InputTelegram inputTelegram, string key)
                 {
-                        unpacktype up = JsonConvert.DeserializeObject<unpacktype>(rarestring);
+                        // Console.WriteLine(inputTelegram.main_thread_ctx.redis.StringGet(key));
+                        unpacktype up = JsonConvert.DeserializeObject<unpacktype>(
+                                inputTelegram.main_thread_ctx.redis.StringGet(key)
+                        );
                         return up;
                 }
 
