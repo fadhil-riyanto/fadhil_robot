@@ -19,7 +19,23 @@ namespace fadhil_robot.Utils
 
                         string date = datetime.ToString("dd/mm/yyyy");
                         string time = datetime.ToString("hh:mm:ss");
-                        Console.WriteLine("{0} - {1} | {2}", date, time, data);
+                        Console.WriteLine("[INPUT] {0} | {1}", DateTime.Now, data);
+                }
+        }
+        class ConsoleLogError
+        {
+                public ConsoleLogError(string data)
+                {
+                        DateTime datetime = DateTime.UtcNow.Date;
+                        Console.WriteLine("[ERROR] {0} | {1}", DateTime.Now, data);
+                }
+        }
+        class ConsoleLogCb
+        {
+                public ConsoleLogCb(string data)
+                {
+                        DateTime datetime = DateTime.UtcNow.Date;
+                        Console.WriteLine("[TG_CB] {0} | {1}", DateTime.Now, data);
                 }
         }
 }
