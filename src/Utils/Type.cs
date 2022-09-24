@@ -18,6 +18,7 @@ namespace fadhil_robot.Utils {
                 public string command;
                 public string value;
                 public CancellationToken cancellationToken;
+                public main_thread_ctx main_thread_ctx;
 
         }
 

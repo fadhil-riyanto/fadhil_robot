@@ -46,9 +46,7 @@ namespace fadhil_robot.Program
                                                 inp.command = parser.getResult()["command"];
                                                 inp.value = parser.getResult()["value"];
                                                 inp.cancellationToken = cancellationToken;
-
-                                                Console.WriteLine(inp.command);
-                                                Console.WriteLine(inp.value);
+                                                inp.main_thread_ctx = ctx;
 
                                                 await this.executor(inp, botClient, message);
                                         }
