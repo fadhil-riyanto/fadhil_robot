@@ -71,7 +71,8 @@ namespace fadhil_robot.Program
                         HandleUpdate h = new HandleUpdate();
                         main_thread_ctx main_ctx = new main_thread_ctx();
 
-                        main_ctx.redis = redisconn;
+                        StackExchange.Redis.IDatabase db = redisconn.GetDatabase();
+                        main_ctx.redis = db;
 
                         var handler = update.Type switch
                         {

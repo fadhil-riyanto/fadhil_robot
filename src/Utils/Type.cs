@@ -33,6 +33,6 @@ namespace fadhil_robot.Utils {
 
         class main_thread_ctx
         {
-                public ConnectionMultiplexer redis { get; set; }
+                public StackExchange.Redis.IDatabase redis { get; set; }
         }
 }
