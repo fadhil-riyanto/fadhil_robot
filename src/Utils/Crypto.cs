@@ -13,6 +13,7 @@ class generate_rand_str
 {
         public string csprng(int bytes)
         {
+                #pragma warning disable SYSLIB0023
                 using (RandomNumberGenerator rng = new RNGCryptoServiceProvider())
                 {
                         byte[] tokenData = new byte[bytes];
@@ -51,6 +52,7 @@ class generate_rand_str
 
         public string sha256(string randomString)
         {
+                #pragma warning disable SYSLIB0021
                 var crypt = new SHA256Managed();
                 string hash = String.Empty;
                 byte[] crypto = crypt.ComputeHash(Encoding.ASCII.GetBytes(randomString));
