@@ -10,3 +10,7 @@ test/TestParse/bin/
 #ignore negative
 test/negative/obj/
 test/negative/bin/
+
+#ignore redisconn
+test/redisconn/obj/
+test/redisconn/bin/
