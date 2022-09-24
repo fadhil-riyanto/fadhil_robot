@@ -15,7 +15,7 @@ using Telegram.Bot.Types.Enums;
 using System.Threading;
 using StackExchange.Redis;
 using fadhil_robot.Utils;
-
+using MongoDB.Driver;
 
 
 namespace fadhil_robot.Program
@@ -23,9 +23,28 @@ namespace fadhil_robot.Program
         
         class fadhil_robot
         {
-                public static ConnectionMultiplexer redisconn = ConnectionMultiplexer.Connect("localhost");
+                private static bool wantExit = true;
+                public static ConnectionMultiplexer redisconn {get; set;}
+                public static MongoClient mongoClientConn {get; set;}
                 public static async Task Main()
                 {
+                        try
+                        {
+                                redisconn = ConnectionMultiplexer.Connect(Config.RedisHost);
+                        } catch(StackExchange.Redis.RedisConnectionException)
+                        {
+                                new ConsoleLogError("Redis error while trying to connect");
+                                System.Environment.Exit(15);
+                        }
+                        mongoClientConn = new MongoClient("mongodb://localhost:27017");
+
+
+                        Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e) {
+                                e.Cancel = true;
+                                fadhil_robot.wantExit = false;
+                        };
+
+                        
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
                         User me = await Bot.GetMeAsync();
                         Console.Title = "fadhil_robot";
@@ -46,10 +65,8 @@ namespace fadhil_robot.Program
                         );
 
                         Console.WriteLine($"bot running : @{me.Username}");
-                        while (true)
-                        {
-                                Thread.Sleep(1000);
-                        }
+                        while(fadhil_robot.wantExit) { }
+                        Console.WriteLine($"bot exited : @{me.Username}");
                 }
                 public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
                 {
@@ -73,6 +90,7 @@ namespace fadhil_robot.Program
 
                         StackExchange.Redis.IDatabase db = redisconn.GetDatabase();
                         main_ctx.redis = db;
+                        main_ctx.mongodbCtx = mongoClientConn;
 
                         var handler = update.Type switch
                         {
