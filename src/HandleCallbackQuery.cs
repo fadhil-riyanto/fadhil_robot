@@ -15,7 +15,8 @@ namespace fadhil_robot.Program
 {
         class HandleCallback
         {
-                public async Task HandleCallbackQuery(ITelegramBotClient botClient, CallbackQuery callback, CancellationToken cancellationToken)
+                public async Task HandleCallbackQuery(ITelegramBotClient botClient, 
+                        CallbackQuery callback, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
                         new ConsoleLog("[callback] " + callback.From.Id + " | " + callback.Data);
                         Parse parser = new Parse(callback.Data);
@@ -31,20 +32,12 @@ namespace fadhil_robot.Program
                 {
                         unpacktype rdata = CallbackHelper.unpack(callback.Data);
                         InputTelegramCb input_telegram = new InputTelegramCb();
-                        input_telegram.c = rdata.c;
-                        input_telegram.m = rdata.m;
-                        input_telegram.d = rdata.d;
+                        input_telegram.chat_id = rdata.c;
+                        input_telegram.messange_id = rdata.m;
+                        input_telegram.data = rdata.d;
+                        input_telegram.callback = callback;
 
-                        string raw = "chat id: " + input_telegram.c + "\n messange id: " + input_telegram.m + "\n data: " +
-                                rdata.d.ToString();
-                        await botClient.SendTextMessageAsync(
-                                chatId: rdata.c, 
-                                text: raw
-                        );
-
-
-                        // check 
-                        Console.WriteLine(input_telegram.d["type"]);
+                        
                 }
         }
 }
