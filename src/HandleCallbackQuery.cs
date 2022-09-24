@@ -25,19 +25,24 @@ namespace fadhil_robot.Program
                         inp.command = parser.getResult()["command"];
                         inp.value = parser.getResult()["value"];
                         inp.cancellationToken = cancellationToken;
+                        inp.main_thread_ctx = ctx;
 
                         await this.executor(inp, botClient, callback);
                 }
                 private async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
                 {
-                        unpacktype rdata = CallbackHelper.unpack(callback.Data);
+                        unpacktype rdata = CallbackHelper.unpack(inputTelegram, callback.Data);
                         InputTelegramCb input_telegram = new InputTelegramCb();
                         input_telegram.chat_id = rdata.c;
                         input_telegram.messange_id = rdata.m;
                         input_telegram.data = rdata.d;
                         input_telegram.callback = callback;
 
-                        
+                        string raw = "done fadhil";
+                        await botClient.SendTextMessageAsync(
+                                chatId: input_telegram.chat_id, 
+                                text: raw
+                        );
                 }
         }
 }
