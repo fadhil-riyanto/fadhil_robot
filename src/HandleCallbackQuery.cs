@@ -32,17 +32,29 @@ namespace fadhil_robot.Program
                 private async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
                 {
                         unpacktype rdata = CallbackHelper.unpack(inputTelegram, callback.Data);
-                        InputTelegramCb input_telegram = new InputTelegramCb();
-                        input_telegram.chat_id = rdata.c;
-                        input_telegram.messange_id = rdata.m;
-                        input_telegram.data = rdata.d;
-                        input_telegram.callback = callback;
+                        if (rdata == null)
+                        {
+                                await botClient.AnswerCallbackQueryAsync(
+                                        callbackQueryId: callback.Id, 
+                                        text: TranslateLocale.execCb(
+                                                callback,"CacheExpire"
+                                        ),
+                                        showAlert: true
+                                );
+                        } else {
+                                InputTelegramCb input_telegram = new InputTelegramCb();
+                                input_telegram.chat_id = rdata.c;
+                                input_telegram.messange_id = rdata.m;
+                                input_telegram.data = rdata.d;
+                                input_telegram.callback = callback;
 
-                        string raw = "done fadhil";
-                        await botClient.SendTextMessageAsync(
-                                chatId: input_telegram.chat_id, 
-                                text: raw
-                        );
+                                string raw = "done fadhil";
+                                await botClient.SendTextMessageAsync(
+                                        chatId: input_telegram.chat_id, 
+                                        text: raw
+                                );
+                        }
+                        
                 }
         }
 }

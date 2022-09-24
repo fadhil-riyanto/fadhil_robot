@@ -53,10 +53,17 @@ namespace fadhil_robot.Utils
 
                 public static unpacktype unpack(InputTelegram inputTelegram, string key)
                 {
+                        unpacktype up;
                         // Console.WriteLine(inputTelegram.main_thread_ctx.redis.StringGet(key));
-                        unpacktype up = JsonConvert.DeserializeObject<unpacktype>(
-                                inputTelegram.main_thread_ctx.redis.StringGet(key)
-                        );
+                        try
+                        {
+                                up = JsonConvert.DeserializeObject<unpacktype>(
+                                        inputTelegram.main_thread_ctx.redis.StringGet(key)
+                                );
+                        } catch (System.ArgumentNullException)
+                        {
+                                up = null;
+                        }
                         return up;
                 }
 
