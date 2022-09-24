@@ -17,16 +17,18 @@ namespace fadhil_robot.Program
 {
         class HandleUpdate : HandleCallback
         {
-                public async Task HandleMessange(ITelegramBotClient botClient, Message message, CancellationToken cancellationToken)
+                public async Task HandleMessange(ITelegramBotClient botClient,
+                        Message message, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
-                        
+
                         bool granted = false;
-                        foreach(makeNegative listall in Config.getWhiteList())
+                        foreach (makeNegative listall in Config.getWhiteList())
                         {
                                 if (message.Chat.Id == listall.get())
                                 {
                                         granted = true;
-                                } else if (message.Chat.Type == ChatType.Private)
+                                }
+                                else if (message.Chat.Type == ChatType.Private)
                                 {
                                         granted = true;
                                 }
@@ -45,6 +47,9 @@ namespace fadhil_robot.Program
                                                 inp.value = parser.getResult()["value"];
                                                 inp.cancellationToken = cancellationToken;
 
+                                                Console.WriteLine(inp.command);
+                                                Console.WriteLine(inp.value);
+
                                                 await this.executor(inp, botClient, message);
                                         }
 
@@ -56,7 +61,9 @@ namespace fadhil_robot.Program
                                         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " + e.Message + "\n\ntrace: \n" + e.StackTrace;
                                         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange, replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
                                 }
-                        } else {
+                        }
+                        else
+                        {
                                 await botClient.LeaveChatAsync(message.Chat.Id);
                         }
                 }
@@ -64,17 +71,20 @@ namespace fadhil_robot.Program
                 public async Task executor(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         new ConsoleLog(message.Chat.Id + " | " + message.Text);
-                        
 
-                        if (message.Text[0] == '/' || message.Text[0] == '!' && inputTelegram.command != null)
+                        if (inputTelegram.command != null)
                         {
-                                inputTelegram.command = inputTelegram.command.ToLower();
-                                await this.callerCommand(inputTelegram, botClient, message);
+                                if (message.Text[0] == '/' || message.Text[0] == '!')
+                                {
+                                        inputTelegram.command = inputTelegram.command.ToLower();
+                                        await this.callerCommand(inputTelegram, botClient, message);
+                                }
+                                else
+                                {
+                                        // all this is text messange
+                                }
                         }
-                        else
-                        {
-                                // all this is text messange
-                        }
+
                 }
 
                 protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
