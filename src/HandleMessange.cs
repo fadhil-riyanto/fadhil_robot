@@ -20,7 +20,6 @@ namespace fadhil_robot.Program
                 public async Task HandleMessange(ITelegramBotClient botClient,
                         Message message, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
-
                         bool granted = false;
                         foreach (makeNegative listall in Config.getWhiteList())
                         {
@@ -37,7 +36,6 @@ namespace fadhil_robot.Program
                         {
                                 try
                                 {
-                                        // avoid messange non text use parsers and caused void
                                         if (message.Text != null)
                                         {
                                                 Parse parser = new Parse(message.Text);
@@ -50,9 +48,6 @@ namespace fadhil_robot.Program
 
                                                 await this.executor(inp, botClient, message);
                                         }
-
-
-
                                 }
                                 catch (Exception e)
                                 {
@@ -89,48 +84,29 @@ namespace fadhil_robot.Program
                 {
                         if (message.Chat.Type == ChatType.Private)
                         {
-                                if (inputTelegram.command == "start")
+                                Utils.IExecutor executor = inputTelegram.command switch
                                 {
-                                        var modPlugin = new Commands.Private.Executor.Start(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
-                                else if (inputTelegram.command == "ping")
-                                {
-                                        var modPlugin = new Commands.Private.Executor.Ping(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
-                                else if (inputTelegram.command == "help")
-                                {
-                                        var modPlugin = new Commands.Private.Executor.Help(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
-                                else
-                                {
-                                        var modPlugin = new UnknownCommand(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
+                                        "start" => new Commands.Private.Executor.Start(inputTelegram, botClient, message),
+                                        "ping" => new Commands.Private.Executor.Ping(inputTelegram, botClient, message),
+                                        "help" => new Commands.Private.Executor.Help(inputTelegram, botClient, message),
+                                        _ => new UnknownCommand(inputTelegram, botClient, message)
+                                };
+                                await executor.Execute();
                         }
                         else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
                         {
-                                if (inputTelegram.command == "ping")
+                                Utils.IExecutor executor = inputTelegram.command switch
                                 {
-                                        var modPlugin = new Commands.Group.Executor.Ping(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
-                                else if (inputTelegram.command == "pin")
-                                {
-                                        var modPlugin = new Commands.Group.Executor.Pin(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
-                                else if (inputTelegram.command == "unpin")
-                                {
-                                        var modPlugin = new Commands.Group.Executor.Unpin(inputTelegram, botClient, message);
-                                        await modPlugin.Execute();
-                                }
+                                        "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
+                                        "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
+                                        "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
+                                        _ => new UnknownCommand(inputTelegram, botClient, message)
+                                };
+                                await executor.Execute();
                         }
                 }
         }
-        class UnknownCommand
+        class UnknownCommand : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
@@ -159,7 +135,17 @@ namespace fadhil_robot.Program
                         }
                         else if (message.Chat.Type == ChatType.Supergroup)
                         {
-                                // not send anything
+                                string text = TranslateLocale.exec(
+                                        message,
+                                        "UnknownCommand",
+                                        this.inputTelegram.command
+                                );
+                                await this.botClient.SendTextMessageAsync(
+                                        chatId: this.message.Chat.Id,
+                                        text: text,
+                                        replyToMessageId: this.message.MessageId,
+                                        parseMode: ParseMode.Html
+                                );
                         }
                 }
         }
