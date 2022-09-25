@@ -42,17 +42,20 @@ namespace fadhil_robot.Program
                                         showAlert: true
                                 );
                         } else {
-                                InputTelegramCb input_telegram = new InputTelegramCb();
-                                input_telegram.chat_id = rdata.c;
-                                input_telegram.messange_id = rdata.m;
-                                input_telegram.data = rdata.d;
-                                input_telegram.callback = callback;
+                                InputTelegramCb InputTelegramCb = new InputTelegramCb();
+                                InputTelegramCb.chat_id = rdata.c;
+                                InputTelegramCb.messange_id = rdata.m;
+                                InputTelegramCb.data = rdata.d;
+                                InputTelegramCb.user_id = rdata.u;
+                                InputTelegramCb.callback = callback;
 
-                                string raw = "done fadhil";
-                                await botClient.SendTextMessageAsync(
-                                        chatId: input_telegram.chat_id, 
-                                        text: raw
-                                );
+                                Utils.IExecutor executor = rdata.caller switch
+                                {
+                                        "help" => new Commands.Private.Callback.HelpCb(InputTelegramCb, botClient, callback),
+                                        _ => null
+                                };
+
+                                await executor.Execute();
                         }
                         
                 }
