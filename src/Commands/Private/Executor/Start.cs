@@ -15,7 +15,7 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace fadhil_robot.Commands.Private.Executor
 {
-        class Start
+        class Start : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;

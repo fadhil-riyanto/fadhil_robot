@@ -15,7 +15,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Group.Executor
 {
-        class Pin
+        class Pin : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;

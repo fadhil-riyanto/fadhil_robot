@@ -15,7 +15,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Private.Executor
 {
-        class Help
+        class Help : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
@@ -35,9 +35,11 @@ namespace fadhil_robot.Commands.Private.Executor
                                         {
                                                 InlineKeyboardButton.WithCallbackData(
                                                         
-                                                        text: "Admins", callbackData: CallbackHelper.pack(message, inputTelegram,  new Dictionary<string, string> {
-                                                                { "type", "admins"}
-                                                        })
+                                                        text: "Admins", callbackData: CallbackHelper.pack(
+                                                                        message, inputTelegram, "help", new Dictionary<string, string> {
+                                                                        { "clicked_button", "admin"}
+                                                                }
+                                                        )
                                                 ),
                                         }
                                 }

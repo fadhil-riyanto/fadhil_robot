@@ -15,7 +15,7 @@ using System.Threading;
 
 
 namespace fadhil_robot.Commands.Private.Executor {
-        class Ping
+        class Ping : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;

@@ -13,7 +13,7 @@ using Telegram.Bot;
 using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Group.Executor {
-        class Ping
+        class Ping : Utils.IExecutor
         {
                 private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
