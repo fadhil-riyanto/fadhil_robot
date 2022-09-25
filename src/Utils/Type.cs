@@ -26,6 +26,7 @@ namespace fadhil_robot.Utils {
         {
                 public int messange_id { get; set; }
                 public long chat_id { get; set; }
+                public long user_id { get; set; }
                 public Dictionary<string, string> data { get; set; }
                 public CallbackQuery callback { get; set; }
 
@@ -35,5 +36,10 @@ namespace fadhil_robot.Utils {
         {
                 public StackExchange.Redis.IDatabase redis { get; set; }
                 public MongoClient mongodbCtx { get; set; }
+        }
+
+        interface IExecutor
+        {
+                public Task Execute();
         }
 }
