@@ -19,6 +19,8 @@ namespace fadhil_robot.Utils
         {
                 public int m { get; set; }
                 public long c { get; set; }
+                public long u { get; set; }
+                public string caller { get; set; }
                 public Dictionary<string, string> d { get; set; }
 
         }
@@ -27,18 +29,22 @@ namespace fadhil_robot.Utils
         {
                 public int m { get; set; }
                 public long c { get; set; }
+                public long u { get; set; }
+                public string caller { get; set; }
                 public Dictionary<string, string> d { get; set; }
 
         }
         class CallbackHelper
         {
                 
-                public static string pack(Message message, InputTelegram inputTelegram, Dictionary<string, string> val)
+                public static string pack(Message message, InputTelegram inputTelegram, string caller, Dictionary<string, string> val)
                 {
                         var rareclass = new packtype
                         {
                                 m = message.MessageId,
                                 c = message.Chat.Id,
+                                u = message.From.Id,
+                                caller = caller,
                                 d = val
                         };
 
