@@ -39,12 +39,16 @@ namespace fadhil_robot.Program
                                         if (message.Text != null)
                                         {
                                                 Parse parser = new Parse(message.Text);
-                                                InputTelegram inp = new InputTelegram();
 
-                                                inp.command = parser.getResult()["command"];
-                                                inp.value = parser.getResult()["value"];
-                                                inp.cancellationToken = cancellationToken;
-                                                inp.main_thread_ctx = ctx;
+                                                InputTelegram inp = new InputTelegram{
+                                                        command = parser.getResult()["command"],
+                                                        value = parser.getResult()["value"],
+                                                        messange_id = message.MessageId,
+                                                        chat_id = message.Chat.Id,
+                                                        user_id = message.From.Id,
+                                                        cancellationToken = cancellationToken,
+                                                        main_thread_ctx = ctx
+                                                };
 
                                                 await this.executor(inp, botClient, message);
                                         }
