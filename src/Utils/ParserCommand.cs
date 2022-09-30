@@ -11,7 +11,7 @@ namespace fadhil_robot.Utils
 {
         public class Parse
         {
-                private static char[] identifier = new char[2]{
+                private static char[] identifier = {
                         '/', '!'
                 };
                 private bool isvalid_command;
