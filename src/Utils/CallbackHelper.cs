@@ -37,13 +37,13 @@ namespace fadhil_robot.Utils
         class CallbackHelper
         {
                 
-                public static string pack(Message message, InputTelegram inputTelegram, string caller, Dictionary<string, string> val)
+                public static string pack(InputTelegram inputTelegram, string caller, Dictionary<string, string> val)
                 {
                         var rareclass = new packtype
                         {
-                                m = message.MessageId,
-                                c = message.Chat.Id,
-                                u = message.From.Id,
+                                m = inputTelegram.messange_id,
+                                c = inputTelegram.chat_id,
+                                u = inputTelegram.user_id,
                                 caller = caller,
                                 d = val
                         };

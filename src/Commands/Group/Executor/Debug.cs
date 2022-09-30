@@ -13,12 +13,12 @@ using Telegram.Bot;
 using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Group.Executor {
-        class Ping : Utils.IExecutor
+        class Debug : Utils.IExecutor
         {
                 private InputTelegram _inputTelegram;
                 private ITelegramBotClient _botClient;
                 private Message _message;
-                public Ping(InputTelegram inputTelegram, 
+                public Debug(InputTelegram inputTelegram, 
                         ITelegramBotClient botClient, Message message)
                 {
                         this._inputTelegram = inputTelegram;
@@ -27,11 +27,7 @@ namespace fadhil_robot.Commands.Group.Executor {
                 }
                 public async Task Execute()
                 {
-                        string text = TranslateLocale.exec(
-                                        this._message, 
-                                        "command.Group.Ping", 
-                                        this._inputTelegram.command
-                        );
+                        string text = "data " + this._inputTelegram.value;
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id, 
                                 text: text, 

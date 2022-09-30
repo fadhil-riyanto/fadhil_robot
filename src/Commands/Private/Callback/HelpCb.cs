@@ -16,12 +16,12 @@ using fadhil_robot.Utils;
 namespace fadhil_robot.Commands.Private.Callback {
         class HelpCb : Utils.IExecutor
         {
-                private InputTelegramCb inputTelegramCb;
+                private InputTelegram inputTelegram;
                 private ITelegramBotClient botClient;
                 private CallbackQuery callback;
-                public HelpCb(InputTelegramCb inputTelegramCb, ITelegramBotClient botClient, CallbackQuery callback)
+                public HelpCb(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
                 {
-                        this.inputTelegramCb = inputTelegramCb;
+                        this.inputTelegram = inputTelegram;
                         this.botClient = botClient;
                         this.callback = callback;
                 }
@@ -29,9 +29,9 @@ namespace fadhil_robot.Commands.Private.Callback {
                 public async Task Execute()
                 {
                         await this.botClient.SendTextMessageAsync(
-                                chatId: this.inputTelegramCb.chat_id, 
+                                chatId: this.inputTelegram.chat_id, 
                                 text: "done banh", 
-                                replyToMessageId: this.inputTelegramCb.messange_id, 
+                                replyToMessageId: this.inputTelegram.messange_id, 
                                 parseMode: ParseMode.Html
                         );
                 }

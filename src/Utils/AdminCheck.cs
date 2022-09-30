@@ -17,16 +17,16 @@ namespace fadhil_robot.Utils
 {
         class AdminCheck
         {
-                private Message message;
-                private ITelegramBotClient botClient;
-                private InputTelegram inputTelegram;
-                private long[] user_ids;
+                private Message _message;
+                private ITelegramBotClient _botClient;
+                private InputTelegram _inputTelegram;
+                private long[] _user_ids;
 
                 public AdminCheck(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
-                        this.message = message;
-                        this.botClient = botClient;
-                        this.inputTelegram = inputTelegram;
+                        this._message = message;
+                        this._botClient = botClient;
+                        this._inputTelegram = inputTelegram;
                 }
 
                 private long TimeNow()
@@ -35,24 +35,11 @@ namespace fadhil_robot.Utils
                         return (long)now.TotalSeconds;
                 }
 
-
-
-
-                // public async Task isAdmin(long user_id)
-                // {
-
-
-                //         await this.botClient.SendTextMessageAsync(
-                //                         chatId: this.message.Chat.Id,
-                //                         text: data.ToString()
-                //                 );
-                // }
-
                 public async Task makeCache()
                 {
-                        Telegram.Bot.Types.ChatMember[] chatmember = await this.botClient.GetChatAdministratorsAsync(
-                                chatId: this.message.Chat.Id,
-                                cancellationToken: this.inputTelegram.cancellationToken
+                        Telegram.Bot.Types.ChatMember[] chatmember = await this._botClient.GetChatAdministratorsAsync(
+                                chatId: this._message.Chat.Id,
+                                cancellationToken: this._inputTelegram.cancellationToken
                         );
                         long[] user_ids = new long[chatmember.Length];
                         int i = 0;
@@ -65,39 +52,33 @@ namespace fadhil_robot.Utils
                         }
 
 
-                        var dbctx = inputTelegram.main_thread_ctx.mongodbCtx.GetDatabase(Config.MongoDB_DBNAME);
+                        var dbctx = this._inputTelegram.main_thread_ctx.mongodbCtx.GetDatabase(Config.MongoDB_DBNAME);
 
                         var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
 
                         try
                         {
-                                var filter = Builders<BsonDocument>.Filter.Eq("chat_id", this.message.Chat.Id);
+                                var filter = Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id);
                                 var filtered = await dbcol.Find(filter).FirstAsync();
                         }
                         catch (InvalidOperationException)
                         {
                                 var document = new BsonDocument
                                 {
-                                        { "chat_id", this.message.Chat.Id },
+                                        { "chat_id", this._message.Chat.Id },
                                         { "timestamp", this.TimeNow()},
                                         { "admin", new BsonArray(user_ids) }
                                 };
                                 await dbcol.InsertOneAsync(document);
                         }
 
-                        var newdata = await dbcol.Find(Builders<BsonDocument>.Filter.Eq("chat_id", this.message.Chat.Id)).FirstAsync();
-                        // await this.botClient.SendTextMessageAsync(
-                        //         chatId: this.message.Chat.Id,
-                        //         text: newdata.ToJson()
-                        // );
+                        var newdata = await dbcol.Find(Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id)).FirstAsync();
 
-                        // Console.WriteLine(newdata["timestamp"]);
-                        // checking timestamp
                         if (newdata["timestamp"] < this.TimeNow() - 1 * Config.ADMIN_CACHE_TIME)
                         {
-                                chatmember = await this.botClient.GetChatAdministratorsAsync(
-                                        chatId: this.message.Chat.Id,
-                                        cancellationToken: this.inputTelegram.cancellationToken
+                                chatmember = await this._botClient.GetChatAdministratorsAsync(
+                                        chatId: this._message.Chat.Id,
+                                        cancellationToken: this._inputTelegram.cancellationToken
                                 );
                                 user_ids = new long[chatmember.Length];
                                 i = 0;
@@ -108,20 +89,20 @@ namespace fadhil_robot.Utils
                                         //Console.WriteLine(members.User.Id);
                                         i++;
                                 }
-                                var updatefilter = Builders<BsonDocument>.Filter.Eq("chat_id", message.Chat.Id);
+                                var updatefilter = Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id);
                                 var whatupdate = Builders<BsonDocument>.Update.Set("admin", new BsonArray(user_ids));
 
                                 await dbcol.UpdateOneAsync(updatefilter, whatupdate);
 
-                                this.user_ids = user_ids;
+                                this._user_ids = user_ids;
                         }
-                        this.user_ids = user_ids;
+                        this._user_ids = user_ids;
                 }
 
                 public async Task<bool> isAdmin(long id)
                 {
                         await this.makeCache();
-                        long[] rawids = this.user_ids;
+                        long[] rawids = this._user_ids;
                         foreach(long ids in rawids)
                         {
                                 if(ids == id)

@@ -17,27 +17,26 @@ using System.Threading;
 namespace fadhil_robot.Commands.Private.Executor {
         class Ping : Utils.IExecutor
         {
-                private InputTelegram inputTelegram;
-                private ITelegramBotClient botClient;
-                private Message message;
+                private InputTelegram _inputTelegram;
+                private ITelegramBotClient _botClient;
+                private Message _message;
                 public Ping(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
-                        this.inputTelegram = inputTelegram;
-                        this.botClient = botClient;
-                        this.message = message;
+                        this._inputTelegram = inputTelegram;
+                        this._botClient = botClient;
+                        this._message = message;
                 }
                 public async Task Execute()
                 {
-                        
                         string text = TranslateLocale.exec(
-                                        message, 
+                                        this._message, 
                                         "command.Private.Ping", 
-                                        this.inputTelegram.command
+                                        this._inputTelegram.command
                         );
-                        await this.botClient.SendTextMessageAsync(
-                                chatId: this.message.Chat.Id, 
+                        await this._botClient.SendTextMessageAsync(
+                                chatId: this._message.Chat.Id, 
                                 text: text, 
-                                replyToMessageId: this.message.MessageId, 
+                                replyToMessageId: this._message.MessageId, 
                                 parseMode: ParseMode.Html
                         );
                 }

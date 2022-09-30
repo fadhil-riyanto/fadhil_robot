@@ -17,69 +17,72 @@ namespace fadhil_robot.Commands.Group.Executor
 {
         class Unpin : Utils.IExecutor
         {
-                private InputTelegram inputTelegram;
-                private ITelegramBotClient botClient;
-                private Message message;
-                public Unpin(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
+                private InputTelegram _inputTelegram;
+                private ITelegramBotClient _botClient;
+                private Message _message;
+                public Unpin(InputTelegram inputTelegram, 
+                        ITelegramBotClient botClient, Message message)
                 {
-                        this.inputTelegram = inputTelegram;
-                        this.botClient = botClient;
-                        this.message = message;
+                        this._inputTelegram = inputTelegram;
+                        this._botClient = botClient;
+                        this._message = message;
                 }
                 public async Task Execute()
                 {
 
-                        AdminCheck admincheck = new AdminCheck(inputTelegram, botClient, message);
-                        if(admincheck.isAdmin(message.From.Id).Result)
+                        AdminCheck admincheck = new AdminCheck(this._inputTelegram, 
+                                this._botClient, this._message);
+
+                        if(admincheck.isAdmin(this._message.From.Id).Result)
                         {
-                                if (!this.checkIsReply(message))
+                                if (!this.checkIsReply(this._message))
                                 {
                                         string text = TranslateLocale.exec(
-                                                message, "command.Group.Unpin.NeedReply"
+                                                this._message, "command.Group.Unpin.NeedReply"
                                         );
-                                        await botClient.SendTextMessageAsync(
-                                                chatId: message.Chat.Id,
+                                        await this._botClient.SendTextMessageAsync(
+                                                chatId: this._message.Chat.Id,
                                                 text: text,
-                                                replyToMessageId: message.MessageId, 
+                                                replyToMessageId: this._message.MessageId, 
                                                 parseMode: ParseMode.Html
                                         );
                                 }
                                 else
                                 {
                                         try {
-                                                await botClient.UnpinChatMessageAsync(
-                                                        chatId: message.Chat.Id,
-                                                        messageId: message.ReplyToMessage.MessageId
+                                                await this._botClient.UnpinChatMessageAsync(
+                                                        chatId: this._message.Chat.Id,
+                                                        messageId: this._message.ReplyToMessage.MessageId
                                                 );
                                                 string text = TranslateLocale.exec(
-                                                        message, "command.Group.Unpin.Success"
+                                                        this._message, "command.Group.Unpin.Success"
                                                 );
-                                                await botClient.SendTextMessageAsync(
-                                                        chatId: message.Chat.Id,
+                                                await this._botClient.SendTextMessageAsync(
+                                                        chatId: this._message.Chat.Id,
                                                         text: text,
-                                                        replyToMessageId: message.MessageId, 
+                                                        replyToMessageId: this._message.MessageId, 
                                                         parseMode: ParseMode.Html
                                                 );
                                         } catch (ApiRequestException) {
                                                 string text = TranslateLocale.exec(
-                                                        message, "command.Group.Unpin.NotEnoughPermission"
+                                                        this._message, "command.Group.Unpin.NotEnoughPermission"
                                                 );
-                                                await botClient.SendTextMessageAsync(
-                                                        chatId: message.Chat.Id,
+                                                await this._botClient.SendTextMessageAsync(
+                                                        chatId: this._message.Chat.Id,
                                                         text: text,
-                                                        replyToMessageId: message.MessageId, 
+                                                        replyToMessageId: this._message.MessageId, 
                                                         parseMode: ParseMode.Html
                                                 );
                                         }
                                 }
                         } else {
                                 string text = TranslateLocale.exec(
-                                        message, "GroupNotAdmin"
+                                        this._message, "GroupNotAdmin"
                                 );
-                                await botClient.SendTextMessageAsync(
-                                        chatId: message.Chat.Id,
+                                await this._botClient.SendTextMessageAsync(
+                                        chatId: this._message.Chat.Id,
                                         text: text,
-                                        replyToMessageId: message.MessageId, 
+                                        replyToMessageId: this._message.MessageId, 
                                         parseMode: ParseMode.Html
                                 );
                         }

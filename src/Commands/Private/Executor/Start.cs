@@ -17,38 +17,38 @@ namespace fadhil_robot.Commands.Private.Executor
 {
         class Start : Utils.IExecutor
         {
-                private InputTelegram inputTelegram;
-                private ITelegramBotClient botClient;
-                private Message message;
+                private InputTelegram _inputTelegram;
+                private ITelegramBotClient _botClient;
+                private Message _message;
                 public Start(InputTelegram inputTelegram, ITelegramBotClient
                         botClient, Message message)
                 {
-                        this.inputTelegram = inputTelegram;
-                        this.botClient = botClient;
-                        this.message = message;
+                        this._inputTelegram = inputTelegram;
+                        this._botClient = botClient;
+                        this._message = message;
                 }
                 public async Task Execute()
                 {
                         string text = TranslateLocale.exec(
-                                        message,
+                                        this._message,
                                         "command.Private.Start",
-                                        this.inputTelegram.command
+                                        this._inputTelegram.command
                         );
 
                         InlineKeyboardMarkup inlineKeyboard = new(new[]
                                 {
                                         InlineKeyboardButton.WithUrl(
                                                 text: TranslateLocale.exec(
-                                                        message,"command.Private.Start.OwnerTextKeyboard", this.inputTelegram.command
+                                                        this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
                                                 ),
                                                 url: "https://t.me/fadhil_riyanto"
                                         )
                                 }
                         );
-                        await this.botClient.SendTextMessageAsync(
-                                chatId: this.message.Chat.Id,
+                        await this._botClient.SendTextMessageAsync(
+                                chatId: this._message.Chat.Id,
                                 text: text,
-                                replyToMessageId: this.message.MessageId,
+                                replyToMessageId: this._message.MessageId,
                                 parseMode: ParseMode.Html,
                                 replyMarkup: inlineKeyboard
                         );
