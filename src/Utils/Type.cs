@@ -17,20 +17,27 @@ namespace fadhil_robot.Utils {
         {
                 public string command;
                 public string value;
-                public CancellationToken cancellationToken;
-                public main_thread_ctx main_thread_ctx;
-
-        }
-
-        class InputTelegramCb
-        {
                 public int messange_id { get; set; }
                 public long chat_id { get; set; }
                 public long user_id { get; set; }
+                public CancellationToken cancellationToken;
+                public main_thread_ctx main_thread_ctx;
                 public Dictionary<string, string> data { get; set; }
                 public CallbackQuery callback { get; set; }
 
         }
+
+        // class InputTelegramCb
+        // {
+        //         public int messange_id { get; set; }
+        //         public long chat_id { get; set; }
+        //         public long user_id { get; set; }
+        //         public CancellationToken cancellationToken;
+        //         public main_thread_ctx main_thread_ctx;
+        //         public Dictionary<string, string> data { get; set; }
+        //         public CallbackQuery callback { get; set; }
+
+        // }
 
         class main_thread_ctx
         {
@@ -41,5 +48,10 @@ namespace fadhil_robot.Utils {
         interface IExecutor
         {
                 public Task Execute();
+        }
+
+        interface ITgKeyboard
+        {
+                Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup get();
         }
 }

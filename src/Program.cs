@@ -20,18 +20,19 @@ using MongoDB.Driver;
 
 namespace fadhil_robot.Program
 {
-        
+
         class fadhil_robot
         {
                 private static bool wantExit = true;
-                public static ConnectionMultiplexer redisconn {get; set;}
-                public static MongoClient mongoClientConn {get; set;}
+                public static ConnectionMultiplexer redisconn { get; set; }
+                public static MongoClient mongoClientConn { get; set; }
                 public static async Task Main()
                 {
                         try
                         {
                                 redisconn = ConnectionMultiplexer.Connect(Config.RedisHost);
-                        } catch(StackExchange.Redis.RedisConnectionException)
+                        }
+                        catch (StackExchange.Redis.RedisConnectionException)
                         {
                                 new ConsoleLogError("Redis error while trying to connect");
                                 System.Environment.Exit(15);
@@ -39,13 +40,15 @@ namespace fadhil_robot.Program
                         mongoClientConn = new MongoClient("mongodb://localhost:27017");
 
 
-                        Console.CancelKeyPress += delegate(object sender, ConsoleCancelEventArgs e) {
+                        Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+                        {
                                 e.Cancel = true;
                                 fadhil_robot.wantExit = false;
                         };
 
-                        
+
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
+                        
                         User me = await Bot.GetMeAsync();
                         Console.Title = "fadhil_robot";
                         using var stop_bot = new CancellationTokenSource();
@@ -54,18 +57,18 @@ namespace fadhil_robot.Program
                                 AllowedUpdates = { }
                         };
 
-
-
-
                         Bot.StartReceiving(
-                                HandleUpdateAsync,
-                                HandleErrorAsync,
+                                new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync
+                                ),
                                 receiver_req,
                                 stop_bot.Token
                         );
 
                         Console.WriteLine($"bot running : @{me.Username}");
-                        while(fadhil_robot.wantExit) { }
+                        while(fadhil_robot.wantExit) { 
+                                Thread.Sleep(1000);
+                        }
+                        stop_bot.Cancel();
                         Console.WriteLine($"bot exited : @{me.Username}");
                 }
                 public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
