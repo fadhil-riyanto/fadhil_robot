@@ -11,26 +11,26 @@ namespace fadhil_robot.Utils
 {
         public class Parse
         {
-                private static char[] identifier = {
+                private char[] _identifier = {
                         '/', '!'
                 };
-                private bool isvalid_command;
-                private string textraw, delete1char;
+                private bool _isvalid_command;
+                private string _textraw, _delete1char;
 
-                public string command, value;
+                public string _command, _value;
 
                 public Parse(string text)
                 {
-                        this.textraw = text;
+                        this._textraw = text;
                 }
 
                 private void CheckIsCommand()
                 {
-                        foreach (char identifier_l in identifier)
+                        foreach (char identifier_l in this._identifier)
                         {
-                                if (this.textraw[0] == identifier_l)
+                                if (this._textraw[0] == identifier_l)
                                 {
-                                        this.isvalid_command = true;
+                                        this._isvalid_command = true;
                                 }
                         }
                 }
@@ -40,12 +40,12 @@ namespace fadhil_robot.Utils
                         Dictionary<string, string> result = new Dictionary<string, string>();
 
                         this.CheckIsCommand();
-                        if (this.isvalid_command)
+                        if (this._isvalid_command)
                         {
-                                this.delete1char = this.textraw.Remove(0, 1);
-                                string[] splitted = this.delete1char.Split(" ");
+                                this._delete1char = this._textraw.Remove(0, 1);
+                                string[] splitted = this._delete1char.Split(" ");
 
-                                string[] at_split = this.delete1char.Split("@");
+                                string[] at_split = this._delete1char.Split("@");
 
 
                                 if (splitted.Length == 1)
@@ -54,41 +54,49 @@ namespace fadhil_robot.Utils
                                         {
                                                 if (at_split[1].ToLower() == Config.BotName.ToLower())
                                                 {
-                                                        this.command = at_split[0];
+                                                        this._command = at_split[0];
                                                 } else {
-                                                        this.command = null;
+                                                        this._command = null;
                                                 }
-                                                this.value = null;
+                                                this._value = null;
                                         }
                                         else
                                         {
-                                                this.command = this.delete1char;
-                                                this.value = null;
+                                                this._command = this._delete1char;
+                                                this._value = null;
                                         }
                                         // result.Add("command", this.delete1char);
                                         // result.Add("value", null);
                                 }
                                 else
                                 {
-                                        int i = this.delete1char.IndexOf(" ") + 1;
-                                        string str = this.delete1char.Substring(i);
+                                        int i = this._delete1char.IndexOf(" ") + 1;
+                                        string str = this._delete1char.Substring(i);
 
                                         if (at_split.Length == 2)
                                         {
-                                                this.command = at_split[0];
-                                                this.value = str;
+                                                string[] newstr = at_split[1].Split(" ");
+                                                if (newstr[0].ToLower() == Config.BotName.ToLower())
+                                                {
+                                                        this._command = at_split[0];
+                                                } else {
+                                                        this._command = null;
+                                                }
+                                                this._value = str;
+                                                // this._command = at_split[0];
+                                                // this._value = str;
                                         }
                                         else
                                         {
-                                                this.command = splitted[0];
-                                                this.value = str;
+                                                this._command = splitted[0];
+                                                this._value = str;
                                         }
 
                                         // result.Add("command", splitted[0]);
                                         // result.Add("value", str);
                                 }
-                                result.Add("command", this.command);
-                                result.Add("value", this.value);
+                                result.Add("command", this._command);
+                                result.Add("value", this._value);
 
                                 //Console.WriteLine(this.delete1char);
 
