@@ -15,7 +15,7 @@ namespace fadhil_robot.Program
 {
         class HandleCallback
         {
-                public async Task HandleCallbackQuery(ITelegramBotClient botClient, 
+                public async Task HandleCallbackQuery(ITelegramBotClient botClient,
                         CallbackQuery callback, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
                         new ConsoleLogCb(callback.From.Id + " | " + callback.Data);
@@ -35,29 +35,33 @@ namespace fadhil_robot.Program
                         if (rdata == null)
                         {
                                 await botClient.AnswerCallbackQueryAsync(
-                                        callbackQueryId: callback.Id, 
+                                        callbackQueryId: callback.Id,
                                         text: TranslateLocale.execCb(
-                                                callback,"CacheExpire"
+                                                callback, "CacheExpire"
                                         ),
                                         showAlert: true
                                 );
-                        } else {
-                                InputTelegramCb InputTelegramCb = new InputTelegramCb();
-                                InputTelegramCb.chat_id = rdata.c;
-                                InputTelegramCb.messange_id = rdata.m;
-                                InputTelegramCb.data = rdata.d;
-                                InputTelegramCb.user_id = rdata.u;
-                                InputTelegramCb.callback = callback;
+                        }
+                        else
+                        {
+                                InputTelegram InputTelegram = new InputTelegram
+                                {
+                                        chat_id = rdata.c,
+                                        messange_id = rdata.m,
+                                        data = rdata.d,
+                                        user_id = rdata.u,
+                                        callback = callback
+                                };
 
                                 Utils.IExecutor executor = rdata.caller switch
                                 {
-                                        "help" => new Commands.Private.Callback.HelpCb(InputTelegramCb, botClient, callback),
+                                        "help" => new Commands.Private.Callback.HelpCb(InputTelegram, botClient, callback),
                                         _ => null
                                 };
 
                                 await executor.Execute();
                         }
-                        
+
                 }
         }
 }
