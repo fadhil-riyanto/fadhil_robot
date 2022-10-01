@@ -46,6 +46,7 @@ namespace fadhil_robot.Program
                                                         messange_id = message.MessageId,
                                                         chat_id = message.Chat.Id,
                                                         user_id = message.From.Id,
+                                                        languange = message.From.LanguageCode,
                                                         cancellationToken = cancellationToken,
                                                         main_thread_ctx = ctx
                                                 };

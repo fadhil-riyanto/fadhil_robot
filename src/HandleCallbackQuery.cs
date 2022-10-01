@@ -44,18 +44,21 @@ namespace fadhil_robot.Program
                         }
                         else
                         {
-                                InputTelegram InputTelegram = new InputTelegram
-                                {
-                                        chat_id = rdata.c,
-                                        messange_id = rdata.m,
-                                        data = rdata.d,
-                                        user_id = rdata.u,
-                                        callback = callback
-                                };
+                                // add additional data after parsing
+                                
+                                inputTelegram.chat_id = rdata.c;
+                                inputTelegram.messange_id = rdata.m;
+                                inputTelegram.data = rdata.d;
+                                inputTelegram.user_id = rdata.u;
+                                inputTelegram.callback = callback;
+                                inputTelegram.languange = callback.From.LanguageCode;
+                                        
+                                
 
                                 Utils.IExecutor executor = rdata.caller switch
                                 {
-                                        "help" => new Commands.Private.Callback.HelpCb(InputTelegram, botClient, callback),
+                                        "help" => new Commands.Private.Callback.HelpCb(inputTelegram, botClient, callback),
+                                        "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, botClient, callback),
                                         _ => null
                                 };
 

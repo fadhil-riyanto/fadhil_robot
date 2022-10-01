@@ -16,23 +16,28 @@ namespace fadhil_robot.Utils
         {
                 private InputTelegram _inputTelegram;
                 private ITelegramBotClient _botClient;
-                private Message _message;
+                private string _language;
                 private InlineKeyboardMarkup _keyboard;
-                public TGKeyboardHelpMenu(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
+                public TGKeyboardHelpMenu(InputTelegram inputTelegram)
                 {
                         this._inputTelegram = inputTelegram;
-                        this._botClient = botClient;
-                        this._message = message;
+                        this._language = inputTelegram.languange;
                 }
 
                 private Dictionary<string, string> _translations(string languange)
                 {
                         Dictionary<string, string> id_ID = new Dictionary<string, string> {
-                                {"admin" , "Admin"}
+                                {"admin" , "Admin"},
+
+                                // for back
+                                {"back" , "Kembali ◀️"}
                         };
 
                         Dictionary<string, string> en_US = new Dictionary<string, string> {
-                                {"admin" , "Admin"}
+                                {"admin" , "Admin"},
+
+                                // for back
+                                {"back" , "Back ◀️"}
                         };
 
                         if (languange == "id") {
@@ -44,9 +49,9 @@ namespace fadhil_robot.Utils
                         }
                 }
 
-                public TGKeyboardHelpMenu detectLanguange()
+                public TGKeyboardHelpMenu detectLanguangeMainButton()
                 {
-                        Dictionary<string, string> data = this._translations(this._message.From.LanguageCode);
+                        Dictionary<string, string> data = this._translations(this._language);
 
                         this._keyboard = new(new[]
                                 {
@@ -66,32 +71,58 @@ namespace fadhil_robot.Utils
                         return this;
                 }
 
+                public TGKeyboardHelpMenu detectLanguangeBackButton()
+                {
+                        Dictionary<string, string> data = this._translations(this._language);
+
+                        this._keyboard = new(new[]
+                                {
+                                        new []
+                                        {
+                                                InlineKeyboardButton.WithCallbackData(
+                                                        
+                                                        text: data["back"], callbackData: CallbackHelper.pack(
+                                                                        this._inputTelegram, "help_back", new Dictionary<string, string> {
+                                                                        { "clicked_button", "back"}
+                                                                }
+                                                        )
+                                                ),
+                                        }
+                                }
+                        );
+                        return this;
+                }
+
                 public Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup get()
                 {
                         return this._keyboard;
                 }
-        }
-        // {
-        //         // contruct receive data from main
-        //         public ID_ID()
 
-        //         public Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup get()
-        //         {
-        //                 InlineKeyboardMarkup inlineKeyboard = new(new[]
-        //                         {
-        //                                 new []
-        //                                 {
-        //                                         InlineKeyboardButton.WithCallbackData(
-                                                        
-        //                                                 text: "Admins", callbackData: CallbackHelper.pack(
-        //                                                                 message, inputTelegram, "help", new Dictionary<string, string> {
-        //                                                                 { "clicked_button", "admin"}
-        //                                                         }
-        //                                                 )
-        //                                         ),
-        //                                 }
-        //                         }
-        //                 );
-        //         }
-        // }
+                public string getContent(string keys)
+                {
+                        Dictionary<string, string> id_ID = new Dictionary<string, string> {
+                                {"admin" , 
+                                        "berikut adalah perintah untuk administrasi di grup:\n\n" +
+                                        "/pin: digunakan untuk menyematkan pesan" +
+                                        "/unpin: digunakan untuk melepas sematan grup"
+                                }
+                        };
+
+                        Dictionary<string, string> en_US = new Dictionary<string, string> {
+                                {"admin" , 
+                                        "this is command for manage in your group:\n\n" +
+                                        "/pin: this used for pined your messange" +
+                                        "/unpin: this used for unpined your messange"
+                                }
+                        };
+
+                        if (this._language == "id") {
+                                return id_ID[keys];
+                        } else if (this._language == "us") {
+                                return en_US[keys];
+                        } else {
+                                return en_US[keys];
+                        }
+                }
+        }
 }

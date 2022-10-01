@@ -29,18 +29,17 @@ namespace fadhil_robot.Commands.Private.Executor
 
                 public async Task Execute()
                 {       
-                        
                         string text = TranslateLocale.exec(
                                         this._message, 
                                         "command.Private.Help", 
                                         this._inputTelegram.command
                         );
 
-                        ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram, this._botClient, this._message);
+                        ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram);
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id, 
                                 text: text, 
-                                replyMarkup: keyboard.detectLanguange().get(),
+                                replyMarkup: keyboard.detectLanguangeMainButton().get(),
                                 replyToMessageId: this._message.MessageId, 
                                 parseMode: ParseMode.Html
                         );
