@@ -52,6 +52,7 @@ namespace fadhil_robot.Utils {
 
         interface ITgKeyboard
         {
+                TGKeyboardHelpMenu detectLanguange();
                 Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup get();
         }
 }

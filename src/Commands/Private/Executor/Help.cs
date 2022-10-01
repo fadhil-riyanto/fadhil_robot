@@ -29,30 +29,18 @@ namespace fadhil_robot.Commands.Private.Executor
 
                 public async Task Execute()
                 {       
-                        InlineKeyboardMarkup inlineKeyboard = new(new[]
-                                {
-                                        new []
-                                        {
-                                                InlineKeyboardButton.WithCallbackData(
-                                                        
-                                                        text: "Admins", callbackData: CallbackHelper.pack(
-                                                                        this._inputTelegram, "help", new Dictionary<string, string> {
-                                                                        { "clicked_button", "admin"}
-                                                                }
-                                                        )
-                                                ),
-                                        }
-                                }
-                        );
+                        
                         string text = TranslateLocale.exec(
                                         this._message, 
                                         "command.Private.Help", 
                                         this._inputTelegram.command
                         );
+
+                        ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram, this._botClient, this._message);
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id, 
                                 text: text, 
-                                replyMarkup: inlineKeyboard,
+                                replyMarkup: keyboard.detectLanguange().get(),
                                 replyToMessageId: this._message.MessageId, 
                                 parseMode: ParseMode.Html
                         );
