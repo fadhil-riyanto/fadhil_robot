@@ -105,6 +105,7 @@ namespace fadhil_robot.Program
                                         "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
                                         "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
                                         "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
+                                        "lookup" => new Commands.Group.Executor.Lookup(inputTelegram, botClient, message),
                                         _ => new UnknownCommand(inputTelegram, botClient, message)
                                 };
                                 await executor.Execute();
