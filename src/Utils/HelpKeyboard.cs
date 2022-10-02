@@ -15,7 +15,6 @@ namespace fadhil_robot.Utils
         class TGKeyboardHelpMenu : ITgKeyboard
         {
                 private InputTelegram _inputTelegram;
-                private ITelegramBotClient _botClient;
                 private string _language;
                 private InlineKeyboardMarkup _keyboard;
                 public TGKeyboardHelpMenu(InputTelegram inputTelegram)
