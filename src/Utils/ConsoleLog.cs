@@ -30,6 +30,30 @@ namespace fadhil_robot.Utils
                         Console.WriteLine("[ERROR] {0} | {1}", DateTime.Now, data);
                 }
         }
+        class ConsoleLogTL
+        {
+                public ConsoleLogTL(string data)
+                {
+                        DateTime datetime = DateTime.UtcNow.Date;
+                        Console.WriteLine("[TLMSG] {0} | {1}", DateTime.Now, data);
+                }
+        }
+        class ConsoleLogSys
+        {
+                public ConsoleLogSys(string data)
+                {
+                        DateTime datetime = DateTime.UtcNow.Date;
+                        Console.WriteLine("[CSMSG] {0} | {1}", DateTime.Now, data);
+                }
+        }
+        class ConsoleLogSysLn
+        {
+                public ConsoleLogSysLn(string data)
+                {
+                        DateTime datetime = DateTime.UtcNow.Date;
+                        Console.WriteLine("\n[CSMSG] {0} | {1}", DateTime.Now, data);
+                }
+        }
         class ConsoleLogCb
         {
                 public ConsoleLogCb(string data)
@@ -38,4 +62,5 @@ namespace fadhil_robot.Utils
                         Console.WriteLine("[TG_CB] {0} | {1}", DateTime.Now, data);
                 }
         }
+        
 }
