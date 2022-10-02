@@ -16,6 +16,7 @@ using System.Threading;
 using StackExchange.Redis;
 using fadhil_robot.Utils;
 using MongoDB.Driver;
+using TL;
 
 
 namespace fadhil_robot.Program
@@ -24,6 +25,7 @@ namespace fadhil_robot.Program
         class fadhil_robot
         {
                 private static bool wantExit = true;
+                public static WTelegram.Client ClientMT;
                 public static ConnectionMultiplexer redisconn { get; set; }
                 public static MongoClient mongoClientConn { get; set; }
                 public static async Task Main()
@@ -40,6 +42,30 @@ namespace fadhil_robot.Program
                         mongoClientConn = new MongoClient("mongodb://localhost:27017");
 
 
+                        static string MTConfig(string what)
+                        {
+                                switch (what)
+                                {
+                                        case "api_id": return Config.API_ID;
+                                        case "api_hash": return Config.API_HASH;
+                                        case "phone_number": return Config.PHONE_NUMBER;
+                                        case "verification_code": Console.Write("Input your code: "); return Console.ReadLine();
+                                        
+                                        default: return null; 
+                                }
+                        }
+
+                        ClientMT = new WTelegram.Client(MTConfig);
+                        
+                        //System.Action<int, string> log = new System.Action<int, string>();
+                        WTelegram.Helpers.Log = (lvl, str) => { new ConsoleLogTL( "(" + lvl + ") " + str);};
+                        await ClientMT.LoginUserIfNeeded();
+                        
+                
+
+                        //Contacts_ResolveUsername
+
+
                         Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
                         {
                                 e.Cancel = true;
@@ -48,8 +74,8 @@ namespace fadhil_robot.Program
 
 
                         TelegramBotClient Bot = new TelegramBotClient(Config.Token);
-                        
-                        User me = await Bot.GetMeAsync();
+
+                        Telegram.Bot.Types.User me = await Bot.GetMeAsync();
                         Console.Title = "fadhil_robot";
                         using var stop_bot = new CancellationTokenSource();
                         ReceiverOptions receiver_req = new()
@@ -64,12 +90,13 @@ namespace fadhil_robot.Program
                                 stop_bot.Token
                         );
 
-                        Console.WriteLine($"bot running : @{me.Username}");
-                        while(fadhil_robot.wantExit) { 
+                        new ConsoleLogSys($"bot running : @{me.Username}");
+                        while (fadhil_robot.wantExit)
+                        {
                                 Thread.Sleep(1000);
                         }
                         stop_bot.Cancel();
-                        Console.WriteLine($"bot exited : @{me.Username}");
+                        new ConsoleLogSysLn($"bot exited : @{me.Username}");
                 }
                 public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
                 {
@@ -85,7 +112,7 @@ namespace fadhil_robot.Program
                 }
 
 
-                public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
+                public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Telegram.Bot.Types.Update update, CancellationToken cancellationToken)
                 {
 
                         HandleUpdate h = new HandleUpdate();
@@ -94,6 +121,7 @@ namespace fadhil_robot.Program
                         StackExchange.Redis.IDatabase db = redisconn.GetDatabase();
                         main_ctx.redis = db;
                         main_ctx.mongodbCtx = mongoClientConn;
+                        main_ctx.ClientMT = ClientMT;
 
                         var handler = update.Type switch
                         {
@@ -115,9 +143,9 @@ namespace fadhil_robot.Program
 
 
 
-                private static Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Update update)
+                private static Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Telegram.Bot.Types.Update update)
                 {
-                        Console.WriteLine($"Tipe update tidak dikenali : {update.Type}");
+                        Console.WriteLine($"[error] unknown update type : {update.Type}");
                         return Task.CompletedTask;
 
                 }
