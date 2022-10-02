@@ -44,7 +44,6 @@ namespace fadhil_robot.Utils
                         {
                                 this._delete1char = this._textraw.Remove(0, 1);
                                 string[] splitted = this._delete1char.Split(" ");
-
                                 string[] at_split = this._delete1char.Split("@");
 
 
@@ -62,6 +61,7 @@ namespace fadhil_robot.Utils
                                         }
                                         else
                                         {
+
                                                 this._command = this._delete1char;
                                                 this._value = null;
                                         }
@@ -70,13 +70,15 @@ namespace fadhil_robot.Utils
                                 }
                                 else
                                 {
+                                        // split
+                                        string[] indexonesp = splitted[0].Split("@");
                                         int i = this._delete1char.IndexOf(" ") + 1;
                                         string str = this._delete1char.Substring(i);
 
-                                        if (at_split.Length == 2)
+                                        if (indexonesp.Length == 2)
                                         {
-                                                string[] newstr = at_split[1].Split(" ");
-                                                if (newstr[0].ToLower() == Config.BotName.ToLower())
+                                                //string[] newstr = at_split[1].Split(" ");
+                                                if (indexonesp[1].ToLower() == Config.BotName.ToLower())
                                                 {
                                                         this._command = at_split[0];
                                                 } else {
