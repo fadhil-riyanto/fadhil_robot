@@ -16,6 +16,7 @@ using System.Threading;
 using StackExchange.Redis;
 using fadhil_robot.Utils;
 using MongoDB.Driver;
+using ramdb;
 using TL;
 
 
@@ -25,21 +26,23 @@ namespace fadhil_robot.Program
         class fadhil_robot
         {
                 private static bool wantExit = true;
+                private static Ramdb ramdb { get; set; }
                 public static WTelegram.Client ClientMT;
                 public static ConnectionMultiplexer redisconn { get; set; }
                 public static MongoClient mongoClientConn { get; set; }
                 public static async Task Main()
                 {
-                        try
-                        {
-                                redisconn = ConnectionMultiplexer.Connect(Config.RedisHost);
-                        }
-                        catch (StackExchange.Redis.RedisConnectionException)
-                        {
-                                new ConsoleLogError("Redis error while trying to connect");
-                                System.Environment.Exit(15);
-                        }
+                        // try
+                        // {
+                        //         redisconn = ConnectionMultiplexer.Connect(Config.RedisHost);
+                        // }
+                        // catch (StackExchange.Redis.RedisConnectionException)
+                        // {
+                        //         new ConsoleLogError("Redis error while trying to connect");
+                        //         System.Environment.Exit(15);
+                        // }
                         mongoClientConn = new MongoClient("mongodb://localhost:27017");
+                        ramdb = new Ramdb("database.db", "/home/fadhil_riyanto/BALI64/fadhil_robot/src");
 
 
                         static string MTConfig(string what)
@@ -95,6 +98,7 @@ namespace fadhil_robot.Program
                         {
                                 Thread.Sleep(1000);
                         }
+                        ramdb.commit();
                         stop_bot.Cancel();
                         new ConsoleLogSysLn($"bot exited : @{me.Username}");
                 }
@@ -118,10 +122,11 @@ namespace fadhil_robot.Program
                         HandleUpdate h = new HandleUpdate();
                         main_thread_ctx main_ctx = new main_thread_ctx();
 
-                        StackExchange.Redis.IDatabase db = redisconn.GetDatabase();
-                        main_ctx.redis = db;
+                        
+                        //main_ctx.redis = db;
                         main_ctx.mongodbCtx = mongoClientConn;
                         main_ctx.ClientMT = ClientMT;
+                        main_ctx.ramdb = ramdb;
 
                         var handler = update.Type switch
                         {
