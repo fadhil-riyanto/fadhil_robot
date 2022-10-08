@@ -2,6 +2,7 @@
 src/obj/
 src/bin/
 src/Config.cs
+src/database.db
 
 #ignore TestParse
 test/TestParse/obj/
