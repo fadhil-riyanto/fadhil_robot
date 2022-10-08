@@ -52,8 +52,8 @@ namespace fadhil_robot.Utils
 
                         generate_rand_str rn = new generate_rand_str();
                         string key = rn.gethash();
-
-                        inputTelegram.main_thread_ctx.redis.StringSet(key, cokkedstring, TimeSpan.FromSeconds( Config.REDIS_CALLBACK_CACHE_TIME ));
+                        inputTelegram.main_thread_ctx.ramdb.setDb(1).set(key, cokkedstring);
+                        //inputTelegram.main_thread_ctx.redis.StringSet(key, cokkedstring, TimeSpan.FromSeconds( Config.REDIS_CALLBACK_CACHE_TIME ));
                         return key;
                 }
 
@@ -64,7 +64,8 @@ namespace fadhil_robot.Utils
                         try
                         {
                                 up = JsonConvert.DeserializeObject<unpacktype>(
-                                        inputTelegram.main_thread_ctx.redis.StringGet(key)
+                                        inputTelegram.main_thread_ctx.ramdb.setDb(1).get(key)
+                                        //inputTelegram.main_thread_ctx.redis.StringGet(key)
                                 );
                         } catch (System.ArgumentNullException)
                         {

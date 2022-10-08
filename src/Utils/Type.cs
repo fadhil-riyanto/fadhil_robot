@@ -11,6 +11,7 @@ using MongoDB.Driver;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using StackExchange.Redis;
+using ramdb;
 
 namespace fadhil_robot.Utils {
         class InputTelegram
@@ -45,6 +46,7 @@ namespace fadhil_robot.Utils {
                 public StackExchange.Redis.IDatabase redis { get; set; }
                 public MongoClient mongodbCtx { get; set; }
                 public WTelegram.Client ClientMT { get; set; }
+                public Ramdb ramdb { get; set; }
 
         }
 
