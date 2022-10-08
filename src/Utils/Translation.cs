@@ -67,7 +67,12 @@ namespace fadhil_robot.Utils
                                 "command.Group.Unpin.NeedReply"  => "You must reply to the message you want to unpin!",
                                 "command.Group.Unpin.Success"  => "Message was successfully unpinned",
                                 "command.Group.Unpin.NotEnoughPermission"  => "I don't have enough rights to manage pinned messages in the chat",
-
+                                "command.Group.Lookup" => "User info\n\n" +
+                                                          "👦🏻 name: {0}\n" +
+                                                          "🆔 id: {1}\n" +
+                                                          "⁣🌐 languange: {2}\n" +
+                                                          "👤 username: {3}\n" +
+                                                          "🆔 id type: {4}\n",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -94,6 +99,12 @@ namespace fadhil_robot.Utils
                                 "command.Group.Unpin.NeedReply"  => "Anda harus membalas pesan yang ingin diunpin!",
                                 "command.Group.Unpin.Success"  => "Pesan telah berhasil diunpin",
                                 "command.Group.Unpin.NotEnoughPermission"  => "saya tidak mempunyai cukup hak untuk mengelola pesan yang disematkan dalam grup",
+                                "command.Group.Lookup" => "Info pengguna\n\n" +
+                                                          "👦🏻 nama: {0}\n" +
+                                                          "🆔 id: {1}\n" +
+                                                          "⁣🌐 bahasa: {2}\n" +
+                                                          "👤 nama pengguna: {3}\n" +
+                                                          "🆔 tipe id: {4}\n",
 
                                 _ => "err key \"" + data + "\""
                         };

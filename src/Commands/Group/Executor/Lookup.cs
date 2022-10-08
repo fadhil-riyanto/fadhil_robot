@@ -29,9 +29,10 @@ namespace fadhil_robot.Commands.Group.Executor {
                 public async Task Execute()
                 {
                         Contacts_ResolvedPeer peerdata = await this._inputTelegram.main_thread_ctx.ClientMT.Contacts_ResolveUsername(this._inputTelegram.value);
-                        string text = "user info\n\n" +
-                                        "name: " + peerdata.User.first_name + " " + peerdata.User.last_name + "\n"+
-                                        "id: " + peerdata.User.id;
+                        string text = TranslateLocale.exec(
+                                this._message, "command.Group.Lookup", peerdata.User.first_name + " " + peerdata.User.last_name,
+                                peerdata.User.id.ToString(), peerdata.User.lang_code, peerdata.User.username, UtilsFN.is64(peerdata.User.id)
+                        );
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id, 
                                 text: text, 
