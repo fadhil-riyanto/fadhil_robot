@@ -29,25 +29,29 @@ namespace fadhil_robot.Commands.Group.Executor
                 }
                 public async Task Execute()
                 {
-                        try
-                        {
-                                Contacts_ResolvedPeer peerdata = await this._inputTelegram.main_thread_ctx.ClientMT.Contacts_ResolveUsername(this._inputTelegram.value);
+                        try {
+                                Contacts_ResolvedPeer peerdata = await this._inputTelegram.
+                                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(this._inputTelegram.value);
+
+
                                 string text = TranslateLocale.exec(
-                                        this._message, "command.Group.Lookup", peerdata.User.first_name + " " + peerdata.User.last_name,
-                                        peerdata.User.id.ToString(), peerdata.User.lang_code, peerdata.User.username, UtilsFN.is64(peerdata.User.id)
+                                        this._message, "command.Group.Lookup", 
+                                                peerdata.User.first_name + " " + 
+                                                peerdata.User.last_name,
+                                                peerdata.User.id.ToString(), peerdata.User.lang_code, peerdata.User.username, 
+                                                UtilsFN.is64(peerdata.User.id)
                                 );
+
                                 await this._botClient.SendTextMessageAsync(
                                         chatId: this._message.Chat.Id,
                                         text: text,
                                         replyToMessageId: this._message.MessageId,
                                         parseMode: ParseMode.Html
                                 );
-                        }
-                        catch (RpcException e)
-                        {
-                                string error_result = e.Message switch
-                                {
-                                        "USERNAME_INVALID" => TranslateLocale.exec(this._message, "command.Group.Lookup.UsernameInvalid"),
+                        } catch (RpcException e) {
+                                string error_result = e.Message switch {
+                                        "USERNAME_INVALID" => TranslateLocale.exec(this._message, 
+                                                "command.Group.Lookup.UsernameInvalid"),
                                         _ => TranslateLocale.exec(this._message, "Unknown", e.Message.ToString())
                                 };
                                 await this._botClient.SendTextMessageAsync(

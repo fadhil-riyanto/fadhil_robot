@@ -29,13 +29,13 @@ namespace fadhil_robot.Utils
                         this._inputTelegram = inputTelegram;
                 }
 
-                private long TimeNow()
+                private long _timeNow()
                 {
                         var now = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0);
                         return (long)now.TotalSeconds;
                 }
 
-                public async Task makeCache()
+                private async Task _makeCache()
                 {
                         Telegram.Bot.Types.ChatMember[] chatmember = await this._botClient.GetChatAdministratorsAsync(
                                 chatId: this._message.Chat.Id,
@@ -44,8 +44,7 @@ namespace fadhil_robot.Utils
                         long[] user_ids = new long[chatmember.Length];
                         int i = 0;
 
-                        foreach (Telegram.Bot.Types.ChatMember members in chatmember)
-                        {
+                        foreach (Telegram.Bot.Types.ChatMember members in chatmember) {
                                 user_ids[i] = members.User.Id;
                                 //Console.WriteLine(members.User.Id);
                                 i++;
@@ -56,17 +55,14 @@ namespace fadhil_robot.Utils
 
                         var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
 
-                        try
-                        {
+                        try {
                                 var filter = Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id);
                                 var filtered = await dbcol.Find(filter).FirstAsync();
-                        }
-                        catch (InvalidOperationException)
-                        {
+                        } catch (InvalidOperationException) {
                                 var document = new BsonDocument
                                 {
                                         { "chat_id", this._message.Chat.Id },
-                                        { "timestamp", this.TimeNow()},
+                                        { "timestamp", this._timeNow()},
                                         { "admin", new BsonArray(user_ids) }
                                 };
                                 await dbcol.InsertOneAsync(document);
@@ -74,8 +70,7 @@ namespace fadhil_robot.Utils
 
                         var newdata = await dbcol.Find(Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id)).FirstAsync();
 
-                        if (newdata["timestamp"] < this.TimeNow() - 1 * Config.ADMIN_CACHE_TIME)
-                        {
+                        if (newdata["timestamp"] < this._timeNow() - 1 * Config.ADMIN_CACHE_TIME) {
                                 chatmember = await this._botClient.GetChatAdministratorsAsync(
                                         chatId: this._message.Chat.Id,
                                         cancellationToken: this._inputTelegram.cancellationToken
@@ -99,9 +94,9 @@ namespace fadhil_robot.Utils
                         this._user_ids = user_ids;
                 }
 
-                public async Task<bool> isAdmin(long id)
+                public async Task<bool> IsAdmin(long id)
                 {
-                        await this.makeCache();
+                        await this._makeCache();
                         long[] rawids = this._user_ids;
                         foreach(long ids in rawids)
                         {

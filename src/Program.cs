@@ -15,6 +15,7 @@ using Telegram.Bot.Types.Enums;
 using System.Threading;
 using StackExchange.Redis;
 using fadhil_robot.Utils;
+using fadhil_robot.HandleUpdate;
 using MongoDB.Driver;
 using ramdb;
 using TL;
@@ -32,23 +33,14 @@ namespace fadhil_robot.Program
                 public static MongoClient mongoClientConn { get; set; }
                 public static async Task Main()
                 {
-                        // try
-                        // {
-                        //         redisconn = ConnectionMultiplexer.Connect(Config.RedisHost);
-                        // }
-                        // catch (StackExchange.Redis.RedisConnectionException)
-                        // {
-                        //         new ConsoleLogError("Redis error while trying to connect");
-                        //         System.Environment.Exit(15);
-                        // }
+
                         mongoClientConn = new MongoClient("mongodb://localhost:27017");
                         ramdb = new Ramdb("database.db", "/home/fadhil_riyanto/BALI64/fadhil_robot/src");
 
 
                         static string MTConfig(string what)
                         {
-                                switch (what)
-                                {
+                                switch (what) {
                                         case "api_id": return Config.API_ID;
                                         case "api_hash": return Config.API_HASH;
                                         case "phone_number": return Config.PHONE_NUMBER;
@@ -60,14 +52,8 @@ namespace fadhil_robot.Program
 
                         ClientMT = new WTelegram.Client(MTConfig);
                         
-                        //System.Action<int, string> log = new System.Action<int, string>();
                         WTelegram.Helpers.Log = (lvl, str) => { new ConsoleLogTL( "(" + lvl + ") " + str);};
                         await ClientMT.LoginUserIfNeeded();
-                        
-                
-
-                        //Contacts_ResolveUsername
-
 
                         Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
                         {
@@ -94,6 +80,7 @@ namespace fadhil_robot.Program
                         );
 
                         new ConsoleLogSys($"bot running : @{me.Username}");
+
                         while (fadhil_robot.wantExit)
                         {
                                 Thread.Sleep(1000);
@@ -111,7 +98,6 @@ namespace fadhil_robot.Program
                         };
 
                         Console.WriteLine(ErrorMessage);
-                        // Thread.Sleep(2);
                         return Task.CompletedTask;
                 }
 
@@ -119,7 +105,7 @@ namespace fadhil_robot.Program
                 public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Telegram.Bot.Types.Update update, CancellationToken cancellationToken)
                 {
 
-                        HandleUpdate h = new HandleUpdate();
+                        MainHandle h = new MainHandle();
                         main_thread_ctx main_ctx = new main_thread_ctx();
 
                         
@@ -128,19 +114,15 @@ namespace fadhil_robot.Program
                         main_ctx.ClientMT = ClientMT;
                         main_ctx.ramdb = ramdb;
 
-                        var handler = update.Type switch
-                        {
+                        var handler = update.Type switch {
                                 UpdateType.Message => h.HandleMessange(botClient, update.Message!, cancellationToken, main_ctx),
                                 UpdateType.CallbackQuery => h.HandleCallbackQuery(botClient, update.CallbackQuery, cancellationToken, main_ctx),
                                 _ => UnknownUpdateHandlerAsync(botClient, update)
                         };
 
-                        try
-                        {
+                        try {
                                 await handler;
-                        }
-                        catch (Exception exception)
-                        {
+                        } catch (Exception exception) {
                                 await HandleErrorAsync(botClient, exception, cancellationToken);
                         }
 

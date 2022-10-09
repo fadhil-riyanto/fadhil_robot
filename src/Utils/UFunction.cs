@@ -13,11 +13,9 @@ namespace fadhil_robot.Utils
         {
                 public static string is64(long data)
                 {
-                        if (data < Int32.MaxValue)
-                        {
+                        if (data < Int32.MaxValue) {
                                 return "32";
-                        } else if (data < Int64.MaxValue)
-                        {
+                        } else if (data < Int64.MaxValue) {
                                 return "64";
                         } else {
                                 return "unknown";

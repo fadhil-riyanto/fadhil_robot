@@ -24,7 +24,7 @@ namespace fadhil_robot.Utils
                         this._textraw = text;
                 }
 
-                private void CheckIsCommand()
+                private void _CheckIsCommand()
                 {
                         foreach (char identifier_l in this._identifier)
                         {
@@ -39,7 +39,7 @@ namespace fadhil_robot.Utils
                 {
                         Dictionary<string, string> result = new Dictionary<string, string>();
 
-                        this.CheckIsCommand();
+                        this._CheckIsCommand();
                         if (this._isvalid_command)
                         {
                                 this._delete1char = this._textraw.Remove(0, 1);

@@ -30,9 +30,9 @@ namespace fadhil_robot.Commands.Private.Executor
                 public async Task Execute()
                 {       
                         string text = TranslateLocale.exec(
-                                        this._message, 
-                                        "command.Private.Help", 
-                                        this._inputTelegram.command
+                                this._message, 
+                                "command.Private.Help", 
+                                this._inputTelegram.command
                         );
 
                         ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram);

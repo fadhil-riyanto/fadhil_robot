@@ -33,10 +33,8 @@ namespace fadhil_robot.Commands.Group.Executor
                         AdminCheck admincheck = new AdminCheck(this._inputTelegram, 
                                 this._botClient, this._message);
 
-                        if(admincheck.isAdmin(this._message.From.Id).Result)
-                        {
-                                if (!this.checkIsReply(this._message))
-                                {
+                        if (admincheck.IsAdmin(this._message.From.Id).Result) {
+                                if (!this.CheckIsReply(this._message)) {
                                         string text = TranslateLocale.exec(
                                                 this._message, "command.Group.Pin.NeedReply"
                                         );
@@ -46,9 +44,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                                 replyToMessageId: this._message.MessageId, 
                                                 parseMode: ParseMode.Html
                                         );
-                                }
-                                else
-                                {
+                                } else {
                                         try {
                                                 await this._botClient.PinChatMessageAsync(
                                                         chatId: this._message.Chat.Id,
@@ -89,14 +85,11 @@ namespace fadhil_robot.Commands.Group.Executor
                         
 
                 }
-                protected bool checkIsReply(Message message)
+                protected bool CheckIsReply(Message message)
                 {
-                        if (message.ReplyToMessage == null)
-                        {
+                        if (message.ReplyToMessage == null) {
                                 return false;
-                        }
-                        else
-                        {
+                        } else {
                                 return true;
                         }
                 }

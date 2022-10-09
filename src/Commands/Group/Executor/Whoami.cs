@@ -31,8 +31,10 @@ namespace fadhil_robot.Commands.Group.Executor
                 {
                         
                         string text = TranslateLocale.exec(
-                                this._message, "command.Group.Whoami", this._message.From.FirstName + " " + this._message.From.LastName,
-                                this._message.From.Id.ToString(), this._message.From.LanguageCode, this._message.From.Username, UtilsFN.is64(this._message.From.Id)
+                                this._message, "command.Group.Whoami", 
+                                this._message.From.FirstName + " " + this._message.From.LastName,
+                                        this._message.From.Id.ToString(), this._message.From.LanguageCode, 
+                                        this._message.From.Username, UtilsFN.is64(this._message.From.Id)
                         );
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id,

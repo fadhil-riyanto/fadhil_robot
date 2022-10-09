@@ -29,9 +29,9 @@ namespace fadhil_robot.Commands.Private.Callback {
                 public async Task Execute()
                 {
                         string text = TranslateLocale.execCb(
-                                        this._callback, 
-                                        "command.Private.Help", 
-                                        this._inputTelegram.command
+                                this._callback, 
+                                "command.Private.Help", 
+                                this._inputTelegram.command
                         );
 
                         ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram);

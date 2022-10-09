@@ -20,8 +20,7 @@ namespace fadhil_robot.Commands.Group.Executor
                 private InputTelegram _inputTelegram;
                 private ITelegramBotClient _botClient;
                 private Message _message;
-                public Unpin(InputTelegram inputTelegram, 
-                        ITelegramBotClient botClient, Message message)
+                public Unpin(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         this._inputTelegram = inputTelegram;
                         this._botClient = botClient;
@@ -29,14 +28,11 @@ namespace fadhil_robot.Commands.Group.Executor
                 }
                 public async Task Execute()
                 {
-
                         AdminCheck admincheck = new AdminCheck(this._inputTelegram, 
                                 this._botClient, this._message);
 
-                        if(admincheck.isAdmin(this._message.From.Id).Result)
-                        {
-                                if (!this.checkIsReply(this._message))
-                                {
+                        if (admincheck.IsAdmin(this._message.From.Id).Result) {
+                                if (!this.CheckIsReply(this._message)) {
                                         string text = TranslateLocale.exec(
                                                 this._message, "command.Group.Unpin.NeedReply"
                                         );
@@ -46,9 +42,7 @@ namespace fadhil_robot.Commands.Group.Executor
                                                 replyToMessageId: this._message.MessageId, 
                                                 parseMode: ParseMode.Html
                                         );
-                                }
-                                else
-                                {
+                                } else {
                                         try {
                                                 await this._botClient.UnpinChatMessageAsync(
                                                         chatId: this._message.Chat.Id,
@@ -89,14 +83,11 @@ namespace fadhil_robot.Commands.Group.Executor
                         
 
                 }
-                protected bool checkIsReply(Message message)
+                protected bool CheckIsReply(Message message)
                 {
-                        if (message.ReplyToMessage == null)
-                        {
+                        if (message.ReplyToMessage == null) {
                                 return false;
-                        }
-                        else
-                        {
+                        } else {
                                 return true;
                         }
                 }

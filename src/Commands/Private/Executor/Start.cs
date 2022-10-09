@@ -30,9 +30,9 @@ namespace fadhil_robot.Commands.Private.Executor
                 public async Task Execute()
                 {
                         string text = TranslateLocale.exec(
-                                        this._message,
-                                        "command.Private.Start",
-                                        this._inputTelegram.command
+                                this._message,
+                                "command.Private.Start",
+                                this._inputTelegram.command
                         );
 
                         InlineKeyboardMarkup inlineKeyboard = new(new[]

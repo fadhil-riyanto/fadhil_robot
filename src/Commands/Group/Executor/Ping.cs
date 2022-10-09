@@ -18,8 +18,7 @@ namespace fadhil_robot.Commands.Group.Executor {
                 private InputTelegram _inputTelegram;
                 private ITelegramBotClient _botClient;
                 private Message _message;
-                public Ping(InputTelegram inputTelegram, 
-                        ITelegramBotClient botClient, Message message)
+                public Ping(InputTelegram inputTelegram, ITelegramBotClient botClient, Message message)
                 {
                         this._inputTelegram = inputTelegram;
                         this._botClient = botClient;
@@ -28,9 +27,9 @@ namespace fadhil_robot.Commands.Group.Executor {
                 public async Task Execute()
                 {
                         string text = TranslateLocale.exec(
-                                        this._message, 
-                                        "command.Group.Ping", 
-                                        this._inputTelegram.command
+                                this._message, 
+                                "command.Group.Ping", 
+                                this._inputTelegram.command
                         );
                         await this._botClient.SendTextMessageAsync(
                                 chatId: this._message.Chat.Id, 
