@@ -75,6 +75,12 @@ namespace fadhil_robot.Utils
                                                           "👤 username: {3}\n" +
                                                           "🆔 id type: {4}\n",
                                 "command.Group.Lookup.UsernameInvalid" => "Invalid username!, please use valid telegram username format!",
+                                "command.Group.Whoami" => "Your info\n\n" +
+                                                          "👦🏻 name: {0}\n" +
+                                                          "🆔 id: {1}\n" +
+                                                          "⁣🌐 languange: {2}\n" +
+                                                          "👤 username: {3}\n" +
+                                                          "🆔 id type: {4}\n",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -109,6 +115,12 @@ namespace fadhil_robot.Utils
                                                           "👤 nama pengguna: {3}\n" +
                                                           "🆔 tipe id: {4}\n",
                                 "command.Group.Lookup.UsernameInvalid" => "Username tidak valid!, mohon gunakan format username telegram yang valid!",
+                                "command.Group.Whoami" => "Info Kamu\n\n" +
+                                                          "👦🏻 nama: {0}\n" +
+                                                          "🆔 id: {1}\n" +
+                                                          "⁣🌐 bahasa: {2}\n" +
+                                                          "👤 nama pengguna: {3}\n" +
+                                                          "🆔 tipe id: {4}\n",
 
                                 _ => "err key \"" + data + "\""
                         };
