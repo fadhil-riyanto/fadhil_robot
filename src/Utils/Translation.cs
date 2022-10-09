@@ -50,6 +50,7 @@ namespace fadhil_robot.Utils
                         {
                                 // system
                                 "UnknownCommand" => "Sorry, the {0} command is not recognized",
+                                "Unknown" => "unknown switch logic, please forward it to my programmer (@fadhil_riyanto)\n\nTrace: {0}",
                                 "GroupNotAdmin" => "Sorry, you're not admin on this group",
                                 "CacheExpire" => "Sorry, the cache has been expired in our server, please send that command again.. ",
 
@@ -62,7 +63,7 @@ namespace fadhil_robot.Utils
                                 // group
                                 "command.Group.Ping"  => "Ping in group ok!",
                                 "command.Group.Pin.NeedReply"  => "You must reply to the message you want to pin!",
-                                "command.Group.Pin.Success"  => "Message was successfully pinned",
+                                "command.Group.Pin.Success"  => "Mess age was successfully pinned",
                                 "command.Group.Pin.NotEnoughPermission"  => "I don't have enough rights to manage pinned messages in the chat",
                                 "command.Group.Unpin.NeedReply"  => "You must reply to the message you want to unpin!",
                                 "command.Group.Unpin.Success"  => "Message was successfully unpinned",
@@ -73,6 +74,7 @@ namespace fadhil_robot.Utils
                                                           "⁣🌐 languange: {2}\n" +
                                                           "👤 username: {3}\n" +
                                                           "🆔 id type: {4}\n",
+                                "command.Group.Lookup.UsernameInvalid" => "Invalid username!, please use valid telegram username format!",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -82,6 +84,7 @@ namespace fadhil_robot.Utils
                         {
                                 // system
                                 "UnknownCommand" => "Maaf, command {0} tidak dikenali",
+                                "Unknown" => "logika switch tidak dikenali, mohon teruskan pesan ini ke programmer saya (@fadhil_riyanto)\n\nTrace: {0}",
                                 "GroupNotAdmin" => "Maaf, kamu bukan admin di grup ini",
                                 "CacheExpire" => "Maaf, Data cache telah kadaluarsa diserver kami, silahkan kirim command tersebut lagi.. ",
 
@@ -105,6 +108,7 @@ namespace fadhil_robot.Utils
                                                           "⁣🌐 bahasa: {2}\n" +
                                                           "👤 nama pengguna: {3}\n" +
                                                           "🆔 tipe id: {4}\n",
+                                "command.Group.Lookup.UsernameInvalid" => "Username tidak valid!, mohon gunakan format username telegram yang valid!",
 
                                 _ => "err key \"" + data + "\""
                         };
