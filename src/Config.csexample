@@ -21,12 +21,15 @@ class makeNegative{
 }
 class Config
 {
+        public static string API_ID = "123456";
+        public static string API_HASH = "your api id";
+        public static string PHONE_NUMBER = "+62 858 771547536";
         public static string Token = "1234567890:token";
         public static string BotName = "yourusernamebot";
-        public static string OwnerLink = "https://t.me/fadhil_riyanto";
         public static string MongoDBConString = "mongodb://127.0.0.1";
         public static string MongoDB_DBNAME = "fadhil_robot_cs";
         public static int ADMIN_CACHE_TIME = 60 * 5;
+        public static int CALLBACK_CACHE_TIME = (60 * 60) * 24;
 
         public static List<makeNegative> getWhiteList()
         {
