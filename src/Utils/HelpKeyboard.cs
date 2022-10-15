@@ -12,6 +12,7 @@ using Telegram.Bot;
 
 namespace fadhil_robot.Utils
 {
+        
         class TGKeyboardHelpMenu : ITgKeyboard
         {
                 private InputTelegram _inputTelegram;
@@ -27,6 +28,7 @@ namespace fadhil_robot.Utils
                 {
                         Dictionary<string, string> id_ID = new Dictionary<string, string> {
                                 {"admin" , "Admin"},
+                                {"utils" , "Alat-alat"},
 
                                 // for back
                                 {"back" , "Kembali ◀️"}
@@ -34,6 +36,7 @@ namespace fadhil_robot.Utils
 
                         Dictionary<string, string> en_US = new Dictionary<string, string> {
                                 {"admin" , "Admin"},
+                                {"utils" , "Utils Tool"},
 
                                 // for back
                                 {"back" , "Back ◀️"}
@@ -61,6 +64,14 @@ namespace fadhil_robot.Utils
                                                         text: data["admin"], callbackData: CallbackHelper.pack(
                                                                         this._inputTelegram, "help", new Dictionary<string, string> {
                                                                         { "clicked_button", "admin"}
+                                                                }
+                                                        )
+                                                ),
+                                                InlineKeyboardButton.WithCallbackData(
+                                                        
+                                                        text: data["utils"], callbackData: CallbackHelper.pack(
+                                                                        this._inputTelegram, "help", new Dictionary<string, string> {
+                                                                        { "clicked_button", "utils"}
                                                                 }
                                                         )
                                                 ),
@@ -101,17 +112,29 @@ namespace fadhil_robot.Utils
                 {
                         Dictionary<string, string> id_ID = new Dictionary<string, string> {
                                 {"admin" , 
-                                        "berikut adalah perintah untuk administrasi di grup:\n\n" +
-                                        "/pin: digunakan untuk menyematkan pesan" +
-                                        "/unpin: digunakan untuk melepas sematan grup"
+                                        "berikut adalah perintah untuk administrasi di grup:" + ITgKeyboard.DOUBLE_NL + 
+                                        "/pin: digunakan untuk menyematkan pesan" + ITgKeyboard.NL + 
+                                        "/unpin: digunakan untuk melepas sematan grup" + ITgKeyboard.NL
+                                },
+                                {"utils" , 
+                                        "Alat Alat\n\n" + 
+                                        "Dibawah ini adalah command yang tersedia untuk membantumu dalam mencari suatu info" + ITgKeyboard.DOUBLE_NL + 
+                                        "/whoami: digunakan untuk melihat info tentang dirimu sendiri" + ITgKeyboard.NL + 
+                                        "/lookup: digunakan untuk mencari pengguna telegram berdasarkan username / id" + ITgKeyboard.NL
                                 }
                         };
 
                         Dictionary<string, string> en_US = new Dictionary<string, string> {
                                 {"admin" , 
-                                        "this is command for manage in your group:\n\n" +
-                                        "/pin: this used for pined your messange" +
-                                        "/unpin: this used for unpined your messange"
+                                        "this is command for manage in your group:" + ITgKeyboard.DOUBLE_NL + 
+                                        "/pin: this used for pined your messange" + ITgKeyboard.NL + 
+                                        "/unpin: this used for unpined your messange" + ITgKeyboard.NL
+                                },
+                                {"utils" , 
+                                        "Utils tools" + 
+                                        "Below are the commands available to help you search something information" + ITgKeyboard.DOUBLE_NL + 
+                                        "/whoami: can be used for see your telegram account info" + ITgKeyboard.NL + 
+                                        "/lookup: used to search for telegram users based on username / id" + ITgKeyboard.NL
                                 }
                         };
 

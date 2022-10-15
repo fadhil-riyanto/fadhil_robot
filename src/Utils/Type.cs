@@ -49,5 +49,7 @@ namespace fadhil_robot.Utils {
                 TGKeyboardHelpMenu detectLanguangeBackButton();
                 Telegram.Bot.Types.ReplyMarkups.InlineKeyboardMarkup get();
                 string getContent(string keys);
+                const char NL = '\n';
+                const string DOUBLE_NL = "\n\n";
         }
 }
