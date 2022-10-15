@@ -49,6 +49,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                                 } catch (Exception e) {
                                         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " + 
                                                 e.Message + "\n\ntrace: \n" + e.StackTrace;
+                                        new ConsoleLogError(messange);
                                         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange, 
                                                 replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
                                 }
@@ -91,6 +92,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                                         "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
                                         "lookup" => new Commands.Group.Executor.Lookup(inputTelegram, botClient, message),
                                         "whoami" => new Commands.Group.Executor.Whoami(inputTelegram, botClient, message),
+                                        "adminlist" or "getadmin" => new Commands.Group.Executor.Adminlist(inputTelegram, botClient, message),
                                         _ => new UnknownCommand(inputTelegram, botClient, message)
                                 };
                                 await executor.Execute();

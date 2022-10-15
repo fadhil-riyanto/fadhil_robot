@@ -81,6 +81,7 @@ namespace fadhil_robot.Utils
                                                           "⁣🌐 languange: {2}\n" +
                                                           "👤 username: {3}\n" +
                                                           "🆔 id type: {4}\n",
+                                "command.Group.Adminlist.OwnerNotFound" => "owner is hidden or unavailable",
                                 _ => "err key \"" + data + "\""
                         };
                 }
@@ -121,7 +122,7 @@ namespace fadhil_robot.Utils
                                                           "⁣🌐 bahasa: {2}\n" +
                                                           "👤 nama pengguna: {3}\n" +
                                                           "🆔 tipe id: {4}\n",
-
+                                "command.Group.Adminlist.OwnerNotFound" => "owner disembunyikan, atau tidak tersedia",
                                 _ => "err key \"" + data + "\""
                         };
                 }
