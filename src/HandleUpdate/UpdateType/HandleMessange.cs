@@ -21,19 +21,27 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                         Message message, CancellationToken cancellationToken, main_thread_ctx ctx)
                 {
                         bool granted = false;
-                        foreach (makeNegative listall in Config.getWhiteList()) {
-                                if (message.Chat.Id == listall.get()) {
+                        foreach (makeNegative listall in Config.getWhiteList())
+                        {
+                                if (message.Chat.Id == listall.get())
+                                {
                                         granted = true;
-                                } else if (message.Chat.Type == ChatType.Private) {
+                                }
+                                else if (message.Chat.Type == ChatType.Private)
+                                {
                                         granted = true;
                                 }
                         }
-                        if (granted) {
-                                try {
-                                        if (message.Text != null) {
+                        if (granted)
+                        {
+                                try
+                                {
+                                        if (message.Text != null)
+                                        {
                                                 Parse parser = new Parse(message.Text);
 
-                                                InputTelegram inp = new InputTelegram{
+                                                InputTelegram inp = new InputTelegram
+                                                {
                                                         command = parser.getResult()["command"],
                                                         value = parser.getResult()["value"],
                                                         messange_id = message.MessageId,
@@ -46,14 +54,18 @@ namespace fadhil_robot.HandleUpdate.UpdateType
 
                                                 await this.executor(inp, botClient, message);
                                         }
-                                } catch (Exception e) {
-                                        string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " + 
+                                }
+                                catch (Exception e)
+                                {
+                                        string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
                                                 e.Message + "\n\ntrace: \n" + e.StackTrace;
                                         new ConsoleLogError(messange);
-                                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange, 
+                                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange,
                                                 replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
                                 }
-                        } else {
+                        }
+                        else
+                        {
                                 await botClient.LeaveChatAsync(message.Chat.Id);
                         }
                 }
@@ -62,31 +74,41 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 {
                         new ConsoleLog(message.Chat.Id + " | " + message.Text);
 
-                        if (inputTelegram.command != null) {
-                                if (message.Text[0] == '/' || message.Text[0] == '!') {
+                        if (inputTelegram.command != null)
+                        {
+                                if (message.Text[0] == '/' || message.Text[0] == '!')
+                                {
                                         inputTelegram.command = inputTelegram.command.ToLower();
                                         await this.callerCommand(inputTelegram, botClient, message);
-                                } else {
+                                }
+                                else
+                                {
                                         // all this is text messange
                                 }
                         }
 
                 }
 
-                protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient, 
+                protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient,
                         Message message)
                 {
-                        if (message.Chat.Type == ChatType.Private) {
-                                Utils.IExecutor executor = inputTelegram.command switch {
+                        if (message.Chat.Type == ChatType.Private)
+                        {
+                                Utils.IExecutor executor = inputTelegram.command switch
+                                {
                                         "start" => new Commands.Private.Executor.Start(inputTelegram, botClient, message),
                                         "ping" => new Commands.Private.Executor.Ping(inputTelegram, botClient, message),
                                         "help" => new Commands.Private.Executor.Help(inputTelegram, botClient, message),
+                                        "whoami" => new Commands.Private.Executor.Whoami(inputTelegram, botClient, message),
                                         _ => new UnknownCommand(inputTelegram, botClient, message)
                                 };
                                 await executor.Execute();
-                        } else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group) {
+                        }
+                        else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
+                        {
                                 Utils.IExecutor executor = inputTelegram.command switch
                                 {
+                                        
                                         "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
                                         "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
                                         "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
@@ -112,7 +134,8 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 }
                 public async Task Execute()
                 {
-                        if (this.message.Chat.Type == ChatType.Private) {
+                        if (this.message.Chat.Type == ChatType.Private)
+                        {
                                 string text = TranslateLocale.exec(
                                         message,
                                         "UnknownCommand",
@@ -124,7 +147,9 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                                         replyToMessageId: this.message.MessageId,
                                         parseMode: ParseMode.Html
                                 );
-                        } else if (message.Chat.Type == ChatType.Supergroup) {
+                        }
+                        else if (message.Chat.Type == ChatType.Supergroup)
+                        {
                                 string text = TranslateLocale.exec(
                                         message,
                                         "UnknownCommand",
