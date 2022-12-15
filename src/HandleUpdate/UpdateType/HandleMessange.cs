@@ -92,6 +92,8 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient,
                         Message message)
                 {
+
+                        // for receive private chat
                         if (message.Chat.Type == ChatType.Private)
                         {
                                 Utils.IExecutor executor = inputTelegram.command switch
@@ -100,15 +102,15 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                                         "ping" => new Commands.Private.Executor.Ping(inputTelegram, botClient, message),
                                         "help" => new Commands.Private.Executor.Help(inputTelegram, botClient, message),
                                         "whoami" => new Commands.Private.Executor.Whoami(inputTelegram, botClient, message),
-                                        _ => new UnknownCommand(inputTelegram, botClient, message)
-                                };
-                                await executor.Execute();
-                        }
-                        else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
-                        {
-                                Utils.IExecutor executor = inputTelegram.command switch
+                                                _ => new UnknownCommand(inputTelegram, botClient, message)
+                                        };
+                                        await executor.Execute();
+                                }
+                                else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
                                 {
-                                        
+                                        Utils.IExecutor executor = inputTelegram.command switch
+                                {
+                                        "ban" => new Commands.Group.Executor.Ban(inputTelegram, botClient, message),
                                         "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
                                         "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
                                         "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
