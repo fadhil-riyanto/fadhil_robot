@@ -4,6 +4,8 @@ src/bin/
 src/Config.cs
 src/database.db
 
+fadhil_robot/
+
 #ignore TestParse
 test/TestParse/obj/
 test/TestParse/bin/
