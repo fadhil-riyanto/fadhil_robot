@@ -1,27 +1,3 @@
-# ignore main project
-src/obj/
-src/bin/
-src/Config.cs
-src/database.db
-
 fadhil_robot/
-
-#ignore TestParse
-test/TestParse/obj/
-test/TestParse/bin/
-
-#ignore negative
-test/negative/obj/
-test/negative/bin/
-
-#ignore redisconn
-test/redisconn/obj/
-test/redisconn/bin/
-
-#ignore test_csprng
-test/test_csprng/obj/
-test/test_csprng/bin/
-
-#ignore int64test
-test/int64test/obj/
-test/int64test/bin/
+obj/
+bin/
