@@ -100,6 +100,8 @@ namespace fadhil_robot.Utils
                 "command.Group.Adminlist.OwnerNotFound" => "owner is hidden or unavailable",
                 "command.Group.Ban" => "you need to reply the targer",
                 "command.Group.Ban.Succeed" => "{0} banned!",
+                "command.Group.Help.MainText" => "Contact me in PM to get the commands list",
+                "command.Group.Help.Button" => "click here",
                 _ => "err key \"" + data + "\""
             };
         }
@@ -149,6 +151,8 @@ namespace fadhil_robot.Utils
                 "command.Group.Adminlist.OwnerNotFound" => "owner disembunyikan, atau tidak tersedia",
                 "command.Group.Ban" => "kamu butuh untuk membalas pesan target",
                 "command.Group.Ban.Succeed" => "{0} dibanned!",
+                "command.Group.Help.MainText" => "PM saya untuk mendapatkan daftar command",
+                "command.Group.Help.Button" => "klik disini",
                 _ => "err key \"" + data + "\""
             };
         }

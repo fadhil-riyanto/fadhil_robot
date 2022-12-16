@@ -6,6 +6,7 @@
  *  https://github.com/fadhil-riyanto/fadhil_robot.git
  */
 
+using fadhil_robot;
 
 namespace fadhil_robot.Utils
 {
@@ -21,7 +22,13 @@ namespace fadhil_robot.Utils
                                 return "unknown";
                         }
                 }
+
+                public static string deep_linking_gen(string data)
+                {
+                    return $"https://t.me/{Config.BotName}?start={data}";                 }
         }
+
+        
 }
 
 

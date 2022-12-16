@@ -29,29 +29,36 @@ namespace fadhil_robot.Commands.Private.Executor
         }
         public async Task Execute()
         {
-            string text = TranslateLocale.exec(
-                this._message,
-                "command.Private.Start",
-                this._inputTelegram.command
-            );
+            if (this._inputTelegram.value != null)
+            {
+                // call handle deeplinks
+                new deeplinks(this._inputTelegram, this._botClient, this._message);
+            } else {
+                string text = TranslateLocale.exec(
+                    this._message,
+                    "command.Private.Start",
+                    this._inputTelegram.command
+                );
 
-            InlineKeyboardMarkup inlineKeyboard = new(new[]
-                {
+                InlineKeyboardMarkup inlineKeyboard = new(new[]
+                    {
                     InlineKeyboardButton.WithUrl(
-                    text: TranslateLocale.exec(
-                    this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
-                    ),
-                    url: "https://t.me/fadhil_riyanto"
+                        text: TranslateLocale.exec(
+                        this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
+                        ),
+                        url: "https://t.me/fadhil_riyanto"
                     )
                 }
-            );
-            await this._botClient.SendTextMessageAsync(
-                chatId: this._message.Chat.Id,
-                text: text,
-                replyToMessageId: this._message.MessageId,
-                parseMode: ParseMode.Html,
-                replyMarkup: inlineKeyboard
-            );
+                );
+                await this._botClient.SendTextMessageAsync(
+                    chatId: this._message.Chat.Id,
+                    text: text,
+                    replyToMessageId: this._message.MessageId,
+                    parseMode: ParseMode.Html,
+                    replyMarkup: inlineKeyboard
+                );
+            }
+
         }
     }
 }
