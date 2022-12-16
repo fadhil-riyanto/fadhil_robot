@@ -101,6 +101,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient,
                 Message message)
         {
+            
 
             // for receive private chat
             if (message.Chat.Type == ChatType.Private)
@@ -120,6 +121,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 Utils.IExecutor executor = inputTelegram.command switch
                 {
                     "ban" => new Commands.Group.Executor.Ban(inputTelegram, botClient, message),
+                    "help" => new Commands.Group.Executor.Help(inputTelegram, botClient, message),
                     "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
                     "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
                     "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
