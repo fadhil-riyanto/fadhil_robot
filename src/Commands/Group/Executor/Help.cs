@@ -28,6 +28,11 @@ namespace fadhil_robot.Commands.Group.Executor
             this._botClient = botClient;
             this._message = message;
         }
+
+        public bool is_real_command()
+        {
+            return true;
+        }
         public async Task Execute()
         {
             string text_response = TranslateLocale.exec(
