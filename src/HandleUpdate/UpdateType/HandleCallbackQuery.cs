@@ -49,7 +49,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                                 inputTelegram.callback = callback;
                                 inputTelegram.languange = callback.From.LanguageCode;
 
-                                Utils.IExecutor executor = rdata.caller switch {
+                                Utils.IExecutor_cb executor = rdata.caller switch {
                                         "help" => new Commands.Private.Callback.HelpCb(inputTelegram, botClient, callback),
                                         "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, 
                                                 botClient, callback),

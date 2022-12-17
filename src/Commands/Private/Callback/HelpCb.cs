@@ -15,7 +15,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Commands.Private.Callback
 {
-    class HelpCb : Utils.IExecutor
+    class HelpCb : Utils.IExecutor_cb
     {
         private InputTelegram _inputTelegram;
         private ITelegramBotClient _botClient;
