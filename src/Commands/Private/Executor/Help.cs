@@ -27,6 +27,11 @@ namespace fadhil_robot.Commands.Private.Executor
             this._message = message;
         }
 
+        public bool is_real_command()
+        {
+            return true;
+        }
+
         public async Task Execute()
         {
             string text = TranslateLocale.exec(

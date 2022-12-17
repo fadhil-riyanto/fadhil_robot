@@ -54,6 +54,16 @@ class UnknownDeeplinks : IExecutor
             this.botClient = botClient;
             this.message = message;
         }
+
+        public command_executed_at at()
+        {
+            return command_executed_at.ignore;
+        }
+
+        public bool is_real_command()
+        {
+            return false;
+        }
         public async Task Execute()
         {
            

@@ -13,7 +13,7 @@ using Telegram.Bot;
 using fadhil_robot.Utils;
 using TL;
 
-namespace fadhil_robot.Commands.Private.Executor
+namespace fadhil_robot.Commands.Global.Executor
 {
     class Whoami : Utils.IExecutor
     {
@@ -27,14 +27,18 @@ namespace fadhil_robot.Commands.Private.Executor
             this._botClient = botClient;
             this._message = message;
         }
+
+        public bool is_real_command()
+        {
+            return true;
+        }
         public async Task Execute()
         {
-
             string text = TranslateLocale.exec(
-            this._message, "command.Private.Whoami",
-            this._message.From.FirstName + " " + this._message.From.LastName,
-            this._message.From.Id.ToString(), this._message.From.LanguageCode,
-            this._message.From.Username, UtilsFN.is64(this._message.From.Id)
+                this._message, "command.Group.Whoami",
+                this._message.From.FirstName + " " + this._message.From.LastName,
+                this._message.From.Id.ToString(), this._message.From.LanguageCode,
+                this._message.From.Username, UtilsFN.is64(this._message.From.Id)
             );
             await this._botClient.SendTextMessageAsync(
                 chatId: this._message.Chat.Id,
