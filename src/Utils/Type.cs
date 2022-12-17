@@ -41,6 +41,12 @@ namespace fadhil_robot.Utils {
         interface IExecutor
         {
                 public Task Execute();
+                public bool is_real_command();
+        }
+
+        interface IExecutor_cb
+        {
+                public Task Execute();        
         }
 
         interface ITgKeyboard
@@ -51,5 +57,12 @@ namespace fadhil_robot.Utils {
                 string getContent(string keys);
                 const char NL = '\n';
                 const string DOUBLE_NL = "\n\n";
+        }
+
+        enum command_executed_at
+        {
+            private_chat,
+            group_chat,
+            ignore
         }
 }

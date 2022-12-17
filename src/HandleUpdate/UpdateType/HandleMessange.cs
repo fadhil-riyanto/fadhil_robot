@@ -16,6 +16,58 @@ using fadhil_robot;
 
 namespace fadhil_robot.HandleUpdate.UpdateType
 {
+    class command_lists
+    {
+        private InputTelegram _inputTelegram;
+        private ITelegramBotClient _botClient;
+        private Message _message;
+        private Utils.command_executed_at _executed_at;
+        public command_lists(InputTelegram inputTelegram, ITelegramBotClient
+        botClient, Message message)
+        {
+            this._inputTelegram = inputTelegram;
+            this._botClient = botClient;
+            this._message = message;
+        }
+        public IExecutor private_chat()
+        {
+            Utils.IExecutor executor = this._inputTelegram.command switch
+            {
+                "start" => new Commands.Private.Executor.Start(this._inputTelegram, this._botClient, this._message),
+                "ping" => new Commands.Private.Executor.Ping(this._inputTelegram, this._botClient, this._message),
+                "help" => new Commands.Private.Executor.Help(this._inputTelegram, this._botClient, this._message),
+                // "whoami" => new Commands.Private.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
+                _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
+            };
+            return executor;
+        }
+        public IExecutor group_chat()
+        {
+            Utils.IExecutor executor = this._inputTelegram.command switch
+            {
+                "ban" => new Commands.Group.Executor.Ban(this._inputTelegram, this._botClient, this._message),
+                "help" => new Commands.Group.Executor.Help(this._inputTelegram, this._botClient, this._message),
+                "ping" => new Commands.Group.Executor.Ping(this._inputTelegram, this._botClient, this._message),
+                "pin" => new Commands.Group.Executor.Pin(this._inputTelegram, this._botClient, this._message),
+                "unpin" => new Commands.Group.Executor.Unpin(this._inputTelegram, this._botClient, this._message),
+                "lookup" => new Commands.Group.Executor.Lookup(this._inputTelegram, this._botClient, this._message),
+                // "whoami" => new Commands.Group.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
+                "adminlist" or "getadmin" => new Commands.Group.Executor.Adminlist(this._inputTelegram, this._botClient, this._message),
+                _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
+            };
+            return executor;
+        }
+
+        public IExecutor global_chat()
+        {
+            Utils.IExecutor executor = this._inputTelegram.command switch
+            {
+                "whoami" => new Commands.Private.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
+                _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
+            };
+            return executor;
+        }
+    }
     class UpdateType_Message
     {
         public async Task HandleMessange(ITelegramBotClient botClient,
@@ -101,36 +153,50 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         protected async Task callerCommand(InputTelegram inputTelegram, ITelegramBotClient botClient,
                 Message message)
         {
-            
-
-            // for receive private chat
+            command_lists commands = new command_lists(inputTelegram, botClient, message);
             if (message.Chat.Type == ChatType.Private)
             {
-                Utils.IExecutor executor = inputTelegram.command switch
+
+                if (commands.group_chat().is_real_command())
                 {
-                    "start" => new Commands.Private.Executor.Start(inputTelegram, botClient, message),
-                    "ping" => new Commands.Private.Executor.Ping(inputTelegram, botClient, message),
-                    "help" => new Commands.Private.Executor.Help(inputTelegram, botClient, message),
-                    "whoami" => new Commands.Private.Executor.Whoami(inputTelegram, botClient, message),
-                    _ => new UnknownCommand(inputTelegram, botClient, message)
-                };
-                await executor.Execute();
+                    if (commands.private_chat().is_real_command())
+                    {
+                        await commands.private_chat().Execute();
+                    } else {
+                        await botClient.SendTextMessageAsync(
+                            chatId: message.Chat.Id,
+                            text: "this command just available in group",
+                            replyToMessageId: message.MessageId,
+                            parseMode: ParseMode.Html
+                        );
+                    }
+                }
+                else
+                {
+                    await commands.private_chat().Execute();
+                }
             }
             else if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group)
             {
-                Utils.IExecutor executor = inputTelegram.command switch
+                // await commands.group_chat().Execute();
+                if (commands.private_chat().is_real_command())
                 {
-                    "ban" => new Commands.Group.Executor.Ban(inputTelegram, botClient, message),
-                    "help" => new Commands.Group.Executor.Help(inputTelegram, botClient, message),
-                    "ping" => new Commands.Group.Executor.Ping(inputTelegram, botClient, message),
-                    "pin" => new Commands.Group.Executor.Pin(inputTelegram, botClient, message),
-                    "unpin" => new Commands.Group.Executor.Unpin(inputTelegram, botClient, message),
-                    "lookup" => new Commands.Group.Executor.Lookup(inputTelegram, botClient, message),
-                    "whoami" => new Commands.Group.Executor.Whoami(inputTelegram, botClient, message),
-                    "adminlist" or "getadmin" => new Commands.Group.Executor.Adminlist(inputTelegram, botClient, message),
-                    _ => new UnknownCommand(inputTelegram, botClient, message)
-                };
-                await executor.Execute();
+                    if (commands.group_chat().is_real_command())
+                    {
+                        await commands.group_chat().Execute();
+                    } else {
+                        await botClient.SendTextMessageAsync(
+                            chatId: message.Chat.Id,
+                            text: "this command just available in private",
+                            replyToMessageId: message.MessageId,
+                            parseMode: ParseMode.Html
+                        );
+                    }
+                }
+                else
+                {
+                    await commands.group_chat().Execute();
+                }
             }
         }
     }
@@ -144,6 +210,16 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             this.inputTelegram = inputTelegram;
             this.botClient = botClient;
             this.message = message;
+        }
+
+        public command_executed_at at()
+        {
+            return command_executed_at.ignore;
+        }
+
+        public bool is_real_command()
+        {
+            return false;
         }
         public async Task Execute()
         {
