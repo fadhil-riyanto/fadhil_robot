@@ -79,7 +79,7 @@ namespace fadhil_robot.Utils
                 // group
                 "command.Group.Ping" => "Ping in group ok!",
                 "command.Group.Pin.NeedReply" => "You must reply to the message you want to pin!",
-                "command.Group.Pin.Success" => "Mess age was successfully pinned",
+                "command.Group.Pin.Success" => "Message was successfully pinned",
                 "command.Group.Pin.NotEnoughPermission" => "I don't have enough rights to manage pinned messages in the chat",
                 "command.Group.Unpin.NeedReply" => "You must reply to the message you want to unpin!",
                 "command.Group.Unpin.Success" => "Message was successfully unpinned",
