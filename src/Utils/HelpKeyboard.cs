@@ -114,9 +114,10 @@ namespace fadhil_robot.Utils
         {
             Dictionary<string, string> id_ID = new Dictionary<string, string> {
                                 {"admin" ,
-                                        "berikut adalah perintah untuk administrasi di grup:" + ITgKeyboard.DOUBLE_NL +
-                                        "/pin: digunakan untuk menyematkan pesan" + ITgKeyboard.NL +
-                                        "/unpin: digunakan untuk melepas sematan grup" + ITgKeyboard.NL
+                                        "*Admin*:" + ITgKeyboard.DOUBLE_NL + ITgKeyboard.DOUBLE_NL +
+                                        "/pin: sematkan pesan kamu" + ITgKeyboard.NL +
+                                        "/unpin: melepas sematan grup" + ITgKeyboard.NL +
+                                        "/adminlist: melihat daftar admin di grup saat ini" + ITgKeyboard.NL
                                 },
                                 {"utils" ,
                                         "Alat Alat\n\n" +
@@ -128,9 +129,10 @@ namespace fadhil_robot.Utils
 
             Dictionary<string, string> en_US = new Dictionary<string, string> {
                                 {"admin" ,
-                                        "this is command for manage in your group:" + ITgKeyboard.DOUBLE_NL +
-                                        "/pin: this used for pined your messange" + ITgKeyboard.NL +
-                                        "/unpin: this used for unpined your messange" + ITgKeyboard.NL
+                                        "*Admins*:" + ITgKeyboard.DOUBLE_NL + ITgKeyboard.DOUBLE_NL +
+                                        "/pin: pins your messange" + ITgKeyboard.NL +
+                                        "/unpin: unpins the currently pinned messange" + ITgKeyboard.NL +
+                                        "/adminlist: get admin list in current group" + ITgKeyboard.NL
                                 },
                                 {"utils" ,
                                         "Utils tools" +

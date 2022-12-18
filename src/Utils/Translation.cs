@@ -85,7 +85,7 @@ namespace fadhil_robot.Utils
                 "command.Group.Unpin.Success" => "Message was successfully unpinned",
                 "command.Group.Unpin.NotEnoughPermission" => "I don't have enough rights to manage pinned messages in the chat",
                 "command.Group.Adminlist.OwnerNotFound" => "owner is hidden or unavailable",
-                "command.Group.Ban" => "you need to reply the targer",
+                "command.Group.Ban" => "you need to reply the target",
                 "command.Group.Ban.Succeed" => "{0} banned!",
                 "command.Group.Help.MainText" => "Contact me in PM to get the commands list",
                 "command.Group.Help.Button" => "click here",
