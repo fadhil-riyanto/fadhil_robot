@@ -37,8 +37,15 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 "ping" => new Commands.Private.Executor.Ping(this._inputTelegram, this._botClient, this._message),
                 "help" => new Commands.Private.Executor.Help(this._inputTelegram, this._botClient, this._message),
                 // "whoami" => new Commands.Private.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
-                _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
+                _ => null
+                // new UnknownCommand(this._inputTelegram, this._botClient, this._message)
             };
+
+            if (executor == null)
+            {
+                executor = this.global_chat();
+            }
+
             return executor;
         }
         public IExecutor group_chat()
@@ -50,19 +57,27 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 "ping" => new Commands.Group.Executor.Ping(this._inputTelegram, this._botClient, this._message),
                 "pin" => new Commands.Group.Executor.Pin(this._inputTelegram, this._botClient, this._message),
                 "unpin" => new Commands.Group.Executor.Unpin(this._inputTelegram, this._botClient, this._message),
-                "lookup" => new Commands.Group.Executor.Lookup(this._inputTelegram, this._botClient, this._message),
+                
                 // "whoami" => new Commands.Group.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
                 "adminlist" or "getadmin" => new Commands.Group.Executor.Adminlist(this._inputTelegram, this._botClient, this._message),
-                _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
+                _ => null
             };
+
+            if (executor == null)
+            {
+                executor = this.global_chat();
+            }
+
             return executor;
         }
 
         public IExecutor global_chat()
         {
+            
             Utils.IExecutor executor = this._inputTelegram.command switch
             {
-                "whoami" => new Commands.Private.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
+                "lookup" => new Commands.Global.Executor.Lookup(this._inputTelegram, this._botClient, this._message),
+                "whoami" => new Commands.Global.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
                 _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
             };
             return executor;
@@ -154,6 +169,11 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 Message message)
         {
             command_lists commands = new command_lists(inputTelegram, botClient, message);
+            // if (message.Chat.Type == ChatType.Supergroup || message.Chat.Type == ChatType.Group || message.Chat.Type == ChatType.Private)
+            // {
+            //     await commands.global_chat().Execute();
+            // }
+            // else 
             if (message.Chat.Type == ChatType.Private)
             {
 
@@ -161,8 +181,11 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 {
                     if (commands.private_chat().is_real_command())
                     {
+
                         await commands.private_chat().Execute();
-                    } else {
+                    }
+                    else
+                    {
                         await botClient.SendTextMessageAsync(
                             chatId: message.Chat.Id,
                             text: "this command just available in group",
@@ -183,8 +206,11 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 {
                     if (commands.group_chat().is_real_command())
                     {
+
                         await commands.group_chat().Execute();
-                    } else {
+                    }
+                    else
+                    {
                         await botClient.SendTextMessageAsync(
                             chatId: message.Chat.Id,
                             text: "this command just available in private",
