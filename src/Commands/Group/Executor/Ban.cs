@@ -33,7 +33,30 @@ namespace fadhil_robot.Commands.Group.Executor
         }
         public async Task Execute()
         {
-            // check if they is not reply their messange
+            AdminCheck admincheck = new AdminCheck(this._inputTelegram,
+            this._botClient, this._message);
+
+            if (admincheck.IsAdmin(this._message.From.Id).Result)
+            {
+                // check if they is not reply their messange
+                await this.its_admin();
+            }
+            else
+            {
+                string text = TranslateLocale.exec(
+                    this._message, "GroupNotAdmin"
+                );
+                await this._botClient.SendTextMessageAsync(
+                    chatId: this._message.Chat.Id,
+                    text: text,
+                    replyToMessageId: this._message.MessageId,
+                    parseMode: ParseMode.Html
+                );
+            }
+        }
+
+        private async Task its_admin()
+        {
             if (this._message.ReplyToMessage == null)
             {
                 string text = TranslateLocale.exec(
@@ -52,7 +75,7 @@ namespace fadhil_robot.Commands.Group.Executor
                     userId: this._message.ReplyToMessage.From.Id
                 );
                 string text = TranslateLocale.exec(
-                    this._message, "command.Group.Ban.Succeed", 
+                    this._message, "command.Group.Ban.Succeed",
                     this._message.ReplyToMessage.From.FirstName + " " +
                     this._message.ReplyToMessage.From.LastName
                 );
@@ -61,8 +84,6 @@ namespace fadhil_robot.Commands.Group.Executor
                     text: text,
                     replyToMessageId: this._inputTelegram.messange_id
                 );
-
-                
             }
         }
     }
