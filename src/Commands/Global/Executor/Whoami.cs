@@ -35,7 +35,7 @@ namespace fadhil_robot.Commands.Global.Executor
         public async Task Execute()
         {
             string text = TranslateLocale.exec(
-                this._message, "command.Group.Whoami",
+                this._message, "command.Global.Whoami",
                 this._message.From.FirstName + " " + this._message.From.LastName,
                 this._message.From.Id.ToString(), this._message.From.LanguageCode,
                 this._message.From.Username, UtilsFN.is64(this._message.From.Id)
