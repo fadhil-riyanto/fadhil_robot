@@ -78,6 +78,8 @@ namespace fadhil_robot.Utils
                     "🆔 id type: {4}\n",
 
                 // ========= group =========
+                "command.Group.Admincache.Succeed" => "Admin cache was refreshed... all ok",
+                "command.Group.Admincache.Fail" => "Admin cache failed to refreshed",
                 "command.Group.Ping" => "Ping in group ok!",
                 "command.Group.Pin.NeedReply" => "You must reply to the message you want to pin!",
                 "command.Group.Pin.Success" => "Message was successfully pinned",
@@ -134,6 +136,8 @@ namespace fadhil_robot.Utils
                     "🆔 tipe id: {4}\n",
 
                 // ========= group =========
+                "command.Group.Admincache.Succeed" => "Cache admin berhasil diperbarui... semua ok",
+                "command.Group.Admincache.Fail"  =>  "Cache admin gagal diperbarui",
                 "command.Group.Ping" => "Ping di grup oke!",
                 "command.Group.Pin.NeedReply" => "Anda harus membalas pesan yang ingin dipin!",
                 "command.Group.Pin.Success" => "Pesan telah berhasil dipin",

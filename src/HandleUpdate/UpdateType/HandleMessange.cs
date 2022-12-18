@@ -55,6 +55,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 "ban" => new Commands.Group.Executor.Ban(this._inputTelegram, this._botClient, this._message),
                 "help" => new Commands.Group.Executor.Help(this._inputTelegram, this._botClient, this._message),
                 "ping" => new Commands.Group.Executor.Ping(this._inputTelegram, this._botClient, this._message),
+                "admincache" => new Commands.Group.Executor.Admincache(this._inputTelegram, this._botClient, this._message),
                 "pin" => new Commands.Group.Executor.Pin(this._inputTelegram, this._botClient, this._message),
                 "unpin" => new Commands.Group.Executor.Unpin(this._inputTelegram, this._botClient, this._message),
                 
@@ -102,8 +103,8 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             }
             if (granted)
             {
-                try
-                {
+                // try
+                // {
                     if (message.Text != null)
                     {
                         Parse parser = new Parse(message.Text);
@@ -122,23 +123,23 @@ namespace fadhil_robot.HandleUpdate.UpdateType
 
                         await this.executor(inp, botClient, message);
                     }
-                }
-                catch (Exception e)
-                {
-                    if (Config.DEBUG_MODE)
-                    {
-                        string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
-                            e.Message + "\n\ntrace: \n" + e.StackTrace;
-                        new ConsoleLogError(messange);
-                        await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange,
-                                replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
-                    }
-                    else
-                    {
-                        string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
-                                                    e.Message + "\n\ntrace: \n" + e.StackTrace;
-                    }
-                }
+                // }
+                // catch (Exception e)
+                // {
+                //     if (Config.DEBUG_MODE)
+                //     {
+                //         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
+                //             e.Message + "\n\ntrace: \n" + e.StackTrace;
+                //         new ConsoleLogError(messange);
+                //         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange,
+                //                 replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
+                //     }
+                //     else
+                //     {
+                //         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
+                //                                     e.Message + "\n\ntrace: \n" + e.StackTrace;
+                //     }
+                // }
             }
             else
             {
