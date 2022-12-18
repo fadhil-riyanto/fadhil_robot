@@ -1,66 +1,66 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*
- *  Copyright (C) 2022 Fadhil Riyanto
- *
- *  https://github.com/fadhil-riyanto/fadhil_robot.git
- */
+*  Copyright (C) 2022 Fadhil Riyanto
+*
+*  https://github.com/fadhil-riyanto/fadhil_robot.git
+*/
 
 
 using System;
 
 namespace fadhil_robot.Utils
 {
-        class ConsoleLog
+    class ConsoleLog
+    {
+        public ConsoleLog(string data)
         {
-                public ConsoleLog(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
+            DateTime datetime = DateTime.UtcNow.Date;
 
-                        string date = datetime.ToString("dd/mm/yyyy");
-                        string time = datetime.ToString("hh:mm:ss");
-                        Console.WriteLine("[INPUT] {0} | {1}", DateTime.Now, data);
-                }
+            string date = datetime.ToString("dd/mm/yyyy");
+            string time = datetime.ToString("hh:mm:ss");
+            Console.WriteLine("[INPUT] {0} | {1}", DateTime.Now, data);
         }
-        class ConsoleLogError
+    }
+    class ConsoleLogError
+    {
+        public ConsoleLogError(string data)
         {
-                public ConsoleLogError(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
-                        Console.WriteLine("[ERROR] {0} | {1}", DateTime.Now, data);
-                }
+            DateTime datetime = DateTime.UtcNow.Date;
+            Console.WriteLine("[ERROR] {0} | {1}", DateTime.Now, data);
         }
-        class ConsoleLogTL
+    }
+    class ConsoleLogTL
+    {
+        public ConsoleLogTL(string data)
         {
-                public ConsoleLogTL(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
-                        Console.WriteLine("[TLMSG] {0} | {1}", DateTime.Now, data);
-                }
+            DateTime datetime = DateTime.UtcNow.Date;
+            Console.WriteLine("[TLMSG] {0} | {1}", DateTime.Now, data);
         }
-        class ConsoleLogSys
+    }
+    class ConsoleLogSys
+    {
+        public ConsoleLogSys(string data)
         {
-                public ConsoleLogSys(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
-                        Console.WriteLine("[CSMSG] {0} | {1}", DateTime.Now, data);
-                }
+            DateTime datetime = DateTime.UtcNow.Date;
+            Console.WriteLine("[CSMSG] {0} | {1}", DateTime.Now, data);
         }
-        class ConsoleLogSysLn
+    }
+    class ConsoleLogSysLn
+    {
+        public ConsoleLogSysLn(string data)
         {
-                public ConsoleLogSysLn(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
-                        Console.WriteLine("\n[CSMSG] {0} | {1}", DateTime.Now, data);
-                }
+            DateTime datetime = DateTime.UtcNow.Date;
+            Console.WriteLine("\n[CSMSG] {0} | {1}", DateTime.Now, data);
         }
-        class ConsoleLogCb
+    }
+    class ConsoleLogCb
+    {
+        public ConsoleLogCb(string data)
         {
-                public ConsoleLogCb(string data)
-                {
-                        DateTime datetime = DateTime.UtcNow.Date;
-                        Console.WriteLine("[TG_CB] {0} | {1}", DateTime.Now, data);
-                }
+            DateTime datetime = DateTime.UtcNow.Date;
+            Console.WriteLine("[TG_CB] {0} | {1}", DateTime.Now, data);
         }
-        
+    }
+
 }

@@ -1,94 +1,109 @@
 // SPDX-License-Identifier: GPL-2.0
 
 /*
- *  Copyright (C) 2022 Fadhil Riyanto
- *
- *  https://github.com/fadhil-riyanto/fadhil_robot.git
- */
+*  Copyright (C) 2022 Fadhil Riyanto
+*
+*  https://github.com/fadhil-riyanto/fadhil_robot.git
+*/
 
 
 namespace fadhil_robot.Utils
 {
-        public class Parse
+    public class Parse
+    {
+        private char[] _identifier = {
+'/', '!'
+};
+        private bool _isvalid_command;
+        private string _textraw, _delete1char;
+
+        public string _command, _value;
+
+        public Parse(string text)
         {
-                private char[] _identifier = {
-                        '/', '!'
-                };
-                private bool _isvalid_command;
-                private string _textraw, _delete1char;
+            this._textraw = text;
+        }
 
-                public string _command, _value;
-
-                public Parse(string text)
+        private void _CheckIsCommand()
+        {
+            foreach (char identifier_l in this._identifier)
+            {
+                if (this._textraw[0] == identifier_l)
                 {
-                        this._textraw = text;
+                    this._isvalid_command = true;
                 }
+            }
+        }
 
-                private void _CheckIsCommand()
+        public Dictionary<string, string> getResult()
+        {
+            Dictionary<string, string> result = new Dictionary<string, string>();
+
+            this._CheckIsCommand();
+            if (this._isvalid_command)
+            {
+                this._delete1char = this._textraw.Remove(0, 1);
+                string[] splitted = this._delete1char.Split(" ");
+                string[] at_split = this._delete1char.Split("@");
+
+
+                if (splitted.Length == 1)
                 {
-                        foreach (char identifier_l in this._identifier)
+                    if (at_split.Length == 2)
+                    {
+                        if (at_split[1].ToLower() == Config.BotName.ToLower())
                         {
-                                if (this._textraw[0] == identifier_l)
-                                {
-                                        this._isvalid_command = true;
-                                }
-                        }
-                }
-
-                public Dictionary<string, string> getResult()
-                {
-                        Dictionary<string, string> result = new Dictionary<string, string>();
-
-                        this._CheckIsCommand();
-                        if (this._isvalid_command) {
-                                this._delete1char = this._textraw.Remove(0, 1);
-                                string[] splitted = this._delete1char.Split(" ");
-                                string[] at_split = this._delete1char.Split("@");
-
-
-                                if (splitted.Length == 1) {
-                                        if (at_split.Length == 2) {
-                                                if (at_split[1].ToLower() == Config.BotName.ToLower())
-                                                {
-                                                        this._command = at_split[0];
-                                                } else {
-                                                        this._command = null;
-                                                }
-                                                this._value = null;
-                                        } else {
-
-                                                this._command = this._delete1char;
-                                                this._value = null;
-                                        }
-                                } else {
-                                        // split
-                                        string[] indexonesp = splitted[0].Split("@");
-                                        int i = this._delete1char.IndexOf(" ") + 1;
-                                        string str = this._delete1char.Substring(i);
-
-                                        if (indexonesp.Length == 2) {
-                                                if (indexonesp[1].ToLower() == Config.BotName.ToLower()) {
-                                                        this._command = at_split[0];
-                                                } else {
-                                                        this._command = null;
-                                                }
-                                                this._value = str;
-                                        } else {
-                                                this._command = splitted[0];
-                                                this._value = str;
-                                        }
-                                }
-                                result.Add("command", this._command);
-                                result.Add("value", this._value);
+                            this._command = at_split[0];
                         }
                         else
                         {
-                                result.Add("command", null);
-                                result.Add("value", null);
+                            this._command = null;
                         }
-                        return result;
+                        this._value = null;
+                    }
+                    else
+                    {
+
+                        this._command = this._delete1char;
+                        this._value = null;
+                    }
                 }
+                else
+                {
+                    // split
+                    string[] indexonesp = splitted[0].Split("@");
+                    int i = this._delete1char.IndexOf(" ") + 1;
+                    string str = this._delete1char.Substring(i);
 
-
+                    if (indexonesp.Length == 2)
+                    {
+                        if (indexonesp[1].ToLower() == Config.BotName.ToLower())
+                        {
+                            this._command = at_split[0];
+                        }
+                        else
+                        {
+                            this._command = null;
+                        }
+                        this._value = str;
+                    }
+                    else
+                    {
+                        this._command = splitted[0];
+                        this._value = str;
+                    }
+                }
+                result.Add("command", this._command);
+                result.Add("value", this._value);
+            }
+            else
+            {
+                result.Add("command", null);
+                result.Add("value", null);
+            }
+            return result;
         }
+
+
+    }
 }
