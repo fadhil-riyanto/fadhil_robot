@@ -12,7 +12,6 @@ using Newtonsoft.Json;
 using System.IO.Compression;
 using System;
 using fadhil_robot.Utils;
-using ramdb.Except;
 
 namespace fadhil_robot.Utils
 {
@@ -53,20 +52,31 @@ namespace fadhil_robot.Utils
 
             generate_rand_str rn = new generate_rand_str();
             string key = rn.gethash();
-            inputTelegram.main_thread_ctx.ramdb.setDb(1).set(key, cokkedstring).DeleteAfter(Config.CALLBACK_CACHE_TIME);
+            inputTelegram.main_thread_ctx.redis.StringSet($"callback_data_{key}", cokkedstring, TimeSpan.FromSeconds(Config.CALLBACK_CACHE_TIME));
+            //inputTelegram.main_thread_ctx.ramdb.setDb(1).set(key, cokkedstring).DeleteAfter(Config.CALLBACK_CACHE_TIME);
             return key;
         }
 
         public static unpacktype unpack(InputTelegram inputTelegram, string key)
         {
             unpacktype up;
+            // try
+            // {
+            //     up = JsonConvert.DeserializeObject<unpacktype>(
+            //     inputTelegram.main_thread_ctx.ramdb.setDb(1).get(key)
+            //     );
+            // }
+            // catch (ramdb.Except.KeyNotFoundException)
+            // {
+            //     up = null;
+            // }
             try
             {
                 up = JsonConvert.DeserializeObject<unpacktype>(
-                inputTelegram.main_thread_ctx.ramdb.setDb(1).get(key)
+                        inputTelegram.main_thread_ctx.redis.StringGet($"callback_data_{key}")
                 );
             }
-            catch (ramdb.Except.KeyNotFoundException)
+            catch (System.ArgumentNullException)
             {
                 up = null;
             }

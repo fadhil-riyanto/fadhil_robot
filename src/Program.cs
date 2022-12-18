@@ -16,8 +16,9 @@ using System.Threading;
 using fadhil_robot.Utils;
 using fadhil_robot.HandleUpdate;
 using MongoDB.Driver;
-using ramdb;
+
 using TL;
+using StackExchange.Redis;
 
 
 namespace fadhil_robot.Program
@@ -26,15 +27,17 @@ namespace fadhil_robot.Program
     class fadhil_robot
     {
         private static bool wantExit = true;
-        private static Ramdb ramdb { get; set; }
         public static WTelegram.Client ClientMT;
         public static MongoClient mongoClientConn { get; set; }
+        public static ConnectionMultiplexer redisconn { get; set; }
         public static async Task Main()
         {
 
-            mongoClientConn = new MongoClient("mongodb://localhost:27017");
-            ramdb = new Ramdb("database.db", "/home/fadhil_riyanto/BALI64/fadhil_robot/src");
+            redisconn = ConnectionMultiplexer.Connect(new ConfigurationOptions{
+                EndPoints = {"127.0.0.1:6379"}                
+            });
 
+            mongoClientConn = new MongoClient("mongodb://localhost:27017");
 
             static string MTConfig(string what)
             {
@@ -88,7 +91,6 @@ namespace fadhil_robot.Program
             {
                 Thread.Sleep(1000);
             }
-            ramdb.commit();
             stop_bot.Cancel();
             new ConsoleLogSysLn($"bot exited : @{me.Username}");
         }
@@ -107,7 +109,6 @@ namespace fadhil_robot.Program
                 Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
 
-
             Console.WriteLine(ErrorMessage);
             return Task.CompletedTask;
         }
@@ -119,11 +120,10 @@ namespace fadhil_robot.Program
             MainHandle h = new MainHandle();
             main_thread_ctx main_ctx = new main_thread_ctx();
 
-
-            //main_ctx.redis = db;
+            
+            main_ctx.redis =  redisconn.GetDatabase();
             main_ctx.mongodbCtx = mongoClientConn;
             main_ctx.ClientMT = ClientMT;
-            main_ctx.ramdb = ramdb;
 
             var handler = update.Type switch
             {

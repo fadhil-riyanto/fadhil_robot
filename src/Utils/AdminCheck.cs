@@ -15,6 +15,12 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Utils
 {
+    class admin_list_type
+    {
+        public long time { get; set; }
+        public long[] admin { get; set; }
+
+    }
     class AdminCheck
     {
         private Message _message;
@@ -35,11 +41,11 @@ namespace fadhil_robot.Utils
             return (long)now.TotalSeconds;
         }
 
-        private async Task _makeCache()
+        private async Task<long[]> get_adminlists()
         {
             Telegram.Bot.Types.ChatMember[] chatmember = await this._botClient.GetChatAdministratorsAsync(
-            chatId: this._message.Chat.Id,
-            cancellationToken: this._inputTelegram.cancellationToken
+                chatId: this._message.Chat.Id,
+                cancellationToken: this._inputTelegram.cancellationToken
             );
             long[] user_ids = new long[chatmember.Length];
             int i = 0;
@@ -50,54 +56,69 @@ namespace fadhil_robot.Utils
                 //Console.WriteLine(members.User.Id);
                 i++;
             }
+            return user_ids;
+        }
 
+        private async Task _makeCache()
+        {
+            long[] user_ids;
+            string data = this._inputTelegram.main_thread_ctx.redis.StringGet($"admin_cache_{this._message.Chat.Id}");
 
-            var dbctx = this._inputTelegram.main_thread_ctx.mongodbCtx.GetDatabase(Config.MongoDB_DBNAME);
-
-            var dbcol = dbctx.GetCollection<BsonDocument>("admin_cache");
-
-            try
+            if (data == null)
             {
-                var filter = Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id);
-                var filtered = await dbcol.Find(filter).FirstAsync();
+                user_ids = await this.get_adminlists();
+                // var data_admin = new Dictionary<string, object>();
+                // data_admin.Add("time", this._timeNow());
+                // data_admin.Add("admin", user_ids);
+                admin_list_type data_admin = new admin_list_type {
+                    time = this._timeNow(),
+                    admin = user_ids
+                };
+
+                var ress = Newtonsoft.Json.JsonConvert.SerializeObject(data_admin);
+                this._inputTelegram.main_thread_ctx.redis.StringSet($"admin_cache_{this._message.Chat.Id}", ress);
             }
-            catch (InvalidOperationException)
+            else
             {
-                var document = new BsonDocument
-{
-{ "chat_id", this._message.Chat.Id },
-{ "timestamp", this._timeNow()},
-{ "admin", new BsonArray(user_ids) }
-};
-                await dbcol.InsertOneAsync(document);
-            }
-
-            var newdata = await dbcol.Find(Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id)).FirstAsync();
-
-            if (newdata["timestamp"] < this._timeNow() - 1 * Config.ADMIN_CACHE_TIME)
-            {
-                chatmember = await this._botClient.GetChatAdministratorsAsync(
-                chatId: this._message.Chat.Id,
-                cancellationToken: this._inputTelegram.cancellationToken
-                );
-                user_ids = new long[chatmember.Length];
-                i = 0;
-
-                foreach (Telegram.Bot.Types.ChatMember members in chatmember)
+                admin_list_type unpacked_data = Newtonsoft.Json.JsonConvert.DeserializeObject<admin_list_type>(data);
+                if (unpacked_data.time < this._timeNow() - 1 * Config.ADMIN_CACHE_TIME)
                 {
-                    user_ids[i] = members.User.Id;
-                    //Console.WriteLine(members.User.Id);
-                    i++;
+                    user_ids = await this.get_adminlists();
+                    // var data_admin = new Dictionary<string, object>();
+                    // data_admin.Add("time", this._timeNow());
+                    // data_admin.Add("admin", user_ids);
+
+                    admin_list_type data_admin = new admin_list_type {
+                        time = this._timeNow(),
+                        admin = user_ids
+                    };
+
+                    var ress = Newtonsoft.Json.JsonConvert.SerializeObject(data_admin);
+
+                    Console.WriteLine($"admin_cache_{this._message.Chat.Id}");
+                    Console.WriteLine(ress);
+                    this._inputTelegram.main_thread_ctx.redis.StringSet($"admin_cache_{this._message.Chat.Id}", ress);
+                } else {
+                    user_ids = unpacked_data.admin;
                 }
-                var updatefilter = Builders<BsonDocument>.Filter.Eq("chat_id", this._message.Chat.Id);
-                var whatupdate = Builders<BsonDocument>.Update.Set("admin", new BsonArray(user_ids));
-
-                await dbcol.UpdateOneAsync(updatefilter, whatupdate);
-
-                this._user_ids = user_ids;
             }
             this._user_ids = user_ids;
         }
+
+        public async Task<bool> force_make_new_cache()
+        {
+            
+            long[] user_ids = await this.get_adminlists();
+
+            admin_list_type data_admin = new admin_list_type {
+                time = this._timeNow(),
+                admin = user_ids
+            };
+
+            var ress = Newtonsoft.Json.JsonConvert.SerializeObject(data_admin);
+            return this._inputTelegram.main_thread_ctx.redis.StringSet($"admin_cache_{this._message.Chat.Id}", ress);
+        }
+
 
         public async Task<bool> IsAdmin(long id)
         {

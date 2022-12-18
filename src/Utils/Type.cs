@@ -9,7 +9,7 @@
 
 using MongoDB.Driver;
 using Telegram.Bot.Types;
-using ramdb;
+using StackExchange.Redis;
 
 namespace fadhil_robot.Utils
 {
@@ -32,7 +32,7 @@ namespace fadhil_robot.Utils
     {
         public MongoClient mongodbCtx { get; set; }
         public WTelegram.Client ClientMT { get; set; }
-        public Ramdb ramdb { get; set; }
+        public StackExchange.Redis.IDatabase redis { get; set; }
 
     }
 
