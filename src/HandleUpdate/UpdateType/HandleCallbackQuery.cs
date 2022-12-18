@@ -33,6 +33,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                         CallbackQuery callback)
                 {
                         unpacktype rdata = CallbackHelper.unpack(inputTelegram, callback.Data);
+                        
                         if (rdata == null) {
                                 await botClient.AnswerCallbackQueryAsync(
                                         callbackQueryId: callback.Id,
@@ -51,8 +52,8 @@ namespace fadhil_robot.HandleUpdate.UpdateType
 
                                 Utils.IExecutor_cb executor = rdata.caller switch {
                                         "help" => new Commands.Private.Callback.HelpCb(inputTelegram, botClient, callback),
-                                        "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, 
-                                                botClient, callback),
+                                        "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, botClient, callback),
+                                        "help_from_start" => new Commands.Private.Callback.HelpFromStart(inputTelegram, botClient, callback),
                                         _ => null
                                 };
 

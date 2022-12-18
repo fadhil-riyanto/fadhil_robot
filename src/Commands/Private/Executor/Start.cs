@@ -48,13 +48,21 @@ namespace fadhil_robot.Commands.Private.Executor
 
                 InlineKeyboardMarkup inlineKeyboard = new(new[]
                     {
-                    InlineKeyboardButton.WithUrl(
-                        text: TranslateLocale.exec(
-                        this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
+                        InlineKeyboardButton.WithUrl(
+                            text: TranslateLocale.exec(
+                            this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
+                            ),
+                            url: "https://t.me/fadhil_riyanto"
                         ),
-                        url: "https://t.me/fadhil_riyanto"
-                    )
-                }
+                        InlineKeyboardButton.WithCallbackData(
+                            text: TranslateLocale.exec(
+                                this._message,"command.Private.Start.HelpButton", this._inputTelegram.command
+                            ),
+                            callbackData: CallbackHelper.pack(
+                                this._inputTelegram, "help_from_start", null
+                            )
+                        )
+                    }
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,

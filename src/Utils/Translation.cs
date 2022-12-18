@@ -67,6 +67,7 @@ namespace fadhil_robot.Utils
                 // ========= private =========
                 "command.Private.Start" => "Hi, I'm fadhil robot, nice to meet you. I can manage your telegram group with many useful features!",
                 "command.Private.Start.OwnerTextKeyboard" => "My Programmer",
+                "command.Private.Start.HelpButton" => "help menu",
                 "command.Private.Ping" => "Ping in private chat ok!",
                 "command.Private.Help" => "Hi {0}, I'm Fadhil Robot, created by @fadhil_riyanto. this is a help menu if you don't know what I'm using, all commands work with / and !",
                 "command.Private.Whoami" => "Your info\n\n" +
@@ -121,7 +122,8 @@ namespace fadhil_robot.Utils
 
                 // ========= Private =========
                 "command.Private.Start" => "hai, saya fadhil_robot, senang bertemu denganmu. saya bisa mengatur grup telegram kamu dengan banyak fitur yang berguna!",
-                "command.Private.Start.OwnerTextKeyboard" => "Programmer saya",
+                "command.Private.Start.OwnerTextKeyboard" => "Programmerku",
+                "command.Private.Start.HelpButton" => "menu bot",
                 "command.Private.Ping" => "Ping di chat pribadi oke!",
                 "command.Private.Help" => "Hai {0}, aku Fadhil Robot.. ini adalah menu pertolongan jika anda tidak paham kegunaanku, semua command bekerja dengan / dan !",
                 "command.Private.Whoami" => "Info Kamu\n\n" +
