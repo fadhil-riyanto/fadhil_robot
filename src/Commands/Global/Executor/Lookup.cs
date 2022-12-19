@@ -49,7 +49,7 @@ namespace fadhil_robot.Commands.Global.Executor
                 try
                 {
                     Contacts_ResolvedPeer peerdata = await this._inputTelegram.
-                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(this._inputTelegram.value);
+                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(UtilsFN.normalizing(this._inputTelegram.value));
 
                     string text = TranslateLocale.exec(
                         this._message, "command.Global.Lookup",
