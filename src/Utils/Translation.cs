@@ -91,6 +91,7 @@ namespace fadhil_robot.Utils
                 "command.Group.Ban.FailBanAdmin" => "can't banned because its an admin",
                 "command.Group.Ban.Succeed" => "[{0}] banned!",
                 "command.Group.Ban.DoubleInputException" => "please choose one of the following reply only or type the username",
+                "command.Group.Ban.ArgumentNullException" => "you must reply to a user, or give me a username",
                 "command.Group.Help.MainText" => "Contact me in PM to get the commands list",
                 "command.Group.Help.Button" => "click here",
 
@@ -150,6 +151,7 @@ namespace fadhil_robot.Utils
                 "command.Group.Ban.FailBanAdmin" => "tidak bisa membanned, karna dia admin",
                 "command.Group.Ban.Succeed" => "[{0}] dibanned!",
                 "command.Group.Ban.DoubleInputException" => "mohon pilih salah satu antara membalas pesannya atau tulis username nya",
+                "command.Group.Ban.ArgumentNullException" => "kamu harus membalas pesan penggunanya, atau berikan saya usernamenya",
                 "command.Group.Help.MainText" => "PM saya untuk mendapatkan daftar command yang tersedia",
                 "command.Group.Help.Button" => "klik disini",
 
