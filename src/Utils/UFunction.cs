@@ -7,6 +7,9 @@
 */
 
 using fadhil_robot;
+using TL;
+using Telegram.Bot.Types;
+using fadhil_robot.Utils.Exception;
 
 namespace fadhil_robot.Utils
 {
@@ -31,6 +34,43 @@ namespace fadhil_robot.Utils
         public static string deep_linking_gen(string data)
         {
             return $"https://t.me/{Config.BotName}?start={data}";
+        }
+
+        // get the userid from reply or mentions
+        public static async Task<long> user_id_getter(InputTelegram inputTelegram, Telegram.Bot.Types.Message message)
+        {
+            long user_id;
+            if (message.ReplyToMessage != null && inputTelegram.value != null)
+            {
+                user_id = 0;
+                throw new DoubleInputException();
+                
+            }
+            else if (message.ReplyToMessage != null)
+            {
+                user_id = message.ReplyToMessage.From.Id;
+            }
+            else if (inputTelegram.value != null)
+            {
+                Contacts_ResolvedPeer peerdata = await inputTelegram.
+                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(UtilsFN.normalizing(inputTelegram.value));
+                user_id = peerdata.User.id;
+            }
+            else {
+                user_id = 0;
+            }
+            return user_id;
+        }
+        public static string normalizing(string username)
+        {
+            if (username[0] == '@')
+            {
+                return username.Remove(0, 1);
+            }
+            else
+            {
+                return username;
+            }
         }
     }
 
