@@ -60,7 +60,7 @@ namespace fadhil_robot.Commands.Group.Executor
         {
             try
             {
-                long userids = await UtilsFN.user_id_getter(this._inputTelegram, this._message);
+                long userids = await UtilsFunction.user_id_getter(this._inputTelegram, this._message);
                 AdminCheck admincheck = new AdminCheck(this._inputTelegram,
                     this._botClient, this._message);
 

@@ -6,10 +6,7 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
-
-using MongoDB.Driver;
 using Telegram.Bot.Types;
-using StackExchange.Redis;
 
 namespace fadhil_robot.Utils
 {
@@ -30,8 +27,7 @@ namespace fadhil_robot.Utils
 
     class main_thread_ctx
     {
-        public MongoClient mongodbCtx { get; set; }
-        public WTelegram.Client ClientMT { get; set; }
+        public WTelegram.Client MtprotoClient { get; set; }
         public StackExchange.Redis.IDatabase redis { get; set; }
 
     }

@@ -6,18 +6,12 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
-
 using Telegram.Bot;
 using Telegram.Bot.Polling;
-using Telegram.Bot.Types;
 using Telegram.Bot.Exceptions;
 using Telegram.Bot.Types.Enums;
-using System.Threading;
 using fadhil_robot.Utils;
 using fadhil_robot.HandleUpdate;
-using MongoDB.Driver;
-
-using TL;
 using StackExchange.Redis;
 
 
@@ -26,20 +20,16 @@ namespace fadhil_robot.Program
 
     class fadhil_robot
     {
-        private static bool wantExit = true;
-        public static WTelegram.Client ClientMT;
-        public static MongoClient mongoClientConn { get; set; }
+        private static bool _wantExit = true;
+        public static WTelegram.Client MtprotoClient;
         public static ConnectionMultiplexer redisconn { get; set; }
         public static async Task Main()
         {
 
-            redisconn = ConnectionMultiplexer.Connect(new ConfigurationOptions{
-                EndPoints = {"127.0.0.1:6379"}                
-            });
-
-            mongoClientConn = new MongoClient("mongodb://localhost:27017");
-
-            static string MTConfig(string what)
+            /* 
+             * WTelegramBot config
+            */
+            static string MtprotoConfig(string what)
             {
                 switch (what)
                 {
@@ -52,42 +42,57 @@ namespace fadhil_robot.Program
                 }
             }
 
-            ClientMT = new WTelegram.Client(MTConfig);
-
+            /* 
+             * Start MTProto session
+             */
+            MtprotoClient = new WTelegram.Client(MtprotoConfig);
+            await MtprotoClient.LoginUserIfNeeded();
             WTelegram.Helpers.Log = (lvl, str) => { new ConsoleLogTL("(" + lvl + ") " + str); };
-            await ClientMT.LoginUserIfNeeded();
 
-            Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+            /* 
+             * start redis
+             */
+            redisconn = ConnectionMultiplexer.Connect(new ConfigurationOptions
             {
-                e.Cancel = true;
-                fadhil_robot.wantExit = false;
-            };
+                EndPoints = { "127.0.0.1:6379" }
+            });
 
+
+            /* 
+             * start telegram bot
+             */
 
             TelegramBotClientOptions tgconf = new TelegramBotClientOptions(
                 token: Config.Token,
                 baseUrl: (Config.BASEURL_SERVER == null) ? "https://api.telegram.org" : Config.BASEURL_SERVER
             );
             TelegramBotClient Bot = new TelegramBotClient(tgconf);
-
-            Telegram.Bot.Types.User me = await Bot.GetMeAsync();
-            Console.Title = "fadhil_robot";
-            using var stop_bot = new CancellationTokenSource();
             ReceiverOptions receiver_req = new()
             {
                 AllowedUpdates = { }
             };
+            using var stop_bot = new CancellationTokenSource();
 
             Bot.StartReceiving(
-            new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync
-            ),
-            receiver_req,
-            stop_bot.Token
+                new DefaultUpdateHandler(HandleUpdateAsync, HandleErrorAsync),
+                receiver_req,
+                stop_bot.Token
             );
 
+            Telegram.Bot.Types.User me = await Bot.GetMeAsync();
             new ConsoleLogSys($"bot running : @{me.Username}");
 
-            while (fadhil_robot.wantExit)
+            /*
+             * detect ctrl + c press
+             */
+
+            Console.CancelKeyPress += delegate (object sender, ConsoleCancelEventArgs e)
+            {
+                e.Cancel = true;
+                fadhil_robot._wantExit = false;
+            };
+
+            while (fadhil_robot._wantExit)
             {
                 Thread.Sleep(1000);
             }
@@ -120,10 +125,9 @@ namespace fadhil_robot.Program
             MainHandle h = new MainHandle();
             main_thread_ctx main_ctx = new main_thread_ctx();
 
-            
-            main_ctx.redis =  redisconn.GetDatabase();
-            main_ctx.mongodbCtx = mongoClientConn;
-            main_ctx.ClientMT = ClientMT;
+
+            main_ctx.redis = redisconn.GetDatabase();
+            main_ctx.MtprotoClient = MtprotoClient;
 
             var handler = update.Type switch
             {

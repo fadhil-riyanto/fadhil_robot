@@ -51,12 +51,12 @@ namespace fadhil_robot.Utils
         public ConsoleLogSysLn(string data)
         {
             DateTime datetime = DateTime.UtcNow.Date;
-            Console.WriteLine("\n[CSMSG] {0} | {1}", DateTime.Now, data);
+            Console.WriteLine("[CSMSG] {0} | {1}", DateTime.Now, data);
         }
     }
-    class ConsoleLogCb
+    class ConsoleLogCallback
     {
-        public ConsoleLogCb(string data)
+        public ConsoleLogCallback(string data)
         {
             DateTime datetime = DateTime.UtcNow.Date;
             Console.WriteLine("[TG_CB] {0} | {1}", DateTime.Now, data);

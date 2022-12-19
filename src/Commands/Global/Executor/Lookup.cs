@@ -6,8 +6,6 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
-
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using fadhil_robot.Utils;
@@ -49,14 +47,14 @@ namespace fadhil_robot.Commands.Global.Executor
                 try
                 {
                     Contacts_ResolvedPeer peerdata = await this._inputTelegram.
-                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(UtilsFN.normalizing(this._inputTelegram.value));
+                        main_thread_ctx.MtprotoClient.Contacts_ResolveUsername(UtilsFunction.normalizing(this._inputTelegram.value));
 
                     string text = TranslateLocale.exec(
                         this._message, "command.Global.Lookup",
                         peerdata.User.first_name + " " +
                         peerdata.User.last_name,
                         peerdata.User.id.ToString(), peerdata.User.lang_code, peerdata.User.username,
-                        UtilsFN.is64(peerdata.User.id)
+                        UtilsFunction.is64(peerdata.User.id)
                     );
 
                     await this._botClient.SendTextMessageAsync(

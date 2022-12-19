@@ -6,9 +6,7 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
-
 using Telegram.Bot.Types;
-using Telegram.Bot.Types.ReplyMarkups;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using fadhil_robot.Utils;

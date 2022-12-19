@@ -50,7 +50,7 @@ namespace fadhil_robot.Commands.Group.Executor
                 replyMarkup: new InlineKeyboardMarkup(
                     new InlineKeyboardButton[][] {
                         new InlineKeyboardButton[] {
-                            InlineKeyboardButton.WithUrl(text_button, UtilsFN.deep_linking_gen("help_menu"))
+                            InlineKeyboardButton.WithUrl(text_button, UtilsFunction.deep_linking_gen("help_menu"))
                         }
                     }
                 )

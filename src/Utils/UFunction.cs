@@ -13,7 +13,7 @@ using fadhil_robot.Utils.Exception;
 
 namespace fadhil_robot.Utils
 {
-    class UtilsFN
+    class UtilsFunction
     {
         public static string is64(long data)
         {
@@ -53,7 +53,7 @@ namespace fadhil_robot.Utils
             else if (inputTelegram.value != null)
             {
                 Contacts_ResolvedPeer peerdata = await inputTelegram.
-                        main_thread_ctx.ClientMT.Contacts_ResolveUsername(UtilsFN.normalizing(inputTelegram.value));
+                        main_thread_ctx.MtprotoClient.Contacts_ResolveUsername(UtilsFunction.normalizing(inputTelegram.value));
                 user_id = peerdata.User.id;
             }
             else {

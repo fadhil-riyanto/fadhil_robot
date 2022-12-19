@@ -12,8 +12,8 @@ namespace fadhil_robot.Utils
     public class Parse
     {
         private char[] _identifier = {
-'/', '!'
-};
+            '/', '!'
+        };
         private bool _isvalid_command;
         private string _textraw, _delete1char;
 
@@ -103,7 +103,5 @@ namespace fadhil_robot.Utils
             }
             return result;
         }
-
-
     }
 }

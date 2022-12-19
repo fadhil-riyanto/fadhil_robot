@@ -103,43 +103,25 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             }
             if (granted)
             {
-                // try
-                // {
-                    if (message.Text != null)
+            
+                if (message.Text != null)
+                {
+                    Parse parser = new Parse(message.Text);
+
+                    InputTelegram inp = new InputTelegram
                     {
-                        Parse parser = new Parse(message.Text);
+                        command = parser.getResult()["command"],
+                        value = parser.getResult()["value"],
+                        messange_id = message.MessageId,
+                        chat_id = message.Chat.Id,
+                        user_id = message.From.Id,
+                        languange = message.From.LanguageCode,
+                        cancellationToken = cancellationToken,
+                        main_thread_ctx = ctx
+                    };
 
-                        InputTelegram inp = new InputTelegram
-                        {
-                            command = parser.getResult()["command"],
-                            value = parser.getResult()["value"],
-                            messange_id = message.MessageId,
-                            chat_id = message.Chat.Id,
-                            user_id = message.From.Id,
-                            languange = message.From.LanguageCode,
-                            cancellationToken = cancellationToken,
-                            main_thread_ctx = ctx
-                        };
-
-                        await this.executor(inp, botClient, message);
-                    }
-                // }
-                // catch (Exception e)
-                // {
-                //     if (Config.DEBUG_MODE)
-                //     {
-                //         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
-                //             e.Message + "\n\ntrace: \n" + e.StackTrace;
-                //         new ConsoleLogError(messange);
-                //         await botClient.SendTextMessageAsync(chatId: message.Chat.Id, text: messange,
-                //                 replyToMessageId: message.MessageId, parseMode: ParseMode.Html);
-                //     }
-                //     else
-                //     {
-                //         string messange = "exception name: <b>" + e.GetType().Name + "</b>\nmessange: " +
-                //                                     e.Message + "\n\ntrace: \n" + e.StackTrace;
-                //     }
-                // }
+                    await this.executor(inp, botClient, message);
+                }
             }
             else
             {

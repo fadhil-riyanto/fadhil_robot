@@ -7,8 +7,6 @@
 */
 
 
-using MongoDB.Driver;
-using MongoDB.Bson;
 using Telegram.Bot.Types;
 using Telegram.Bot;
 using fadhil_robot.Utils;
@@ -53,7 +51,6 @@ namespace fadhil_robot.Utils
             foreach (Telegram.Bot.Types.ChatMember members in chatmember)
             {
                 user_ids[i] = members.User.Id;
-                //Console.WriteLine(members.User.Id);
                 i++;
             }
             return user_ids;
@@ -67,9 +64,7 @@ namespace fadhil_robot.Utils
             if (data == null)
             {
                 user_ids = await this.get_adminlists();
-                // var data_admin = new Dictionary<string, object>();
-                // data_admin.Add("time", this._timeNow());
-                // data_admin.Add("admin", user_ids);
+
                 admin_list_type data_admin = new admin_list_type {
                     time = this._timeNow(),
                     admin = user_ids
@@ -84,9 +79,6 @@ namespace fadhil_robot.Utils
                 if (unpacked_data.time < this._timeNow() - 1 * Config.ADMIN_CACHE_TIME)
                 {
                     user_ids = await this.get_adminlists();
-                    // var data_admin = new Dictionary<string, object>();
-                    // data_admin.Add("time", this._timeNow());
-                    // data_admin.Add("admin", user_ids);
 
                     admin_list_type data_admin = new admin_list_type {
                         time = this._timeNow(),

@@ -6,12 +6,9 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
-
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using fadhil_robot.Utils;
-using TL;
 
 namespace fadhil_robot.Commands.Global.Executor
 {
@@ -38,7 +35,7 @@ namespace fadhil_robot.Commands.Global.Executor
                 this._message, "command.Global.Whoami",
                 this._message.From.FirstName + " " + this._message.From.LastName,
                 this._message.From.Id.ToString(), this._message.From.LanguageCode,
-                this._message.From.Username, UtilsFN.is64(this._message.From.Id)
+                this._message.From.Username, UtilsFunction.is64(this._message.From.Id)
             );
             await this._botClient.SendTextMessageAsync(
                 chatId: this._message.Chat.Id,
