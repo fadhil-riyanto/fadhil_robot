@@ -105,6 +105,17 @@ namespace fadhil_robot.Commands.Group.Executor
                     replyToMessageId: this._inputTelegram.messange_id
                 );
             }
+            catch (ArgumentNullException)
+            {
+                string text = TranslateLocale.exec(
+                    this._message, "command.Group.Ban.ArgumentNullException"
+                );
+                await this._botClient.SendTextMessageAsync(
+                    chatId: this._inputTelegram.chat_id,
+                    text: text,
+                    replyToMessageId: this._inputTelegram.messange_id
+                );
+            }
         }
     }
 }
