@@ -11,6 +11,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
 using fadhil_robot.Utils;
+using fadhil_robot.Utils.Exception;
 using TL;
 
 namespace fadhil_robot.Commands.Group.Executor
@@ -57,27 +58,46 @@ namespace fadhil_robot.Commands.Group.Executor
 
         private async Task its_admin()
         {
-            if (this._message.ReplyToMessage == null)
+            try
             {
-                string text = TranslateLocale.exec(
-                    this._message, "command.Group.Ban"
-                );
-                await this._botClient.SendTextMessageAsync(
-                    chatId: this._inputTelegram.chat_id,
-                    text: text,
-                    replyToMessageId: this._inputTelegram.messange_id
-                );
+                long userids = await UtilsFN.user_id_getter(this._inputTelegram, this._message);
+                AdminCheck admincheck = new AdminCheck(this._inputTelegram,
+                    this._botClient, this._message);
+
+                await admincheck.force_make_new_cache();
+                if (admincheck.IsAdmin(userids).Result)
+                {
+                    string text = TranslateLocale.exec(
+                        this._message, "command.Group.Ban.FailBanAdmin",
+                        userids.ToString()
+                    );
+                    await this._botClient.SendTextMessageAsync(
+                        chatId: this._inputTelegram.chat_id,
+                        text: text,
+                        replyToMessageId: this._inputTelegram.messange_id
+                    );
+                }
+                else
+                {
+                    await this._botClient.BanChatMemberAsync(
+                        chatId: this._inputTelegram.chat_id,
+                        userId: userids
+                    );
+                    string text = TranslateLocale.exec(
+                        this._message, "command.Group.Ban.Succeed",
+                        userids.ToString()
+                    );
+                    await this._botClient.SendTextMessageAsync(
+                        chatId: this._inputTelegram.chat_id,
+                        text: text,
+                        replyToMessageId: this._inputTelegram.messange_id
+                    );
+                }
             }
-            else
+            catch (DoubleInputException)
             {
-                await this._botClient.BanChatMemberAsync(
-                    chatId: this._inputTelegram.chat_id,
-                    userId: this._message.ReplyToMessage.From.Id
-                );
                 string text = TranslateLocale.exec(
-                    this._message, "command.Group.Ban.Succeed",
-                    this._message.ReplyToMessage.From.FirstName + " " +
-                    this._message.ReplyToMessage.From.LastName
+                    this._message, "command.Group.Ban.DoubleInputException"
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._inputTelegram.chat_id,
