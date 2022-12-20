@@ -6,6 +6,8 @@
 *  https://github.com/fadhil-riyanto/fadhil_robot.git
 */
 
+using System.Net.Http;
+using Newtonsoft.Json;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
@@ -42,13 +44,30 @@ namespace fadhil_robot.Commands.Global.Callback
         {
             if (Convert.ToInt64(this._inputTelegram.data["user_id"]) == this._callback.From.Id)
             {
+                libretranslateExtern libre = new libretranslateExtern(LibreTranslateServer.Libretranslate_de);
+                langLists[] data = await libre.GetListsLanguage();
+
+                string raws = string.Empty;
+                foreach (langLists data_literate in data)
+                {
+                    raws += $"{data_literate.code} = {data_literate.name}\n";
+                }
+
+                string text = TranslateLocale.CreateCallbackTranslation(
+                    this._callback, 
+                    new fadhil_robot.TranslationString.Global.Translate.ListLanguagesText(),
+                    raws
+                );
+
                 await this._botClient.EditMessageTextAsync(
                     messageId: this._callback.Message.MessageId,
                     chatId: this._inputTelegram.chat_id,
-                    text: "comming soon",
+                    text: text,
                     parseMode: ParseMode.Html
                 );
-            } else {
+            }
+            else
+            {
                 await this.unauthorized_users();
             }
             // ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram);
@@ -62,6 +81,30 @@ namespace fadhil_robot.Commands.Global.Callback
             //     replyMarkup: keyboard.detectLanguangeBackButton().get(),
             //     parseMode: ParseMode.Html
             // );
+        }
+    }
+
+    class langLists
+    {
+        public string code { get; set; }
+        public string name { get; set; }
+        public string[] targets { get; set; }
+    }
+
+    class libretranslateExtern
+    {
+        private HttpClient _httpClient;
+        public libretranslateExtern(LibreTranslateServer ServerSelect)
+        {
+            this._httpClient = new HttpClient()
+            {
+                BaseAddress = new Uri(ServerSelect.ToString())
+            };
+        }
+
+        public async Task<langLists[]> GetListsLanguage()
+        {
+            return JsonConvert.DeserializeObject<langLists[]>(await this._httpClient.GetStringAsync("/languages"));
         }
     }
 }
