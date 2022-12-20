@@ -76,7 +76,7 @@ namespace fadhil_robot.Commands.Global.Executor
                                 new fadhil_robot.TranslationString.Global.Lookup.UsernameInvalid()
                                 ),
                         _ => TranslateLocale.CreateTranslation(
-                                this._message, new fadhil_robot.TranslationString.System.Unknown(),
+                                this._message, new fadhil_robot.TranslationString.System.UnknownSwitchLogic(),
                                 e.Message.ToString()
                             )
                     };

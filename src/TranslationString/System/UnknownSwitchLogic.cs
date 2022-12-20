@@ -2,7 +2,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.TranslationString.System 
 {
-    class Unknown : Utils.translate_string_parent{
+    class UnknownSwitchLogic : Utils.translate_string_parent{
 
         public override string translate_en_US {
             get {
