@@ -43,13 +43,6 @@ namespace fadhil_robot.Program
             }
 
             /* 
-             * Start MTProto session
-             */
-            MtprotoClient = new WTelegram.Client(MtprotoConfig);
-            await MtprotoClient.LoginUserIfNeeded();
-            WTelegram.Helpers.Log = (lvl, str) => { new ConsoleLogTL("(" + lvl + ") " + str); };
-
-            /* 
              * start redis
              */
             redisconn = ConnectionMultiplexer.Connect(new ConfigurationOptions
@@ -57,6 +50,12 @@ namespace fadhil_robot.Program
                 EndPoints = { "127.0.0.1:6379" }
             });
 
+            /* 
+             * Start MTProto session
+             */
+            MtprotoClient = new WTelegram.Client(MtprotoConfig);
+            await MtprotoClient.LoginUserIfNeeded();
+            WTelegram.Helpers.Log = (lvl, str) => { new ConsoleLogTL("(" + lvl + ") " + str); };
 
             /* 
              * start telegram bot
@@ -101,20 +100,22 @@ namespace fadhil_robot.Program
         }
         public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            var ErrorMessage = exception switch
-            {
-                ApiRequestException apiRequestException => $"Telegram API Error:\n[{apiRequestException.ErrorCode}]\n{apiRequestException.Message}",
-                _ => exception.ToString()
-            };
+            // var ErrorMessage = exception switch
+            // {
+            //     ApiRequestException apiRequestException => $"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}",
+            //     _ => exception.ToString()
+            // };
 
 
             if (exception is RequestException)
             {
-                Console.WriteLine("network error");
+                new ConsoleLogError("network error, slepping 5 sec");
                 Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
-
-            Console.WriteLine(ErrorMessage);
+            else if (exception is ApiRequestException apiRequestException)
+            {
+                new ConsoleLogError($"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}");
+            }
             return Task.CompletedTask;
         }
 
