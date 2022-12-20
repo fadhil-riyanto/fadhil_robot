@@ -39,8 +39,8 @@ namespace fadhil_robot.Commands.Group.Executor
             {
                 if (!this.CheckIsReply(this._message))
                 {
-                    string text = TranslateLocale.exec(
-                        this._message, "command.Group.Unpin.NeedReply"
+                    string text = TranslateLocale.CreateTranslation(
+                        this._message, new fadhil_robot.TranslationString.Groups.Unpin.NeedReply()
                     );
                     await this._botClient.SendTextMessageAsync(
                         chatId: this._message.Chat.Id,
@@ -57,8 +57,8 @@ namespace fadhil_robot.Commands.Group.Executor
                             chatId: this._message.Chat.Id,
                             messageId: this._message.ReplyToMessage.MessageId
                         );
-                        string text = TranslateLocale.exec(
-                            this._message, "command.Group.Unpin.Success"
+                        string text = TranslateLocale.CreateTranslation(
+                            this._message, new fadhil_robot.TranslationString.Groups.Unpin.Success()
                         );
                         await this._botClient.SendTextMessageAsync(
                             chatId: this._message.Chat.Id,
@@ -69,8 +69,8 @@ namespace fadhil_robot.Commands.Group.Executor
                     }
                     catch (ApiRequestException)
                     {
-                        string text = TranslateLocale.exec(
-                            this._message, "command.Group.Unpin.NotEnoughPermission"
+                        string text = TranslateLocale.CreateTranslation(
+                            this._message, new fadhil_robot.TranslationString.System.NotEnoughPermission()
                         );
                         await this._botClient.SendTextMessageAsync(
                             chatId: this._message.Chat.Id,
@@ -83,8 +83,8 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             else
             {
-                string text = TranslateLocale.exec(
-                    this._message, "GroupNotAdmin"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.System.GroupNotAdmin()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,

@@ -8,8 +8,9 @@
 
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 using fadhil_robot.Utils;
-using TL;
+using Fluent.LibreTranslate;
 
 namespace fadhil_robot.Commands.Global.Executor
 {
@@ -35,7 +36,10 @@ namespace fadhil_robot.Commands.Global.Executor
             if (this._inputTelegram.value == null)
             {
                 // handle if that is null and can't next operate
-                string text = TranslateLocale.exec(this._message, "command.Global.Translate.NeedArgs");
+                string text = TranslateLocale.CreateTranslation(
+                    this._message,
+                    new fadhil_robot.TranslationString.Global.Translate.NeedArguments()
+                );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
                     text: text,
@@ -45,17 +49,66 @@ namespace fadhil_robot.Commands.Global.Executor
             else
             {
                 Utils.args_parse args_result = new Utils.args_parse(this._inputTelegram.value, 0);
-                System.Console.WriteLine(this._inputTelegram.value);
-                System.Console.WriteLine(args_result.getArg(0));
-                System.Console.WriteLine(args_result.getValue());
-                
-                string text = await UtilsFunction.translate_libretranslate(args_result.getValue(), "auto", args_result.getArg(0));
-                await this._botClient.SendTextMessageAsync(
-                    chatId: this._message.Chat.Id,
-                    text: text,
-                    replyToMessageId: this._message.MessageId,
-                    parseMode: ParseMode.Html
-                );
+
+                if (args_result.getValue() == null)
+                {
+                    string text = TranslateLocale.CreateTranslation(this._message, new fadhil_robot.TranslationString.Global.Translate.NeedText());
+                    
+                    await this._botClient.SendTextMessageAsync(
+                        chatId: this._message.Chat.Id,
+                        text: text,
+                        replyToMessageId: this._message.MessageId
+                    );
+                }
+                else
+                {
+                    GlobalLibreTranslateSettings.Server = LibreTranslateServer.Libretranslate_de;
+                    GlobalLibreTranslateSettings.ApiKey = null;
+                    GlobalLibreTranslateSettings.UseRateLimitControl = true; //to avoid "429 Too Many Requests" exception
+                    GlobalLibreTranslateSettings.RateLimitTimeSpan = TimeSpan.FromMicroseconds(0);
+
+
+                    try
+                    {
+                        string translated = await args_result.getValue().TranslateAsync(LanguageCode.FromString(args_result.getArg(0)));
+                        await this._botClient.SendTextMessageAsync(
+                            chatId: this._message.Chat.Id,
+                            text: translated,
+                            replyToMessageId: this._message.MessageId,
+                            parseMode: ParseMode.Html
+                        );
+                    }
+                    catch (System.ArgumentException)
+                    {
+                        InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(
+                            new InlineKeyboardButton[] {
+                                InlineKeyboardButton.WithCallbackData(
+                                    text: TranslateLocale.CreateTranslation(
+                                        this._message, 
+                                        new fadhil_robot.TranslationString.Global.Translate.ListLanguagesKeyboard(), 
+                                        this._inputTelegram.command
+                                    ),
+                                    callbackData: CallbackHelper.pack(
+                                        this._inputTelegram, "translate_lists_languages", new Dictionary<string, string> {
+                                            { "user_id", this._inputTelegram.user_id.ToString() }
+                                        }
+                                    )
+                                )
+                            }
+                        );
+                        string text = TranslateLocale.CreateTranslation(
+                            this._message, 
+                            new fadhil_robot.TranslationString.Global.Translate.LanguageNotFound(),
+                            args_result.getArg(0)
+                        );
+                        await this._botClient.SendTextMessageAsync(
+                            chatId: this._message.Chat.Id,
+                            text: text,
+                            replyMarkup: keyboard,
+                            replyToMessageId: this._message.MessageId
+                        );
+                    }
+                }
             }
 
         }

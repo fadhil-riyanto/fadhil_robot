@@ -35,7 +35,10 @@ namespace fadhil_robot.Commands.Global.Executor
             if (this._inputTelegram.value == null)
             {
                 // handle if that is null and can't next operate
-                string text = TranslateLocale.exec(this._message, "command.Global.Lookup.NeedArgs");
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, 
+                    new fadhil_robot.TranslationString.Global.Lookup.NeedArguments()
+                );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
                     text: text,
@@ -49,8 +52,8 @@ namespace fadhil_robot.Commands.Global.Executor
                     Contacts_ResolvedPeer peerdata = await this._inputTelegram.
                         main_thread_ctx.MtprotoClient.Contacts_ResolveUsername(UtilsFunction.normalizing(this._inputTelegram.value));
 
-                    string text = TranslateLocale.exec(
-                        this._message, "command.Global.Lookup",
+                    string text = TranslateLocale.CreateTranslation(
+                        this._message, new fadhil_robot.TranslationString.Global.Lookup.Success(),
                         peerdata.User.first_name + " " +
                         peerdata.User.last_name,
                         peerdata.User.id.ToString(), peerdata.User.lang_code, peerdata.User.username,
@@ -68,9 +71,14 @@ namespace fadhil_robot.Commands.Global.Executor
                 {
                     string error_result = e.Message switch
                     {
-                        "USERNAME_INVALID" => TranslateLocale.exec(this._message,
-                        "command.Global.Lookup.UsernameInvalid"),
-                        _ => TranslateLocale.exec(this._message, "Unknown", e.Message.ToString())
+                        "USERNAME_INVALID" => TranslateLocale.CreateTranslation(
+                                this._message,
+                                new fadhil_robot.TranslationString.Global.Lookup.UsernameInvalid()
+                                ),
+                        _ => TranslateLocale.CreateTranslation(
+                                this._message, new fadhil_robot.TranslationString.System.Unknown(),
+                                e.Message.ToString()
+                            )
                     };
                     await this._botClient.SendTextMessageAsync(
                         chatId: this._message.Chat.Id,

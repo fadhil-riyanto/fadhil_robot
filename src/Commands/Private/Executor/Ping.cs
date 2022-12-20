@@ -32,9 +32,9 @@ namespace fadhil_robot.Commands.Private.Executor
 
         public async Task Execute()
         {
-            string text = TranslateLocale.exec(
+            string text = TranslateLocale.CreateTranslation(
                 this._message,
-                "command.Private.Ping",
+                new fadhil_robot.TranslationString.Private.Ping.Success(),
                 this._inputTelegram.command
             );
             await this._botClient.SendTextMessageAsync(

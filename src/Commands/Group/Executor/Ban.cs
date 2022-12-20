@@ -44,8 +44,8 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             else
             {
-                string text = TranslateLocale.exec(
-                    this._message, "GroupNotAdmin"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.System.GroupNotAdmin()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
@@ -67,8 +67,8 @@ namespace fadhil_robot.Commands.Group.Executor
                 await admincheck.force_make_new_cache();
                 if (admincheck.IsAdmin(userids).Result)
                 {
-                    string text = TranslateLocale.exec(
-                        this._message, "command.Group.Ban.FailBanAdmin",
+                    string text = TranslateLocale.CreateTranslation(
+                        this._message,new fadhil_robot.TranslationString.Groups.Ban.FailBanAdmin(),
                         userids.ToString()
                     );
                     await this._botClient.SendTextMessageAsync(
@@ -83,8 +83,8 @@ namespace fadhil_robot.Commands.Group.Executor
                         chatId: this._inputTelegram.chat_id,
                         userId: userids
                     );
-                    string text = TranslateLocale.exec(
-                        this._message, "command.Group.Ban.Succeed",
+                    string text = TranslateLocale.CreateTranslation(
+                        this._message, new fadhil_robot.TranslationString.Groups.Ban.Success(),
                         userids.ToString()
                     );
                     await this._botClient.SendTextMessageAsync(
@@ -96,8 +96,8 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             catch (DoubleInputException)
             {
-                string text = TranslateLocale.exec(
-                    this._message, "command.Group.Ban.DoubleInputException"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.Groups.Ban.DoubleInputException()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._inputTelegram.chat_id,
@@ -107,8 +107,8 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             catch (ArgumentNullException)
             {
-                string text = TranslateLocale.exec(
-                    this._message, "command.Group.Ban.ArgumentNullException"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.Groups.Ban.ArgumentNullException()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._inputTelegram.chat_id,

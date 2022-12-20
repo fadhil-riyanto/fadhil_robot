@@ -15,6 +15,11 @@ using Newtonsoft.Json.Linq;
 
 namespace fadhil_robot.Utils
 {
+    abstract class translate_string_parent
+    {
+        public abstract string translate_id_ID {get; }
+        public abstract string translate_en_US {get; }
+    }
     class args_parse
     {
         private string _text;
@@ -46,6 +51,7 @@ namespace fadhil_robot.Utils
             }
         }
 
+        #pragma warning disable CS8632
         public string? getValue()
         {
             string? tmp = null;

@@ -55,8 +55,8 @@ class mainku
 
     public static void Main()
     {
-        args_parse data = new args_parse("id during birthing process", 0);
-        Console.WriteLine(data.getValue());
+        args_parse data = new args_parse("id", 0);
+        Console.WriteLine(data.getValue() == null);
         Console.WriteLine(data.getArg(0));
         
     }

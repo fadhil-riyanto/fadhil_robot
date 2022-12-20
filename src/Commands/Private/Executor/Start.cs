@@ -40,23 +40,23 @@ namespace fadhil_robot.Commands.Private.Executor
                 // call handle deeplinks
                 new deeplinks(this._inputTelegram, this._botClient, this._message);
             } else {
-                string text = TranslateLocale.exec(
+                string text = TranslateLocale.CreateTranslation(
                     this._message,
-                    "command.Private.Start",
+                    new fadhil_robot.TranslationString.Private.Start.Success(),
                     this._inputTelegram.command
                 );
 
                 InlineKeyboardMarkup inlineKeyboard = new(new[]
                     {
                         InlineKeyboardButton.WithUrl(
-                            text: TranslateLocale.exec(
-                            this._message,"command.Private.Start.OwnerTextKeyboard", this._inputTelegram.command
+                            text: TranslateLocale.CreateTranslation(
+                            this._message,new fadhil_robot.TranslationString.Private.Start.OwnerTextKeyboard(), this._inputTelegram.command
                             ),
                             url: "https://t.me/fadhil_riyanto"
                         ),
                         InlineKeyboardButton.WithCallbackData(
-                            text: TranslateLocale.exec(
-                                this._message,"command.Private.Start.HelpButton", this._inputTelegram.command
+                            text: TranslateLocale.CreateTranslation(
+                                this._message,new fadhil_robot.TranslationString.Private.Start.HelpButton(), this._inputTelegram.command
                             ),
                             callbackData: CallbackHelper.pack(
                                 this._inputTelegram, "help_from_start", null

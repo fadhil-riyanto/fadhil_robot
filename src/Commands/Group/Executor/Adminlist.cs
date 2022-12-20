@@ -66,8 +66,9 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             else
             {
-                string text = TranslateLocale.exec(
-                    this._message, "GroupNotAdmin"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message,
+                    new fadhil_robot.TranslationString.System.GroupNotAdmin()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
@@ -96,8 +97,9 @@ namespace fadhil_robot.Commands.Group.Executor
         }
         private string getowner()
         {
-            string adminName = TranslateLocale.exec(
-                this._message, "command.Group.Adminlist.OwnerNotFound"
+            string adminName = TranslateLocale.CreateTranslation(
+                this._message, 
+                new fadhil_robot.TranslationString.Groups.Adminlist.OwnerNotFound()
             );
             foreach (var listadmins in this._adminlist)
             {

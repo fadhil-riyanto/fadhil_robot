@@ -235,9 +235,9 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         {
             if (this.message.Chat.Type == ChatType.Private)
             {
-                string text = TranslateLocale.exec(
+                string text = TranslateLocale.CreateTranslation(
                         message,
-                        "UnknownCommand",
+                        new fadhil_robot.TranslationString.System.UnknownCommand(),
                         this.inputTelegram.command
                 );
                 await this.botClient.SendTextMessageAsync(
@@ -249,9 +249,9 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             }
             else if (message.Chat.Type == ChatType.Supergroup)
             {
-                string text = TranslateLocale.exec(
+                string text = TranslateLocale.CreateTranslation(
                         message,
-                        "UnknownCommand",
+                        new fadhil_robot.TranslationString.System.UnknownCommand(),
                         this.inputTelegram.command
                 );
                 await this.botClient.SendTextMessageAsync(

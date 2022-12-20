@@ -33,9 +33,9 @@ namespace fadhil_robot.Commands.Private.Executor
 
         public async Task Execute()
         {
-            string text = TranslateLocale.exec(
+            string text = TranslateLocale.CreateTranslation(
                 this._message,
-                "command.Private.Help",
+                new fadhil_robot.TranslationString.Private.Help.Success(),
                 this._inputTelegram.command
             );
 

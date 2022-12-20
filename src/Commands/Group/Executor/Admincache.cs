@@ -40,8 +40,8 @@ namespace fadhil_robot.Commands.Group.Executor
             }
             else
             {
-                string text = TranslateLocale.exec(
-                    this._message, "GroupNotAdmin"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.System.GroupNotAdmin()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
@@ -58,8 +58,8 @@ namespace fadhil_robot.Commands.Group.Executor
             this._botClient, this._message);
             if (await admincheck.force_make_new_cache())
             {
-                string text = TranslateLocale.exec(
-                    this._message, "command.Group.Admincache.Succeed"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.Groups.Admincache.Success()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,
@@ -68,8 +68,8 @@ namespace fadhil_robot.Commands.Group.Executor
                     parseMode: ParseMode.Html
                 );
             } else {
-                string text = TranslateLocale.exec(
-                    this._message, "command.Group.Admincache.Fail"
+                string text = TranslateLocale.CreateTranslation(
+                    this._message, new fadhil_robot.TranslationString.Groups.Admincache.Fail()
                 );
                 await this._botClient.SendTextMessageAsync(
                     chatId: this._message.Chat.Id,

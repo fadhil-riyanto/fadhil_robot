@@ -37,11 +37,11 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             if (rdata == null)
             {
                 await botClient.AnswerCallbackQueryAsync(
-                callbackQueryId: callback.Id,
-                text: TranslateLocale.execCb(
-                callback, "CacheExpire"
-                ),
-                showAlert: true
+                    callbackQueryId: callback.Id,
+                    text: TranslateLocale.CreateCallbackTranslation(
+                        callback, new fadhil_robot.TranslationString.System.CacheExpire()
+                    ),
+                    showAlert: true
                 );
             }
             else
@@ -58,6 +58,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                     "help" => new Commands.Private.Callback.HelpCb(inputTelegram, botClient, callback),
                     "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, botClient, callback),
                     "help_from_start" => new Commands.Private.Callback.HelpFromStart(inputTelegram, botClient, callback),
+                    "translate_lists_languages" => new Commands.Global.Callback.TranslateListsLanguages(inputTelegram, botClient, callback),
                     _ => null
                 };
 

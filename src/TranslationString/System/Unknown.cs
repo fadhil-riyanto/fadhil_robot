@@ -1,0 +1,20 @@
+using fadhil_robot.Utils;
+
+namespace fadhil_robot.TranslationString.System 
+{
+    class Unknown : Utils.translate_string_parent{
+
+        public override string translate_en_US {
+            get {
+                return "unknown switch logic, please forward it to my programmer (@fadhil_riyanto)\n\nTrace: {0}";
+            }
+        }
+
+
+        public override string translate_id_ID {
+            get {
+                return "logika switch tidak dikenali, mohon teruskan pesan ini ke programmer saya (@fadhil_riyanto)\n\nTrace: {0}";
+            }
+        }
+    }
+}

@@ -35,13 +35,13 @@ namespace fadhil_robot.Commands.Group.Executor
         }
         public async Task Execute()
         {
-            string text_response = TranslateLocale.exec(
+            string text_response = TranslateLocale.CreateTranslation(
                 this._message,
-                "command.Group.Help.MainText"
+                new fadhil_robot.TranslationString.Groups.Help.MainText()
             );
-            string text_button = TranslateLocale.exec(
+            string text_button = TranslateLocale.CreateTranslation(
                 this._message,
-                "command.Group.Help.Button"
+                new fadhil_robot.TranslationString.Groups.Help.Button()
             );
             await this._botClient.SendTextMessageAsync(
                 replyToMessageId: this._inputTelegram.messange_id,

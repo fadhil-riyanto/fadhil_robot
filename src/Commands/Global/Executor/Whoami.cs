@@ -31,10 +31,13 @@ namespace fadhil_robot.Commands.Global.Executor
         }
         public async Task Execute()
         {
-            string text = TranslateLocale.exec(
-                this._message, "command.Global.Whoami",
+            string text = TranslateLocale.CreateTranslation(
+                this._message, 
+                new fadhil_robot.TranslationString.Global.Whoami.Success(),
+
                 this._message.From.FirstName + " " + this._message.From.LastName,
-                this._message.From.Id.ToString(), this._message.From.LanguageCode,
+                this._message.From.Id.ToString(), 
+                this._message.From.LanguageCode,
                 this._message.From.Username, UtilsFunction.is64(this._message.From.Id)
             );
             await this._botClient.SendTextMessageAsync(
