@@ -53,13 +53,13 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             Utils.IExecutor executor = this._inputTelegram.command switch
             {
                 "ban" => new Commands.Group.Executor.Ban(this._inputTelegram, this._botClient, this._message),
+                "unban" => new Commands.Group.Executor.Unban(this._inputTelegram, this._botClient, this._message),
+                "kick" => new Commands.Group.Executor.Kick(this._inputTelegram, this._botClient, this._message),
                 "help" => new Commands.Group.Executor.Help(this._inputTelegram, this._botClient, this._message),
                 "ping" => new Commands.Group.Executor.Ping(this._inputTelegram, this._botClient, this._message),
                 "admincache" => new Commands.Group.Executor.Admincache(this._inputTelegram, this._botClient, this._message),
                 "pin" => new Commands.Group.Executor.Pin(this._inputTelegram, this._botClient, this._message),
                 "unpin" => new Commands.Group.Executor.Unpin(this._inputTelegram, this._botClient, this._message),
-                
-                // "whoami" => new Commands.Group.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
                 "adminlist" or "getadmin" => new Commands.Group.Executor.Adminlist(this._inputTelegram, this._botClient, this._message),
                 _ => null
             };
