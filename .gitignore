@@ -1,3 +1,5 @@
 fadhil_robot/
 obj/
 bin/
+src/Config.cs
+WTelegram.session
