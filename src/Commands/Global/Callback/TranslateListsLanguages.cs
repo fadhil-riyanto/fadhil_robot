@@ -33,7 +33,7 @@ namespace fadhil_robot.Commands.Global.Callback
         {
             await this._botClient.AnswerCallbackQueryAsync(
                 callbackQueryId: this._callback.Id,
-                text: TranslateLocale.CreateCallbackTranslation(
+                text: TranslateLocale.CreateTranslation(
                     this._callback, new fadhil_robot.TranslationString.System.UnauthorizedButtonCallbackPressed()
                 ),
                 showAlert: true
@@ -53,7 +53,7 @@ namespace fadhil_robot.Commands.Global.Callback
                     raws += $"{data_literate.code} = {data_literate.name}\n";
                 }
 
-                string text = TranslateLocale.CreateCallbackTranslation(
+                string text = TranslateLocale.CreateTranslation(
                     this._callback, 
                     new fadhil_robot.TranslationString.Global.Translate.ListLanguagesText(),
                     raws

@@ -69,7 +69,7 @@ namespace fadhil_robot.Utils
     class BlockedListsWord
     {
         public string Word {get; set;}
-        public string Word {get; set;}
+        public BlacklistAction WhenInvoked {get; set;}
     }
 
     class AdminSettingsLiteDB

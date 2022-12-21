@@ -33,7 +33,7 @@ namespace fadhil_robot.Utils
                 return string.Format(indicator.translate_en_US, values);
             }
         }
-        public static string CreateCallbackTranslation(CallbackQuery msg, translate_string_parent indicator, params string[] values)
+        public static string CreateTranslation(CallbackQuery msg, translate_string_parent indicator, params string[] values)
         {
 
             if (msg.From.LanguageCode == "en")

@@ -28,7 +28,7 @@ namespace fadhil_robot.Commands.Private.Callback
 
         public async Task Execute()
         {
-            string text = TranslateLocale.CreateCallbackTranslation(
+            string text = TranslateLocale.CreateTranslation(
                 this._callback,
                 new fadhil_robot.TranslationString.Private.Help.Success(),
                 this._inputTelegram.command

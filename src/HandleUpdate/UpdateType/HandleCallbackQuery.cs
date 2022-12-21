@@ -38,7 +38,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             {
                 await botClient.AnswerCallbackQueryAsync(
                     callbackQueryId: callback.Id,
-                    text: TranslateLocale.CreateCallbackTranslation(
+                    text: TranslateLocale.CreateTranslation(
                         callback, new fadhil_robot.TranslationString.System.CacheExpire()
                     ),
                     showAlert: true
