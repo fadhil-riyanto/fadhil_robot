@@ -59,4 +59,24 @@ namespace fadhil_robot.Utils
         group_chat,
         ignore
     }
+    
+    enum BlacklistAction
+    {
+        Ban,
+        Kick,
+        
+    }
+    class BlockedListsWord
+    {
+        public string Word {get; set;}
+        public string Word {get; set;}
+    }
+
+    class AdminSettingsLiteDB
+    {
+        public long ChatId {get; set;}      // identifier
+        public bool AdminError {get; set;}  // raise when non admin invoke admin command
+        public BlockedListsWord[] BlockedListsWord {get; set;}
+
+    }
 }
