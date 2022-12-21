@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: GPL-2.0
+
+/*
+ *  Copyright (C) 2022 Fadhil Riyanto
+ *
+ *  https://github.com/fadhil-riyanto/fadhil_robot.git
+ */
+
+
+class makeNegative
+{
+    private long data;
+    public makeNegative(long data)
+    {
+        this.data = data;
+    }
+
+    public long get()
+    {
+        return this.data;
+    }
+}
+class Config
+{
+    public static string API_ID = "YOURAPIID";
+    public static string API_HASH = "YOURAPIHASH";
+    public static string PHONE_NUMBER = "phone number in international format";
+
+    public static string Token = "your:token";
+    public static string BotName = "fadhil_robot";
+    public static string BASEURL_SERVER = "http://localhost:8081"; 
+    public static int ADMIN_CACHE_TIME = 60 * 3;
+    public static int CALLBACK_CACHE_TIME = 60 * 10;
+    public static bool DEBUG_MODE = true;
+
+    public static List<makeNegative> getWhiteList()
+    {
+        List<makeNegative> grant_ids = new List<makeNegative>();
+        grant_ids.Add(new makeNegative(-1001410961692));
+        grant_ids.Add(new makeNegative(-1001650972748));
+        grant_ids.Add(new makeNegative(-1001650972748));
+        grant_ids.Add(new makeNegative(-1001599471118));
+        return grant_ids;
+    }
+}
+
