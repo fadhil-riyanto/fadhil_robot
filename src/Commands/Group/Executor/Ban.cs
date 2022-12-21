@@ -64,7 +64,7 @@ namespace fadhil_robot.Commands.Group.Executor
                 AdminCheck admincheck = new AdminCheck(this._inputTelegram,
                     this._botClient, this._message);
 
-                await admincheck.force_make_new_cache();
+
                 if (admincheck.IsAdmin(userids).Result)
                 {
                     string text = TranslateLocale.CreateTranslation(
