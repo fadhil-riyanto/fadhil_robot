@@ -5,7 +5,7 @@ class args_parse
     private int getter_total;
     private string[] _data;
     private string[] _data_val;
-    public args_parse(string text, int getter_total)
+    public args_parse(string text, int getter_total = 0)
     {
         this._text = text;
         this.getter_total = getter_total;
@@ -22,28 +22,48 @@ class args_parse
         if (index <= this.getter_total)
         {
             return this._data[index];
-            
-        } else {
+
+        }
+        else
+        {
+            throw new OverflowException();
+        }
+    }
+    public string getIndex(int index)
+    {
+        if (index <= this._data.Length)
+        {
+
+            return this._data[index];
+
+
+        }
+        else
+        {
             throw new OverflowException();
         }
     }
 
+#pragma warning disable CS8632
     public string? getValue()
     {
         string? tmp = null;
-        for(int a = 0; a <= this.getter_total; a++)
+        for (int a = 0; a <= this.getter_total; a++)
         {
             this._data_val[a] = "";
         }
-        for(int i = 0; i < this._data_val.Length; i++)
+        for (int i = 0; i < this._data_val.Length; i++)
         {
             if (this._data_val[i] == "")
             {
                 // skippable
-            } else if (i == this._data_val.Length){
+            }
+            else if (i == this._data_val.Length)
+            {
                 tmp = tmp + this._data_val[i];
             }
-            else {
+            else
+            {
                 tmp = tmp + this._data_val[i] + " ";
             }
         }
@@ -55,10 +75,11 @@ class mainku
 
     public static void Main()
     {
-        args_parse data = new args_parse("id", 0);
+        args_parse data = new args_parse("id ide", 0);
         Console.WriteLine(data.getValue() == null);
         Console.WriteLine(data.getArg(0));
-        
+        Console.WriteLine(data.getIndex(1));
+
     }
 }
 
