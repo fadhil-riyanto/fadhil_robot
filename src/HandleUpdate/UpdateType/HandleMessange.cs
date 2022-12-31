@@ -80,6 +80,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                 "lookup" => new Commands.Global.Executor.Lookup(this._inputTelegram, this._botClient, this._message),
                 "whoami" => new Commands.Global.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
                 "translate" or "tr" or "tl" => new Commands.Global.Executor.Translate(this._inputTelegram, this._botClient, this._message),
+                "pkgsearch" => new Commands.Global.Executor.Pkgsearch(this._inputTelegram, this._botClient, this._message),
                 _ => new UnknownCommand(this._inputTelegram, this._botClient, this._message)
             };
             return executor;
