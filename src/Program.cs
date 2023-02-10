@@ -107,9 +107,9 @@ namespace fadhil_robot.Program
             // };
 
 
-            if (exception is RequestException)
+            if (exception is RequestException RequestException)
             {
-                new ConsoleLogError("network error, slepping 5 sec");
+                new ConsoleLogError(RequestException.Message);
                 Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
             }
             else if (exception is ApiRequestException apiRequestException)
@@ -147,8 +147,6 @@ namespace fadhil_robot.Program
             }
 
         }
-
-
 
         private static Task UnknownUpdateHandlerAsync(ITelegramBotClient botClient, Telegram.Bot.Types.Update update)
         {
