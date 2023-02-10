@@ -26,7 +26,7 @@ class args_parse
         }
         else
         {
-            throw new OverflowException();
+            return null;
         }
     }
     public string getIndex(int index)
@@ -40,7 +40,7 @@ class args_parse
         }
         else
         {
-            throw new OverflowException();
+            return null;
         }
     }
 
@@ -75,10 +75,10 @@ class mainku
 
     public static void Main()
     {
-        args_parse data = new args_parse("id ide", 0);
-        Console.WriteLine(data.getValue() == null);
-        Console.WriteLine(data.getArg(0));
-        Console.WriteLine(data.getIndex(1));
+        args_parse data = new args_parse("id", 0);
+        Console.WriteLine(data.getValue());
+        Console.WriteLine(data.getArg(1));
+        //Console.WriteLine(data.getIndex(4));
 
     }
 }
