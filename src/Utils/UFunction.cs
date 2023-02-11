@@ -34,9 +34,6 @@ namespace fadhil_robot.Utils
             this.getter_total = getter_total;
             this._data_val = this.split();
             this._data = this.split();
-            this.myspecial = text.Split(" ");
-            Console.WriteLine($"mystr: {this.myspecial[1]}");
-            // throw new System.IndexOutOfRangeException("nguak laut");
         }
         private string[] split()
         {
@@ -45,7 +42,7 @@ namespace fadhil_robot.Utils
 
         public string getArg(int index)
         {
-            if (index <= this.getter_total)
+            if (index <= this.getter_total - 1)
             {
                 return this._data[index];
 
@@ -57,19 +54,10 @@ namespace fadhil_robot.Utils
         }
         public string getIndex(int index)
         {
-            Console.WriteLine(index <= this._data.Length);
-            if (index <= this._data.Length)
+            //Console.WriteLine(this._data.Length);
+            if (index <= this._data.Length - 1)
             {
-                Console.WriteLine("first");
-                try{
-                    Console.WriteLine(this._data[index]);
-                } catch (System.IndexOutOfRangeException e)
-                {
-                    Console.WriteLine(e.Message);
-                }
-                
-                Console.WriteLine("end");
-                return null;
+                return this._data[index];
             }
             else
             {
@@ -77,7 +65,7 @@ namespace fadhil_robot.Utils
             }
         }
 
-#pragma warning disable CS8632
+        #pragma warning disable CS8632
         public string? getValue()
         {
             string? tmp = null;
