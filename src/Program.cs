@@ -100,22 +100,27 @@ namespace fadhil_robot.Program
         }
         public static Task HandleErrorAsync(ITelegramBotClient botClient, Exception exception, CancellationToken cancellationToken)
         {
-            // var ErrorMessage = exception switch
+            var ErrorMessage = exception switch
+            {
+                ApiRequestException apiRequestException => $"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}",
+                _ => exception.ToString()
+            };
+
+            Console.WriteLine(ErrorMessage);
+
+
+            // if (exception is RequestException RequestException)
             // {
-            //     ApiRequestException apiRequestException => $"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}",
-            //     _ => exception.ToString()
-            // };
-
-
-            if (exception is RequestException RequestException)
-            {
-                new ConsoleLogError(RequestException.Message);
-                Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
-            }
-            else if (exception is ApiRequestException apiRequestException)
-            {
-                new ConsoleLogError($"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}");
-            }
+            //     new ConsoleLogError(RequestException.Message);
+            //     Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+            // }
+            // else if (exception is ApiRequestException apiRequestException)
+            // {
+            //     new ConsoleLogError($"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}");
+            // } else 
+            // {
+            //     new ConsoleLogError($"[{apiRequestException.ErrorCode}] : {apiRequestException.Message}");
+            // }
             return Task.CompletedTask;
         }
 
