@@ -21,7 +21,6 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         private InputTelegram _inputTelegram;
         private ITelegramBotClient _botClient;
         private Message _message;
-        private Utils.command_executed_at _executed_at;
         public command_lists(InputTelegram inputTelegram, ITelegramBotClient
         botClient, Message message)
         {
@@ -77,6 +76,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             
             Utils.IExecutor executor = this._inputTelegram.command switch
             {
+                "json" => new Commands.Global.Executor.Json(this._inputTelegram, this._botClient, this._message),
                 "lookup" => new Commands.Global.Executor.Lookup(this._inputTelegram, this._botClient, this._message),
                 "whoami" => new Commands.Global.Executor.Whoami(this._inputTelegram, this._botClient, this._message),
                 "translate" or "tr" or "tl" => new Commands.Global.Executor.Translate(this._inputTelegram, this._botClient, this._message),
