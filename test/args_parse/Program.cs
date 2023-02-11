@@ -33,10 +33,7 @@ class args_parse
     {
         if (index <= this._data.Length)
         {
-
             return this._data[index];
-
-
         }
         else
         {
@@ -77,7 +74,7 @@ class mainku
     {
         args_parse data = new args_parse("id", 0);
         Console.WriteLine(data.getValue());
-        Console.WriteLine(data.getArg(1));
+        Console.WriteLine(data.getIndex(1));
         //Console.WriteLine(data.getIndex(4));
 
     }
