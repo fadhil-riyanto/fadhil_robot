@@ -8,8 +8,8 @@
 
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 using fadhil_robot.Utils;
-using TL;
 using Archlinux.Api;
 using Archlinux.Api.Exception;
 using Archlinux.Api.Methods;
@@ -20,41 +20,8 @@ using Newtonsoft.Json;
 
 namespace fadhil_robot.Commands.Global.Executor
 {
-    class PkgsearchUtils
-    {
-        private ArchlinuxApi archlinuxctx = new ArchlinuxApi();
-        private string pkgname;
-        private Archlinux.Api.Types.ArchRepository repo;
-        private InputTelegram _inputTelegram;
-        public PkgsearchUtils(string pkgname, Archlinux.Api.Types.ArchRepository repo, InputTelegram inputTelegram)
-        {
-            this.pkgname = pkgname;
-            this.repo = repo;
-            this._inputTelegram = inputTelegram;
-        }
 
-        private async Task<PackageSearchResult> getdata(int page = 1)
-        {
-            PackageSearch pkgsearch = new PackageSearch(archlinuxctx);
-            return await pkgsearch.Query(this.pkgname).Repository(this.repo).get(page);
-        }
 
-        public async Task<(PackageSearchResult, string)> GetResultIndexOf(int page)
-        {
-            PackageSearchResult res = await this.getdata(page);
-            string key = this.genCache(JsonConvert.SerializeObject(res), page);
-            return (res, key);
-        }
-
-        private string genCache(string serealized, int page = 1)
-        {
-            return CallbackHelper.pack(this._inputTelegram, "pkgsearch_cb", new Dictionary<string, string>{
-                { "page", page.ToString() },
-                { "data", serealized }
-            });
-        }
-    }
-    
     class Pkgsearch : Utils.IExecutor
     {
         private InputTelegram _inputTelegram;
@@ -77,34 +44,29 @@ namespace fadhil_robot.Commands.Global.Executor
         {
             if (this._inputTelegram.value == null)
             {
-                // handle if that is null and can't next operate
-                string text = TranslateLocale.CreateTranslation(
-                    this._message,
-                    new fadhil_robot.TranslationString.Global.Pkgsearch.NeedArguments()
-                );
-                await this._botClient.SendTextMessageAsync(
-                    chatId: this._message.Chat.Id,
-                    text: text,
-                    replyToMessageId: this._message.MessageId
-                );
+                await this.NeedRepository();
             }
             else
             {
                 Utils.args_parse args_result = new Utils.args_parse(this._inputTelegram.value, 0);
-                this._args_result = args_result;
-                if (args_result.getValue() == null)
+                if (args_result.getIndex(1) == null)
                 {
-                    await this.doWhileIsInvalid();
-                } else {
-                    await this.doWhileIsValid();
+                    await this.NeedArch();
                 }
-
-                
+                else if (args_result.getIndex(2) == null)
+                {
+                    await this.NeedPkgName();
+                }
+                else
+                {
+                    this._args_result = args_result;
+                    await this.doWhileIsValid();
+                    
+                }
             }
-
         }
 
-        public async Task doWhileIsInvalid()
+        public async Task NeedPkgName()
         {
             string text = TranslateLocale.CreateTranslation(
                 this._message,
@@ -118,20 +80,59 @@ namespace fadhil_robot.Commands.Global.Executor
             );
         }
 
-        public async Task doWhileIsValid()
+        public async Task NeedRepository()
         {
-            PkgsearchUtils search = new PkgsearchUtils(
-                this._args_result.getValue(), 
-                Archlinux.Api.Types.ArchRepository.FromString(this._args_result.getArg(0)),
-                this._inputTelegram);
-
-
-            (PackageSearchResult aaa, string key) = await search.GetResultIndexOf(1);
-
-            string debug = $"key: {key}\n\ndata: {aaa.results[0].pkgdesc}";
+            string text = TranslateLocale.CreateTranslation(
+                this._message,
+                new fadhil_robot.TranslationString.Global.Pkgsearch.NeedRepository()
+            );
             await this._botClient.SendTextMessageAsync(
                 chatId: this._message.Chat.Id,
-                text: debug,
+                text: text,
+                replyToMessageId: this._message.MessageId,
+                parseMode: ParseMode.Markdown
+            );
+        }
+
+        public async Task NeedArch()
+        {
+            string text = TranslateLocale.CreateTranslation(
+                this._message,
+                new fadhil_robot.TranslationString.Global.Pkgsearch.NeedArch()
+            );
+            await this._botClient.SendTextMessageAsync(
+                chatId: this._message.Chat.Id,
+                text: text,
+                replyToMessageId: this._message.MessageId,
+                parseMode: ParseMode.Markdown
+            );
+        }
+
+        public async Task doWhileIsValid()
+        {
+            Console.WriteLine(this._args_result.getIndex(0));
+            ArchlinuxApi archlinuxctx = new ArchlinuxApi();
+            PackageDetails pkgdetails = new PackageDetails(archlinuxctx, usefiles: false);
+            PackageDetailAll res = await pkgdetails.Repository(ArchRepository.FromString(this._args_result.getIndex(0)))
+                .Architecture(Arch.FromString(this._args_result.getIndex(1)))
+                .Name(this._args_result.getIndex(2))
+                .get();
+
+            //PackageDetailAll res = await pkgdetails.Name("0ad").Repository(ArchRepository.FromString("community")).Architecture(Arch.FromString("x86_64")).get();
+
+            // string text = TranslateLocale.CreateTranslation(
+            //     this._message,
+            //     new fadhil_robot.TranslationString.Global.Pkgsearch.NeedPkgName()
+            // );
+
+            string text = TranslateLocale.CreateTranslation(
+                this._message,
+                new fadhil_robot.TranslationString.Global.Pkgsearch.Success(),
+                res.pkgname, res.pkgver, res.pkgdesc
+            );
+            await this._botClient.SendTextMessageAsync(
+                chatId: this._message.Chat.Id,
+                text: text,
                 replyToMessageId: this._message.MessageId
             );
         }
