@@ -17,21 +17,26 @@ namespace fadhil_robot.Utils
 {
     abstract class translate_string_parent
     {
-        public abstract string translate_id_ID {get; }
-        public abstract string translate_en_US {get; }
+        public abstract string translate_id_ID { get; }
+        public abstract string translate_en_US { get; }
     }
+
     class args_parse
     {
         private string _text;
         private int getter_total;
         private string[] _data;
         private string[] _data_val;
+        private string[] myspecial;
         public args_parse(string text, int getter_total = 0)
         {
             this._text = text;
             this.getter_total = getter_total;
             this._data_val = this.split();
             this._data = this.split();
+            this.myspecial = text.Split(" ");
+            Console.WriteLine($"mystr: {this.myspecial[1]}");
+            // throw new System.IndexOutOfRangeException("nguak laut");
         }
         private string[] split()
         {
@@ -47,11 +52,32 @@ namespace fadhil_robot.Utils
             }
             else
             {
-                throw new OverflowException();
+                return null;
+            }
+        }
+        public string getIndex(int index)
+        {
+            Console.WriteLine(index <= this._data.Length);
+            if (index <= this._data.Length)
+            {
+                Console.WriteLine("first");
+                try{
+                    Console.WriteLine(this._data[index]);
+                } catch (System.IndexOutOfRangeException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
+                Console.WriteLine("end");
+                return null;
+            }
+            else
+            {
+                return null;
             }
         }
 
-        #pragma warning disable CS8632
+#pragma warning disable CS8632
         public string? getValue()
         {
             string? tmp = null;
@@ -77,6 +103,7 @@ namespace fadhil_robot.Utils
             return tmp;
         }
     }
+
     class UtilsFunction
     {
         public static string is64(long data)
