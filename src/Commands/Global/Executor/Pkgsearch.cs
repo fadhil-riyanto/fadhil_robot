@@ -11,11 +11,9 @@ using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 using fadhil_robot.Utils;
 using Archlinux.Api;
-using Archlinux.Api.Exception;
 using Archlinux.Api.Methods;
 using Archlinux.Api.Types.Result;
 using Archlinux.Api.Types;
-using Newtonsoft.Json;
 
 
 namespace fadhil_robot.Commands.Global.Executor
@@ -118,21 +116,24 @@ namespace fadhil_robot.Commands.Global.Executor
                 .Name(this._args_result.getIndex(2))
                 .get();
 
-            //PackageDetailAll res = await pkgdetails.Name("0ad").Repository(ArchRepository.FromString("community")).Architecture(Arch.FromString("x86_64")).get();
-
-            // string text = TranslateLocale.CreateTranslation(
-            //     this._message,
-            //     new fadhil_robot.TranslationString.Global.Pkgsearch.NeedPkgName()
-            // );
-
             string text = TranslateLocale.CreateTranslation(
                 this._message,
                 new fadhil_robot.TranslationString.Global.Pkgsearch.Success(),
-                res.pkgname, res.pkgver, res.pkgdesc
+                res.pkgname, res.pkgver, res.pkgdesc, res.pkg_last_update.ToString("yyyyMMdd")
             );
+
+            InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]
+                {
+                    new InlineKeyboardButton[] {
+                        InlineKeyboardButton.WithUrl(text:"aurweb", url: res.link)
+                    }
+                }
+            );
+
             await this._botClient.SendTextMessageAsync(
                 chatId: this._message.Chat.Id,
                 text: text,
+                replyMarkup: keyboard,
                 replyToMessageId: this._message.MessageId
             );
         }
