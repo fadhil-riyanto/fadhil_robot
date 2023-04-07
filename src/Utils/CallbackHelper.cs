@@ -17,9 +17,9 @@ namespace fadhil_robot.Utils
 {
     class packtype
     {
-        public int m { get; set; }
-        public long c { get; set; }
-        public long u { get; set; }
+        public int messange_id { get; set; }
+        public long chat_id { get; set; }
+        public long user_id { get; set; }
         public string caller { get; set; }
         public Dictionary<string, string> d { get; set; }
 
@@ -27,9 +27,9 @@ namespace fadhil_robot.Utils
 
     class unpacktype
     {
-        public int m { get; set; }
-        public long c { get; set; }
-        public long u { get; set; }
+        public int messange_id { get; set; }
+        public long chat_id { get; set; }
+        public long user_id { get; set; }
         public string caller { get; set; }
         public Dictionary<string, string> d { get; set; }
 
@@ -37,13 +37,13 @@ namespace fadhil_robot.Utils
     class CallbackHelper
     {
 
-        public static string pack(InputTelegram inputTelegram, string caller, Dictionary<string, string> val)
+        public static string pack(InputTelegramParent inputTelegram, string caller, Dictionary<string, string> val)
         {
             var rareclass = new packtype
             {
-                m = inputTelegram.messange_id,
-                c = inputTelegram.chat_id,
-                u = inputTelegram.user_id,
+                messange_id = (inputTelegram.IncomingState == InputTelegramState.Messange) ? inputTelegram.message.MessageId : inputTelegram.messange_id,
+                chat_id = (inputTelegram.IncomingState == InputTelegramState.Messange) ? inputTelegram.message.Chat.Id : inputTelegram.chat_id,
+                user_id =  (inputTelegram.IncomingState == InputTelegramState.Messange) ? inputTelegram.message.From.Id : inputTelegram.user_id,
                 caller = caller,
                 d = val
             };
@@ -53,14 +53,14 @@ namespace fadhil_robot.Utils
             generate_rand_str rn = new generate_rand_str();
             string key = rn.gethash();
             inputTelegram.main_thread_ctx.redis.StringSet(
-                $"callback_data_{key}", 
-                cokkedstring, 
+                $"callback_data_{key}",
+                cokkedstring,
                 TimeSpan.FromSeconds(Config.CALLBACK_CACHE_TIME)
             );
             return key;
         }
 
-        public static unpacktype unpack(InputTelegram inputTelegram, string key)
+        public static unpacktype unpack(InputTelegramCallback inputTelegram, string key)
         {
             unpacktype up;
 

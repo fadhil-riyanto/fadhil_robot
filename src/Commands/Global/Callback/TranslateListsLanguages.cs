@@ -19,12 +19,12 @@ namespace fadhil_robot.Commands.Global.Callback
 {
     class TranslateListsLanguages : Utils.IExecutor_cb
     {
-        private InputTelegram _inputTelegram;
+        private InputTelegramCallback _InputTelegramCallback;
         private ITelegramBotClient _botClient;
         private CallbackQuery _callback;
-        public TranslateListsLanguages(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
+        public TranslateListsLanguages(InputTelegramCallback InputTelegramCallback, ITelegramBotClient botClient, CallbackQuery callback)
         {
-            this._inputTelegram = inputTelegram;
+            this._InputTelegramCallback = InputTelegramCallback;
             this._botClient = botClient;
             this._callback = callback;
         }
@@ -42,7 +42,7 @@ namespace fadhil_robot.Commands.Global.Callback
 
         public async Task Execute()
         {
-            if (Convert.ToInt64(this._inputTelegram.data["user_id"]) == this._callback.From.Id)
+            if (Convert.ToInt64(this._InputTelegramCallback.data["user_id"]) == this._callback.From.Id)
             {
                 libretranslateExtern libre = new libretranslateExtern(LibreTranslateServer.Libretranslate_de);
                 langLists[] data = await libre.GetListsLanguage();
@@ -61,7 +61,7 @@ namespace fadhil_robot.Commands.Global.Callback
 
                 await this._botClient.EditMessageTextAsync(
                     messageId: this._callback.Message.MessageId,
-                    chatId: this._inputTelegram.chat_id,
+                    chatId: this._InputTelegramCallback.chat_id,
                     text: text,
                     parseMode: ParseMode.Html
                 );

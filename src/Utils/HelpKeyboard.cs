@@ -15,13 +15,17 @@ namespace fadhil_robot.Utils
 
     class TGKeyboardHelpMenu : ITgKeyboard
     {
-        private InputTelegram _inputTelegram;
+        private InputTelegramParent _inputTelegram;
         private string _language;
         private InlineKeyboardMarkup _keyboard;
-        public TGKeyboardHelpMenu(InputTelegram inputTelegram)
+        // private Telegram.Bot.Types.Message _messange;
+
+   
+        public TGKeyboardHelpMenu(InputTelegramParent inputTelegram)
         {
             this._inputTelegram = inputTelegram;
             this._language = inputTelegram.languange;
+            // this._messange = message;
         }
 
         private Dictionary<string, string> _translations(string languange)
@@ -72,7 +76,7 @@ namespace fadhil_robot.Utils
                         ),
                         InlineKeyboardButton.WithCallbackData(
                             text: data["utils"], callbackData: CallbackHelper.pack(
-                                    this._inputTelegram, "help", new Dictionary<string, string> {
+                                this._inputTelegram,  "help", new Dictionary<string, string> {
                                     { "clicked_button", "utils"}
                                 }
                             )
@@ -116,6 +120,10 @@ namespace fadhil_robot.Utils
                 "*Admin*:" + ITgKeyboard.DOUBLE_NL + ITgKeyboard.DOUBLE_NL +
                 "/pin: sematkan pesan kamu" + ITgKeyboard.NL +
                 "/unpin: melepas sematan grup" + ITgKeyboard.NL +
+                "/admincache: untuk merefresh admin saat ini" + ITgKeyboard.NL +
+                "/ban: untuk membanned seseorang" + ITgKeyboard.NL +
+                "/unban: untuk membuka banned sesorang" + ITgKeyboard.NL +
+                "/kick: untuk mengkick seseorang" + ITgKeyboard.NL +
                 "/adminlist: melihat daftar admin di grup saat ini" + ITgKeyboard.NL
                 },
                 {"utils" ,
@@ -131,6 +139,10 @@ namespace fadhil_robot.Utils
                 "*Admins*:" + ITgKeyboard.DOUBLE_NL + ITgKeyboard.DOUBLE_NL +
                 "/pin: pins your messange" + ITgKeyboard.NL +
                 "/unpin: unpins the currently pinned messange" + ITgKeyboard.NL +
+                "/admincache: refresh currently admin" + ITgKeyboard.NL +
+                "/ban: used to banned someone" + ITgKeyboard.NL +
+                "/unban: used to unbanned someone" + ITgKeyboard.NL +
+                "/kick: kick someone from this group" + ITgKeyboard.NL +
                 "/adminlist: get admin list in current group" + ITgKeyboard.NL
                 },
                 {"utils" ,

@@ -15,6 +15,11 @@ namespace fadhil_robot.Utils
         public abstract string translate_id_ID { get; }
         public abstract string translate_en_US { get; }
     }
+
+    enum InputTelegramState {
+        Callback, 
+        Messange
+    }
     class InputTelegramParent
     {
         public virtual string command {get; set;}
@@ -28,6 +33,8 @@ namespace fadhil_robot.Utils
         public virtual Dictionary<string, string> data { get; set; }
         public virtual CallbackQuery callback { get; set; }
         public virtual Telegram.Bot.Types.Message message { get; set; }
+        public virtual InputTelegramState IncomingState { get; set; }
+
     }
 
  
@@ -38,6 +45,7 @@ namespace fadhil_robot.Utils
         public override CancellationToken cancellationToken { get; set; }
         public override main_thread_ctx main_thread_ctx { get; set; }
         public override Telegram.Bot.Types.Message message { get; set; }
+        public override InputTelegramState IncomingState { get; set; }
     }
 
     class InputTelegramCallback : InputTelegramParent
@@ -48,11 +56,11 @@ namespace fadhil_robot.Utils
         public override string command { get; set; }
         public override string value { get; set; }
         public override string languange { get; set; }
-
         public override CancellationToken cancellationToken { get; set; }
         public override main_thread_ctx main_thread_ctx { get; set; }
         public override Dictionary<string, string> data { get; set; }
         public override CallbackQuery callback { get; set; }
+        public override InputTelegramState IncomingState { get; set; }
     }
 
     class main_thread_ctx
