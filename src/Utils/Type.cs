@@ -10,19 +10,49 @@ using Telegram.Bot.Types;
 
 namespace fadhil_robot.Utils
 {
-    class InputTelegram
+    abstract class TranslationStringParent
     {
-        public string command;
-        public string value;
-        public int messange_id { get; set; }
-        public long chat_id { get; set; }
-        public long user_id { get; set; }
-        public string languange { get; set; }
-        public CancellationToken cancellationToken;
-        public main_thread_ctx main_thread_ctx;
-        public Dictionary<string, string> data { get; set; }
-        public CallbackQuery callback { get; set; }
+        public abstract string translate_id_ID { get; }
+        public abstract string translate_en_US { get; }
+    }
+    class InputTelegramParent
+    {
+        public virtual string command {get; set;}
+        public virtual string value {get; set;}
+        public virtual CancellationToken cancellationToken {get; set;}
+        public virtual main_thread_ctx main_thread_ctx {get; set;}
+        public virtual long chat_id {get; set;}
+        public virtual int messange_id {get; set;}
+        public virtual string languange {get; set;}
+        public virtual long user_id {get; set;}
+        public virtual Dictionary<string, string> data { get; set; }
+        public virtual CallbackQuery callback { get; set; }
+        public virtual Telegram.Bot.Types.Message message { get; set; }
+    }
 
+ 
+    class InputTelegram : InputTelegramParent
+    {
+        public override string command { get; set; }
+        public override string value { get; set; }
+        public override CancellationToken cancellationToken { get; set; }
+        public override main_thread_ctx main_thread_ctx { get; set; }
+        public override Telegram.Bot.Types.Message message { get; set; }
+    }
+
+    class InputTelegramCallback : InputTelegramParent
+    {
+        public override long user_id { get; set; }
+        public override long chat_id { get; set; }
+        public override int messange_id { get; set; }
+        public override string command { get; set; }
+        public override string value { get; set; }
+        public override string languange { get; set; }
+
+        public override CancellationToken cancellationToken { get; set; }
+        public override main_thread_ctx main_thread_ctx { get; set; }
+        public override Dictionary<string, string> data { get; set; }
+        public override CallbackQuery callback { get; set; }
     }
 
     class main_thread_ctx

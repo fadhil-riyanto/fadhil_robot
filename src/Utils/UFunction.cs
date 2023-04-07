@@ -15,11 +15,7 @@ using Newtonsoft.Json.Linq;
 
 namespace fadhil_robot.Utils
 {
-    abstract class translate_string_parent
-    {
-        public abstract string translate_id_ID { get; }
-        public abstract string translate_en_US { get; }
-    }
+    
 
     class args_parse
     {
