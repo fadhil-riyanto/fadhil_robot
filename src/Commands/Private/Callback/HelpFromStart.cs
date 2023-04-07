@@ -15,10 +15,10 @@ namespace fadhil_robot.Commands.Private.Callback
 {
     class HelpFromStart : Utils.IExecutor_cb
     {
-        private InputTelegram _inputTelegram;
+        private InputTelegramParent _inputTelegram;
         private ITelegramBotClient _botClient;
         private CallbackQuery _callback;
-        public HelpFromStart(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
+        public HelpFromStart(InputTelegramParent inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
         {
             this._inputTelegram = inputTelegram;
             this._botClient = botClient;

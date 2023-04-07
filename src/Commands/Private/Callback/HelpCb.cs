@@ -16,25 +16,25 @@ namespace fadhil_robot.Commands.Private.Callback
 {
     class HelpCb : Utils.IExecutor_cb
     {
-        private InputTelegram _inputTelegram;
+        private InputTelegramCallback _InputTelegramCallback;
         private ITelegramBotClient _botClient;
         private CallbackQuery _callback;
-        public HelpCb(InputTelegram inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
+        public HelpCb(InputTelegramCallback inputTelegram, ITelegramBotClient botClient, CallbackQuery callback)
         {
-            this._inputTelegram = inputTelegram;
+            this._InputTelegramCallback = inputTelegram;
             this._botClient = botClient;
             this._callback = callback;
         }
 
         public async Task Execute()
         {
-            ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._inputTelegram);
+            ITgKeyboard keyboard = new TGKeyboardHelpMenu(this._InputTelegramCallback);
 
             await this._botClient.EditMessageTextAsync(
                 messageId: this._callback.Message.MessageId,
-                chatId: this._inputTelegram.chat_id,
+                chatId: this._InputTelegramCallback.chat_id,
                 text: keyboard.getContent(CallbackHelper.unpack(
-                    this._inputTelegram, this._callback.Data).d["clicked_button"]
+                    this._InputTelegramCallback, this._callback.Data).d["clicked_button"]
                 ),
                 replyMarkup: keyboard.detectLanguangeBackButton().get(),
                 parseMode: ParseMode.Html
