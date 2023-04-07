@@ -20,7 +20,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         {
             new ConsoleLogCallback(callback.From.Id + " | " + callback.Data);
             Parse parser = new Parse(callback.Data);
-            InputTelegram inp = new InputTelegram();
+            InputTelegramCallback inp = new InputTelegramCallback();
 
             inp.command = parser.getResult()["command"];
             inp.value = parser.getResult()["value"];
@@ -29,12 +29,12 @@ namespace fadhil_robot.HandleUpdate.UpdateType
 
             await this._executor(inp, botClient, callback);
         }
-        private async Task _executor(InputTelegram inputTelegram, ITelegramBotClient botClient,
+        private async Task _executor(InputTelegramCallback inputTelegram, ITelegramBotClient botClient,
         CallbackQuery callback)
         {
-            unpacktype rdata = CallbackHelper.unpack(inputTelegram, callback.Data);
+            unpacktype callbackdata = CallbackHelper.unpack(inputTelegram, callback.Data);
 
-            if (rdata == null)
+            if (callbackdata == null)
             {
                 await botClient.AnswerCallbackQueryAsync(
                     callbackQueryId: callback.Id,
@@ -46,14 +46,15 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             }
             else
             {
-                inputTelegram.chat_id = rdata.c;
-                inputTelegram.messange_id = rdata.m;
-                inputTelegram.data = rdata.d;
-                inputTelegram.user_id = rdata.u;
+                inputTelegram.user_id = callbackdata.user_id;
+                inputTelegram.chat_id = callbackdata.chat_id;
+                inputTelegram.messange_id = callbackdata.messange_id;
+                inputTelegram.data = callbackdata.d;
                 inputTelegram.callback = callback;
                 inputTelegram.languange = callback.From.LanguageCode;
+                inputTelegram.IncomingState = InputTelegramState.Callback;
 
-                Utils.IExecutor_cb executor = rdata.caller switch
+                Utils.IExecutor_cb executor = callbackdata.caller switch
                 {
                     "help" => new Commands.Private.Callback.HelpCb(inputTelegram, botClient, callback),
                     "help_back" => new Commands.Private.Callback.HelpBackCb(inputTelegram, botClient, callback),

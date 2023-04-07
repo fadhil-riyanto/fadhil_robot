@@ -68,7 +68,7 @@ class UnknownDeeplinks : IExecutor
         {
             await this.botClient.SendTextMessageAsync(
                 chatId: this.message.Chat.Id,
-                text: "mwrong deeplink",
+                text: "wrong deeplink",
                 replyToMessageId: this.message.MessageId,
                 parseMode: ParseMode.Html
             );

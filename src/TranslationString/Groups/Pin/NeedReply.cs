@@ -1,8 +1,14 @@
-using fadhil_robot.Utils;
+// SPDX-License-Identifier: GPL-2.0
+
+/*
+*  Copyright (C) 2022 Fadhil Riyanto
+*
+*  https://github.com/fadhil-riyanto/fadhil_robot.git
+*/
 
 namespace fadhil_robot.TranslationString.Groups.Pin
 {
-    class NeedReply : Utils.translate_string_parent{
+    class NeedReply : fadhil_robot.Utils.TranslationStringParent {
         public override string translate_en_US {
             get {
                 return "You must reply to the message that you want to pin!";

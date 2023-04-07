@@ -52,6 +52,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
             Utils.IExecutor executor = this._inputTelegram.command switch
             {
                 "ban" => new Commands.Group.Executor.Ban(this._inputTelegram, this._botClient, this._message),
+                "kickme" => new Commands.Group.Executor.Kickme(this._inputTelegram, this._botClient, this._message),
                 "unban" => new Commands.Group.Executor.Unban(this._inputTelegram, this._botClient, this._message),
                 "kick" => new Commands.Group.Executor.Kick(this._inputTelegram, this._botClient, this._message),
                 "help" => new Commands.Group.Executor.Help(this._inputTelegram, this._botClient, this._message),
@@ -114,12 +115,10 @@ namespace fadhil_robot.HandleUpdate.UpdateType
                     {
                         command = parser.getResult()["command"],
                         value = parser.getResult()["value"],
-                        messange_id = message.MessageId,
-                        chat_id = message.Chat.Id,
-                        user_id = message.From.Id,
-                        languange = message.From.LanguageCode,
                         cancellationToken = cancellationToken,
-                        main_thread_ctx = ctx
+                        main_thread_ctx = ctx,
+                        message = message,
+                        IncomingState = InputTelegramState.Messange
                     };
 
                     await this.executor(inp, botClient, message);
