@@ -87,8 +87,7 @@ namespace fadhil_robot.Utils
 
                     var ress = Newtonsoft.Json.JsonConvert.SerializeObject(data_admin);
 
-                    Console.WriteLine($"admin_cache_{this._message.Chat.Id}");
-                    Console.WriteLine(ress);
+                    new ConsoleLogSys($"admin_cache_{this._message.Chat.Id} refreshed");
                     this._inputTelegram.main_thread_ctx.redis.StringSet($"admin_cache_{this._message.Chat.Id}", ress);
                 } else {
                     user_ids = unpacked_data.admin;
