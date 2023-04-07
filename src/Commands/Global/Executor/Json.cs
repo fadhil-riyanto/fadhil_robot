@@ -33,22 +33,22 @@ namespace fadhil_robot.Commands.Global.Executor
         public async Task Execute()
         {
             // create json
-            var opt = new JsonSerializerOptions(){ WriteIndented=true };
+            var opt = new JsonSerializerOptions() { WriteIndented = true };
             string text = JsonSerializer.Serialize<Telegram.Bot.Types.Message>(this._message, opt);
-            
 
-            // string fileName = $"{this._message.MessageId}.txt";
-            // int bufferSize = 4096;
-            // var fileStream = System.IO.File.Create(fileName, bufferSize, System.IO.FileOptions.DeleteOnClose);
-            // await fileStream.WriteAsync(text);
+            string path = Path.GetTempFileName();
 
+            using (FileStream fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None, 4096)) {
+                byte[] jsonbyte = new System.Text.UTF8Encoding(true).GetBytes(text);
+                await fs.WriteAsync(jsonbyte, 0, jsonbyte.Length);
 
-
-            // await this._botClient.SendTextMessageAsync(
-            //     chatId: this._message.Chat.Id,
-            //     text: text,
-            //     replyToMessageId: this._message.MessageId
-            // );
+            }
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None, 4096, FileOptions.DeleteOnClose)) {
+                await this._botClient.SendDocumentAsync(
+                    chatId: this._message.Chat.Id,
+                    document: new Telegram.Bot.Types.InputFiles.InputOnlineFile(fs, "debug.txt")
+                );
+            }
         }
     }
 }
