@@ -45,7 +45,7 @@ namespace fadhil_robot.Commands.Group.Executor
             );
             await this._botClient.SendTextMessageAsync(
                 replyToMessageId: this._inputTelegram.messange_id,
-                chatId: this._inputTelegram.chat_id,
+                chatId: this._message.Chat.Id,
                 text: text_response,
                 replyMarkup: new InlineKeyboardMarkup(
                     new InlineKeyboardButton[][] {
