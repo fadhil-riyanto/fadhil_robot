@@ -90,7 +90,7 @@ namespace fadhil_robot.Commands.Global.Executor
                                     ),
                                     callbackData: CallbackHelper.pack(
                                         this._inputTelegram, "translate_lists_languages", new Dictionary<string, string> {
-                                            { "user_id", this._inputTelegram.user_id.ToString() }
+                                            { "user_id", this._message.From.Id.ToString() }
                                         }
                                     )
                                 )
