@@ -38,7 +38,7 @@ namespace fadhil_robot.Commands.Private.Executor
             if (this._inputTelegram.value != null)
             {
                 // call handle deeplinks
-                new deeplinks(this._inputTelegram, this._botClient, this._message);
+                new DeepLinks(this._inputTelegram, this._botClient, this._message);
             } else {
                 string text = TranslateLocale.CreateTranslation(
                     this._message,

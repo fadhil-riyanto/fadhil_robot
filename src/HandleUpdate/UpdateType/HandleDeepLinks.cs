@@ -14,12 +14,12 @@ using fadhil_robot.Utils;
 using Telegram.Bot.Types.ReplyMarkups;
 using fadhil_robot.Commands;
 
-class deeplinks
+class DeepLinks
 {
     private InputTelegram _inputTelegram;
     private ITelegramBotClient _botClient;
     private Message _message;
-    public deeplinks(InputTelegram inputTelegram, ITelegramBotClient
+    public DeepLinks(InputTelegram inputTelegram, ITelegramBotClient
         botClient, Message message)
     {
         this._inputTelegram = inputTelegram;
