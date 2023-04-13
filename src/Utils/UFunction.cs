@@ -23,7 +23,6 @@ namespace fadhil_robot.Utils
         private int getter_total;
         private string[] _data;
         private string[] _data_val;
-        private string[] myspecial;
         public args_parse(string text, int getter_total = 0)
         {
             this._text = text;
