@@ -15,7 +15,7 @@ using fadhil_robot.Utils;
 
 namespace fadhil_robot.Utils
 {
-    class packtype
+    class PackType
     {
         public int messange_id { get; set; }
         public long chat_id { get; set; }
@@ -25,7 +25,7 @@ namespace fadhil_robot.Utils
 
     }
 
-    class unpacktype
+    class UnPackType
     {
         public int messange_id { get; set; }
         public long chat_id { get; set; }
@@ -39,7 +39,7 @@ namespace fadhil_robot.Utils
 
         public static string pack(InputTelegramParent inputTelegram, string caller, Dictionary<string, string> val)
         {
-            var rareclass = new packtype
+            var rareclass = new PackType
             {
                 messange_id = (inputTelegram.IncomingState == InputTelegramState.Messange) ? inputTelegram.message.MessageId : inputTelegram.messange_id,
                 chat_id = (inputTelegram.IncomingState == InputTelegramState.Messange) ? inputTelegram.message.Chat.Id : inputTelegram.chat_id,
@@ -60,13 +60,13 @@ namespace fadhil_robot.Utils
             return key;
         }
 
-        public static unpacktype unpack(InputTelegramCallback inputTelegram, string key)
+        public static UnPackType unpack(InputTelegramCallback inputTelegram, string key)
         {
-            unpacktype up;
+            UnPackType up;
 
             try
             {
-                up = JsonConvert.DeserializeObject<unpacktype>(
+                up = JsonConvert.DeserializeObject<UnPackType>(
                         inputTelegram.main_thread_ctx.redis.StringGet($"callback_data_{key}")
                 );
             }

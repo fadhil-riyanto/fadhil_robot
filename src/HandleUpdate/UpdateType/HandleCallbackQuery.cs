@@ -32,7 +32,7 @@ namespace fadhil_robot.HandleUpdate.UpdateType
         private async Task _executor(InputTelegramCallback inputTelegram, ITelegramBotClient botClient,
         CallbackQuery callback)
         {
-            unpacktype callbackdata = CallbackHelper.unpack(inputTelegram, callback.Data);
+            UnPackType callbackdata = CallbackHelper.unpack(inputTelegram, callback.Data);
 
             if (callbackdata == null)
             {
