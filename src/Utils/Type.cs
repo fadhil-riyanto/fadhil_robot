@@ -50,11 +50,11 @@ namespace fadhil_robot.Utils
 
     class InputTelegramCallback : InputTelegramParent
     {
+        public override string command { get; set; }
+        public override string value { get; set; }
         public override long user_id { get; set; }
         public override long chat_id { get; set; }
         public override int messange_id { get; set; }
-        public override string command { get; set; }
-        public override string value { get; set; }
         public override string languange { get; set; }
         public override CancellationToken cancellationToken { get; set; }
         public override main_thread_ctx main_thread_ctx { get; set; }
