@@ -46,7 +46,10 @@ namespace fadhil_robot.Commands.Global.Executor
             using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.ReadWrite, FileShare.None, 4096, FileOptions.DeleteOnClose)) {
                 await this._botClient.SendDocumentAsync(
                     chatId: this._message.Chat.Id,
-                    document: new Telegram.Bot.Types.InputFiles.InputOnlineFile(fs, "debug.txt")
+                    document: new Telegram.Bot.Types.InputFiles.InputOnlineFile(fs, "debug.txt"),
+                    caption: fadhil_robot.Utils.TranslateLocale.CreateTranslation(
+                        this._message, new fadhil_robot.TranslationString.Global.Json.Success()
+                    )
                 );
             }
         }
