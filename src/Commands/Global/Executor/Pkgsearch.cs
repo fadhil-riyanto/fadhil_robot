@@ -58,8 +58,8 @@ namespace fadhil_robot.Commands.Global.Executor
                 else
                 {
                     this._args_result = args_result;
-                    await this.doWhileIsValid();
-                    
+                    await this.runSearch();
+
                 }
             }
         }
@@ -106,21 +106,25 @@ namespace fadhil_robot.Commands.Global.Executor
             );
         }
 
-        public async Task doWhileIsValid()
+        public async Task NotFound()
         {
-            Console.WriteLine(this._args_result.getIndex(0));
-            ArchlinuxApi archlinuxctx = new ArchlinuxApi();
-            PackageDetails pkgdetails = new PackageDetails(archlinuxctx, usefiles: false);
-            PackageDetailAll res = await pkgdetails.Repository(ArchRepository.FromString(this._args_result.getIndex(0)))
-                .Architecture(Arch.FromString(this._args_result.getIndex(1)))
-                .Name(this._args_result.getIndex(2))
-                .get();
-
-            string text = TranslateLocale.CreateTranslation(
-                this._message,
-                new fadhil_robot.TranslationString.Global.Pkgsearch.Success(),
-                res.pkgname, res.pkgver, res.pkgdesc, res.pkg_last_update.ToString("yyyyMMdd")
+            await this._botClient.SendTextMessageAsync(
+                chatId: this._message.Chat.Id,
+                replyToMessageId: this._message.MessageId,
+                text: TranslateLocale.CreateTranslation(
+                    this._message,
+                    new fadhil_robot.TranslationString.Global.Pkgsearch.NotFound()
+                )
             );
+        }
+
+        public async Task Found(PackageDetailAll res)
+        {
+            string text = TranslateLocale.CreateTranslation(
+                            this._message,
+                            new fadhil_robot.TranslationString.Global.Pkgsearch.Success(),
+                            res.pkgname, res.pkgver, res.pkgdesc, res.pkg_last_update.ToString("yyyyMMdd")
+                        );
 
             InlineKeyboardMarkup keyboard = new InlineKeyboardMarkup(new InlineKeyboardButton[][]
                 {
@@ -136,6 +140,28 @@ namespace fadhil_robot.Commands.Global.Executor
                 replyMarkup: keyboard,
                 replyToMessageId: this._message.MessageId
             );
+        }
+
+        public async Task runSearch()
+        {
+            Console.WriteLine(this._args_result.getIndex(0));
+            ArchlinuxApi archlinuxctx = new ArchlinuxApi();
+            PackageDetails pkgdetails = new PackageDetails(archlinuxctx, usefiles: false);
+            try
+            {
+                PackageDetailAll res = await pkgdetails.Repository(ArchRepository.FromString(this._args_result.getIndex(0)))
+                .Architecture(Arch.FromString(this._args_result.getIndex(1)))
+                .Name(this._args_result.getIndex(2))
+                .get();
+
+                await this.Found(res);
+            }
+            catch (Archlinux.Api.Exception.NotFound)
+            {
+                await this.NotFound();
+            }
+
+
         }
     }
 }
